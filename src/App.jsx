@@ -1,13 +1,14 @@
-import { Button } from "@heroui/react";
+import { Routes, Route } from "react-router";
+import { LoginPage } from "./pages/login/LoginPage";
 
-function App() {
+export default function App() {
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <Button color="primary">
-        HeroUI funciona
-      </Button>
-    </main>
+    <Routes>
+      {/* Carga el login directamente al entrar a http://localhost:5173/ */}
+      <Route path="/" element={<LoginPage />} />
+
+      {/* También lo carga si entras a http://localhost:5173/login */}
+      <Route path="/login" element={<LoginPage />} />
+    </Routes>
   );
 }
-
-export default App
