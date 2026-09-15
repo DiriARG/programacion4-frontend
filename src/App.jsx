@@ -1,13 +1,12 @@
-import { Button } from "@heroui/react";
+import { PaginaNoEncontrada } from "./pages/NoEncontrado";
+import { Route, Routes } from "react-router";
 
 function App() {
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <Button color="primary">
-        HeroUI funciona
-      </Button>
-    </main>
+    <Routes>
+      <Route path="*" element={<PaginaNoEncontrada />} />
+    </Routes>
   );
 }
 
-export default App
+export default App;
