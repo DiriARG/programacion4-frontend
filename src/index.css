@@ -2,13 +2,30 @@
 @import "tailwindcss";
 @import "@heroui/styles";
 
+/* 
+ Tokens de HeroUI. Se agrupa :root, .dark y .light para forzar siempre el tema oscuro en toda la app (color-scheme: dark;).
+ Los tokens son utilizados internamente por los componentes de HeroUI ej un Button.
+ */
+:root,
+.dark,
+.light {
+  color-scheme: dark;
+
+  --background: oklch(0.15 0.006 260);
+  --foreground: oklch(0.97 0.004 260);
+
+  --default: oklch(0.28 0.008 260);
+  --default-foreground: var(--foreground);
+
+  --border: oklch(0.32 0.008 260);
+}
+
 /*
   @theme define los tokens de diseño de Tailwind.
   El nombre de cada variable (ej: --color-azul-600) indica el tipo y nombre del token,
   permitiendo utilizarlo mediante utilities como bg-azul-600, text-azul-600 o border-azul-600.
   Su valor (oklch) define la apariencia del token.
 */
-
 @theme {
   --font-titulos: "Oswald", "Arial Narrow", sans-serif;
   --font-texto: "Inter", system-ui, sans-serif;
