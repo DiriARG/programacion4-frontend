@@ -4,7 +4,7 @@ export function Nosotros() {
   return (
     <section
       id="nosotros"
-      className="border-t border-hierro-400/20 bg-hierro-950 py-20 sm:py-24"
+      className="border-t border-hierro-800/70 bg-gradient-to-b from-hierro-900 to-hierro-950 py-20 sm:py-24"
     >
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-stretch lg:gap-16">
@@ -35,12 +35,12 @@ export function Nosotros() {
             </div>
           </div>
 
-          <div className="relative min-h-64 overflow-hidden border border-hierro-400/20">
+          <div className="relative overflow-hidden border border-hierro-800/70">
             <img
               src={imagenDeBarra}
               alt="Barras olímpicas cargadas con discos sobre el piso del gimnasio"
               loading="lazy"
-              className="size-full object-cover grayscale"
+              className="h-full min-h-64 w-full object-cover grayscale"
             />
           </div>
         </div>

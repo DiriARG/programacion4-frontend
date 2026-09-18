@@ -56,7 +56,7 @@ export function PorqueElegirnos() {
           {BENEFICIOS.map(({ icono: Icon, titulo, texto }) => (
             <article
               key={titulo}
-              className="border border-hierro-400/20 bg-hierro-950/60 p-6 transition-colors hover:border-azul-600"
+              className="border border-hierro-800 bg-hierro-900/40 p-6 transition-colors hover:border-azul-700"
             >
               <span className="grid size-12 place-items-center border border-hierro-400/30 text-azul-500">
                 <Icon size={22} stroke={1.5} />
