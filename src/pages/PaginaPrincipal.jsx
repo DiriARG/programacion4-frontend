@@ -1,6 +1,7 @@
 import { Hero } from "../components/public/Hero";
 import { PorqueElegirnos } from "../components/public/PorqueElegirnos";
 import { Nosotros } from "../components/public/Nosotros";
+import { Planes } from "../components/public/Planes";
 
 export function PaginaPrincipal() {
   return (
@@ -8,6 +9,7 @@ export function PaginaPrincipal() {
       <Hero />
       <PorqueElegirnos />
       <Nosotros />
+      <Planes />
     </main>
   );
 }
