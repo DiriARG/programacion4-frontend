@@ -13,33 +13,13 @@ const FORMATEADOR_MONEDA = new Intl.NumberFormat("es-AR", {
 /* Componente visual que representa un único plan del gimnasio.
 Recibe los datos de un plan y se encarga de mostrar sus datos. */
 export function TarjetaPlan({ plan, enlaceCta = "#contacto" }) {
-  const {
-    nombre,
-    descripcion,
-    precioMensual,
-    beneficios = [],
-    destacado = false,
-  } = plan;
+  const { nombre, descripcion, precioMensual, beneficios = [] } = plan;
 
   return (
-    <article
-      className={`flex h-full flex-col border p-7 transition-transform duration-300 hover:-translate-y-1 ${
-        destacado
-          ? "border-azul-600 bg-hierro-900"
-          : "border-hierro-800 bg-hierro-900/40 hover:border-hierro-600"
-      }`}
-    >
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="font-titulos text-2xl tracking-[0.18em] text-hueso uppercase">
-          {nombre}
-        </h3>
-
-        {destacado ? (
-          <span className="shrink-0 border border-azul-600 px-2 py-1 font-titulos text-[10px] tracking-[0.2em] text-azul-500 uppercase">
-            Popular
-          </span>
-        ) : null}
-      </div>
+    <article className="flex h-full flex-col border border-hierro-800 bg-hierro-900/40 p-7 transition-transform duration-300 hover:-translate-y-1 hover:border-hierro-600">
+      <h3 className="font-titulos text-2xl tracking-[0.18em] text-hueso uppercase">
+        {nombre}
+      </h3>
 
       <p className="mt-3 min-h-10 text-sm leading-relaxed text-hierro-400">
         {descripcion}
@@ -52,7 +32,7 @@ export function TarjetaPlan({ plan, enlaceCta = "#contacto" }) {
             : "$—"}
         </span>
 
-        <span className="text-xs tracking-[0.2em] text-hierro-400 uppercase">
+        <span className="text-xs tracking-[0.2em] text-hierro-600 uppercase">
           / mes
         </span>
       </p>
@@ -77,7 +57,7 @@ export function TarjetaPlan({ plan, enlaceCta = "#contacto" }) {
       <a
         href={enlaceCta}
         className={`${buttonVariants({
-          variant: destacado ? "primary" : "outline",
+          variant: "outline",
           size: "md",
           fullWidth: true,
         })} mt-8`}
