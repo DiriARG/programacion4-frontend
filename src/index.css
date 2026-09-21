@@ -11,13 +11,45 @@
 .light {
   color-scheme: dark;
 
+  --radius: 0.375rem;
+
   --background: oklch(0.15 0.006 260);
   --foreground: oklch(0.97 0.004 260);
+
+  --surface: oklch(0.2 0.007 260);
+  --surface-foreground: var(--foreground);
+
+  --surface-secondary: oklch(0.24 0.008 260);
+  --surface-secondary-foreground: var(--foreground);
+
+  --surface-tertiary: oklch(0.28 0.008 260);
+  --surface-tertiary-foreground: var(--foreground);
+
+  --overlay: oklch(0.21 0.007 260);
+  --overlay-foreground: var(--foreground);
+
+  --muted: oklch(0.68 0.008 260);
 
   --default: oklch(0.28 0.008 260);
   --default-foreground: var(--foreground);
 
+  --accent: oklch(0.62 0.2 253);
+  --accent-foreground: oklch(0.98 0.01 250);
+
+  --field-background: oklch(0.22 0.007 260);
+  --field-foreground: var(--foreground);
+  --field-placeholder: oklch(0.6 0.008 260);
+  --field-border: oklch(0.36 0.009 260);
+  --field-border-width: 1px;
+
   --border: oklch(0.32 0.008 260);
+  --separator: oklch(0.29 0.008 260);
+
+  --focus: oklch(0.72 0.18 250);
+  --link: oklch(0.75 0.17 250);
+
+  --danger: oklch(0.58 0.18 27);
+  --danger-foreground: oklch(0.97 0.01 85);
 }
 
 /*
@@ -33,6 +65,7 @@
   --color-hierro-950: oklch(0.15 0.006 260);
   --color-hierro-900: oklch(0.2 0.007 260);
   --color-hierro-800: oklch(0.26 0.008 260);
+  --color-hierro-700: oklch(0.33 0.009 260);
   --color-hierro-600: oklch(0.45 0.009 260);
   --color-hierro-400: oklch(0.63 0.008 260);
   --color-hierro-200: oklch(0.85 0.005 260);
@@ -46,14 +79,16 @@
 /* Estilos globales y predeterminados que se aplican a los elementos HTML. */
 @layer base {
   body {
-    background-color: var(--color-hierro-950);
-    color: var(--color-hueso);
+    background-color: var(--background);
+    color: var(--foreground);
     font-family: var(--font-texto);
     -webkit-font-smoothing: antialiased;
   }
 
   h1,
-  h2 {
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-titulos);
     letter-spacing: 0.02em;
   }
@@ -77,4 +112,13 @@ Texto pequeño que aparece sobre un título. */
   line-height: 0.92;
   letter-spacing: 0.01em;
   text-transform: uppercase;
+}
+
+/* Degradado vertical sutil para secciones. */
+@utility fondo-placa {
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--color-hierro-900) 100%, transparent),
+    color-mix(in oklab, var(--color-hierro-950) 100%, transparent)
+  );
 }

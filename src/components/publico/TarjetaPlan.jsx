@@ -3,7 +3,7 @@ import { IconCheck } from "@tabler/icons-react";
 
 /* Formateador numérico nativo de JS (Intl.NumberFormat) adaptado a la región 
 de Argentina (es-AR) para mostrar precios en pesos sin decimales. */
-const FORMATEADOR_MONEDA = new Intl.NumberFormat("es-AR", {
+const formateadorMoneda  = new Intl.NumberFormat("es-AR", {
   // El número debe formatearse como una cantidad monetaria (incluyendo el símbolo de la moneda).
   style: "currency",
   currency: "ARS",
@@ -28,7 +28,7 @@ export function TarjetaPlan({ plan, enlaceCta = "#contacto" }) {
       <p className="mt-6 flex items-baseline gap-2">
         <span className="titulo-xl text-4xl text-hueso">
           {typeof precioMensual === "number"
-            ? FORMATEADOR_MONEDA.format(precioMensual)
+            ? formateadorMoneda .format(precioMensual)
             : "$—"}
         </span>
 

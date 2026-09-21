@@ -1,7 +1,8 @@
-import { Hero } from "../components/public/Hero";
-import { PorqueElegirnos } from "../components/public/PorqueElegirnos";
-import { Nosotros } from "../components/public/Nosotros";
-import { Planes } from "../components/public/Planes";
+import { Hero } from "../components/publico/Hero";
+import { PorqueElegirnos } from "../components/publico/PorqueElegirnos";
+import { Nosotros } from "../components/publico/Nosotros";
+import { Planes } from "../components/publico/Planes";
+import { Contacto } from "../components/publico/Contacto";
 
 export function PaginaPrincipal() {
   return (
@@ -10,6 +11,7 @@ export function PaginaPrincipal() {
       <PorqueElegirnos />
       <Nosotros />
       <Planes />
+      <Contacto />
     </main>
   );
 }

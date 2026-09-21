@@ -5,7 +5,7 @@ import {
   IconUsersGroup,
 } from "@tabler/icons-react";
 
-const BENEFICIOS = [
+const beneficios = [
   {
     icono: IconBarbell,
     titulo: "Equipamiento",
@@ -49,11 +49,11 @@ export function PorqueElegirnos() {
           />
         </div>
 
-        {/* Se recorre el array BENEFICIOS para generar una tarjeta <article> por cada beneficio.
+        {/* Se recorre el array beneficios para generar una tarjeta <article> por cada beneficio.
          La grilla adapta automáticamente la cantidad de columnas según el ancho de pantalla (grid-cols). 
          */}
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {BENEFICIOS.map(({ icono: Icon, titulo, texto }) => (
+          {beneficios.map(({ icono: Icon, titulo, texto }) => (
             <article
               key={titulo}
               className="border border-hierro-800 bg-hierro-900/40 p-6 transition-colors hover:border-azul-700"
