@@ -122,3 +122,12 @@ Texto pequeño que aparece sobre un título. */
     color-mix(in oklab, var(--color-hierro-950) 100%, transparent)
   );
 }
+
+@utility placa-formulario {
+  background-image: linear-gradient(
+    165deg,
+    color-mix(in oklab, var(--color-hierro-800) 100%, transparent),
+    color-mix(in oklab, var(--color-hierro-900) 100%, transparent) 55%,
+    color-mix(in oklab, var(--color-hierro-950) 100%, transparent)
+  );
+}
