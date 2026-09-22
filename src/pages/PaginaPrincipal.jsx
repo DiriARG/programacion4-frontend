@@ -1,3 +1,4 @@
+import { Navbar } from "../components/publico/Navbar";
 import { Hero } from "../components/publico/Hero";
 import { PorqueElegirnos } from "../components/publico/PorqueElegirnos";
 import { Nosotros } from "../components/publico/Nosotros";
@@ -7,14 +8,19 @@ import { Footer } from "../components/publico/Footer";
 
 export function PaginaPrincipal() {
   return (
-    <main>
-      <Hero />
-      <PorqueElegirnos />
-      <Nosotros />
-      <Planes />
-      <Contacto />
+    <>
+      <Navbar />
+
+      <main>
+        <Hero />
+        <PorqueElegirnos />
+        <Nosotros />
+        <Planes />
+        <Contacto />
+      </main>
+
       <Footer />
-    </main>
+    </>
   );
 }
 export default PaginaPrincipal;
