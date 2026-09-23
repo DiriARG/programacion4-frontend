@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 import Logotipo from "../comunes/Logotipo";
 
 import {
@@ -83,9 +85,9 @@ export function Footer() {
 
           <ul className="mt-4 space-y-3 text-sm text-hierro-400">
             <li>
-              <a href="/login" className="transition-colors hover:text-hueso">
+              <Link to="/login" className="transition-colors hover:text-hueso">
                 Ingresar
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
