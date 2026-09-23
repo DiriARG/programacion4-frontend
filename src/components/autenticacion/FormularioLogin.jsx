@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 import CampoFormulario from "../comunes/CampoFormulario";
 import { loginSchema } from "../../schemas/autenticacionSchema";
-import { autenticacionService } from "../../services/autenticacionService";
+import { useAutenticacion } from "../../context/AutenticacionContext";
 
 const valoresIniciales = {
   email: "",
@@ -16,6 +16,8 @@ const valoresIniciales = {
 
 export function FormularioLogin() {
   const navigate = useNavigate();
+  
+  const { iniciarSesion } = useAutenticacion();
 
   const {
     register,
@@ -28,12 +30,9 @@ export function FormularioLogin() {
 
   // Define la operación de login y las acciones para éxito o error.
   const mutation = useMutation({
-    mutationFn: autenticacionService.login,
+    mutationFn: iniciarSesion,
 
-    onSuccess: (data) => {
-      // Guarda el JWT para usarlo en las siguientes peticiones.
-      localStorage.setItem("token", data.token);
-
+    onSuccess: () => {
       toast.success("Sesión iniciada", {
         description: "Bienvenido a Iron Empire.",
       });
