@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { buttonVariants } from "@heroui/react";
 
+import { useAutenticacion } from "../../context/AutenticacionContext";
+import MenuUsuario from "../autenticacion/MenuUsuario";
 import Logotipo from "../comunes/Logotipo";
 
 const navLinks = [
@@ -16,6 +18,7 @@ export function Navbar() {
   estaDesplazado --> Valor actual.
   establecerDesplazado --> función que cambia el valor de estaDesplazado. */
   const [estaDesplazado, establecerDesplazado] = useState(false);
+  const { estaAutenticado, sesionCargada } = useAutenticacion();
 
   useEffect(() => {
     /* Esta función comprueba la posición actual del scroll y actualiza el estado. 
@@ -70,15 +73,21 @@ export function Navbar() {
             ))}
           </ul>
 
-          <Link
-            to="/login"
-            className={buttonVariants({
-              variant: "primary",
-              size: "md",
-            })}
-          >
-            Ingresar
-          </Link>
+          {sesionCargada ? (
+            estaAutenticado ? (
+              <MenuUsuario />
+            ) : (
+              <Link
+                to="/login"
+                className={buttonVariants({
+                  variant: "primary",
+                  size: "md",
+                })}
+              >
+                Ingresar
+              </Link>
+            )
+          ) : null}
         </div>
       </nav>
     </header>
