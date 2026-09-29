@@ -15,10 +15,10 @@ import {
 import { IconUserPlus } from "@tabler/icons-react";
 import { toast } from "sonner";
 
+import { crearUsuarioPorRol } from "../../utils/configuracionUsuarios";
 import { useAutenticacion } from "../../context/AutenticacionContext";
 import { crearUsuarioSchema } from "../../schemas/crearUsuarioSchema";
-import { usuariosService } from "../../services/usuariosService";
-import CampoFormulario from "../comunes/CampoFormulario";
+import { CampoFormulario } from "../comunes/CampoFormulario";
 
 const valoresIniciales = {
   nombre: "",
@@ -39,12 +39,6 @@ const etiquetasRol = {
 const rolesQuePuedeCrear = {
   ADMIN_GESTION: ["ALUMNO"],
   ADMIN_GENERAL: ["ALUMNO", "PROFESOR", "ADMIN_GESTION"],
-};
-
-const crearUsuarioPorRol = {
-  ALUMNO: usuariosService.crearAlumno,
-  PROFESOR: usuariosService.crearProfesor,
-  ADMIN_GESTION: usuariosService.crearAdminGestion,
 };
 
 export function CrearUsuarioModal({ isOpen, onOpenChange }) {
