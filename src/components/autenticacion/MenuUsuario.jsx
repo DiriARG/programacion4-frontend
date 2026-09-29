@@ -5,7 +5,8 @@ import { toast } from "sonner";
 
 import { useAutenticacion } from "../../context/AutenticacionContext";
 import { menuPorRol } from "../../utils/menuPorRol";
-import  { PerfilModal } from "../modales/PerfilModal";
+import { PerfilModal } from "../modales/PerfilModal";
+import { CrearUsuarioModal } from "../modales/CrearUsuarioModal";
 
 // Traduce el rol interno a su nombre visible en la interfaz.
 const etiquetasRol = {
@@ -17,6 +18,8 @@ const etiquetasRol = {
 
 export function MenuUsuario() {
   const [perfilModalAbierto, setPerfilModalAbierto] = useState(false);
+  const [crearUsuarioModalAbierto, setCrearUsuarioModalAbierto] =
+    useState(false);
 
   const { usuario, rol, cerrarSesion } = useAutenticacion();
 
@@ -43,6 +46,11 @@ export function MenuUsuario() {
 
     if (clave === "perfil") {
       setPerfilModalAbierto(true);
+      return;
+    }
+
+    if (clave === "crear-alumno" || clave === "crear-usuario") {
+      setCrearUsuarioModalAbierto(true);
       return;
     }
 
@@ -107,6 +115,10 @@ export function MenuUsuario() {
       <PerfilModal
         isOpen={perfilModalAbierto}
         onOpenChange={setPerfilModalAbierto}
+      />
+      <CrearUsuarioModal
+        isOpen={crearUsuarioModalAbierto}
+        onOpenChange={setCrearUsuarioModalAbierto}
       />
     </>
   );
