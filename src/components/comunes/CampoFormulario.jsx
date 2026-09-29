@@ -26,12 +26,14 @@ export function CampoFormulario({
   // Clases CSS aplicadas directamente al Input o al TextArea.
   controlClassName,
   isDisabled = false,
+  isRequired = false,
   ...props
 }) {
   return (
     <TextField
       isInvalid={Boolean(error)}
       isDisabled={isDisabled}
+      isRequired={isRequired}
       className={className ?? "w-full"}
     >
       <Label className="font-titulos text-xs tracking-[0.2em] text-hierro-200 uppercase">
