@@ -2,13 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button, Chip, Modal, Spinner } from "@heroui/react";
 
 import { autenticacionService } from "../../services/autenticacionService";
-
-const etiquetasRol = {
-  ALUMNO: "Alumno",
-  PROFESOR: "Profesor",
-  ADMIN_GESTION: "Administrador de gestión",
-  ADMIN_GENERAL: "Administrador general",
-};
+import { etiquetasRol } from "../../utils/etiquetasRol";
 
 /* Componente reutilizable para mostrar un dato del perfil.
 Recibe una etiqueta (ej "Nombre") y su valor, evitando repetir la misma estructura JSX para cada dato. */

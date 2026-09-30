@@ -6,21 +6,11 @@ import { useNavigate } from "react-router";
 
 import { useAutenticacion } from "../../context/AutenticacionContext";
 import { menuPorRol } from "../../utils/menuPorRol";
+import { etiquetasRol } from "../../utils/etiquetasRol";
 import { PerfilModal } from "../modales/PerfilModal";
-import { CrearUsuarioModal } from "../modales/CrearUsuarioModal";
-
-// Traduce el rol interno a su nombre visible en la interfaz.
-const etiquetasRol = {
-  ALUMNO: "Alumno",
-  PROFESOR: "Profesor",
-  ADMIN_GESTION: "Administrador de gestión",
-  ADMIN_GENERAL: "Administrador general",
-};
 
 export function MenuUsuario() {
   const [perfilModalAbierto, setPerfilModalAbierto] = useState(false);
-  const [crearUsuarioModalAbierto, setCrearUsuarioModalAbierto] =
-    useState(false);
 
   const { usuario, rol, cerrarSesion } = useAutenticacion();
 
@@ -48,11 +38,6 @@ export function MenuUsuario() {
 
     if (clave === "perfil") {
       setPerfilModalAbierto(true);
-      return;
-    }
-
-    if (clave === "crear-alumno" || clave === "crear-usuario") {
-      setCrearUsuarioModalAbierto(true);
       return;
     }
 
@@ -122,10 +107,6 @@ export function MenuUsuario() {
       <PerfilModal
         isOpen={perfilModalAbierto}
         onOpenChange={setPerfilModalAbierto}
-      />
-      <CrearUsuarioModal
-        isOpen={crearUsuarioModalAbierto}
-        onOpenChange={setCrearUsuarioModalAbierto}
       />
     </>
   );

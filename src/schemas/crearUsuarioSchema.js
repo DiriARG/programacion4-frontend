@@ -28,7 +28,4 @@ export const crearUsuarioSchema = z.object({
     .min(8, "La contraseña debe tener entre 8 y 64 caracteres.")
     .max(64, "La contraseña debe tener entre 8 y 64 caracteres."),
 
-  rol: z.enum(["ALUMNO", "PROFESOR", "ADMIN_GESTION"], {
-    error: "Debés seleccionar un rol.",
-  }),
 });
