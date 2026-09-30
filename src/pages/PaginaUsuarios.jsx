@@ -28,8 +28,8 @@ export function PaginaUsuarios() {
   }
 
   return (
-    <main className="min-h-screen bg-hierro-950 pt-24 pb-16">
-      <section className="border-t border-hierro-800/70 py-12 sm:py-16">
+    <main className="min-h-screen bg-hierro-950 pt-10 pb-16">
+      <section className="py-12 sm:py-16">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <p className="etiqueta text-azul-500">Gestión de usuarios</p>
 

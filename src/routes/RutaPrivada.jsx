@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router";
 
 import { useAutenticacion } from "../context/AutenticacionContext";
+import NavbarPrivado from "../components/comunes/NavbarPrivado";
 
 export function RutaPrivada() {
   const { estaAutenticado, sesionCargada } = useAutenticacion();
@@ -14,7 +15,12 @@ export function RutaPrivada() {
     return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  return (
+  <>
+    <NavbarPrivado />
+    <Outlet />
+  </>
+);
 }
 
 export default RutaPrivada;
