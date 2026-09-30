@@ -9,4 +9,13 @@ export const usuariosService = {
 
   crearAdminGestion: (data) =>
     api.post("/api/usuarios/admin-gestion", data).then((res) => res.data),
+  
+  consultarAlumnos: () =>
+    api.get("/api/usuarios/alumnos").then((res) => res.data),
+
+  consultarProfesores: () =>
+    api.get("/api/usuarios/profesores").then((res) => res.data),
+
+  consultarAdministradoresGestion: () =>
+    api.get("/api/usuarios/admin-gestion").then((res) => res.data),
 };

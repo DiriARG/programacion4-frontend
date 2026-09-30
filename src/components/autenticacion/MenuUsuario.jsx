@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Dropdown } from "@heroui/react";
 import { IconChevronDown, IconLogout, IconUser } from "@tabler/icons-react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 import { useAutenticacion } from "../../context/AutenticacionContext";
 import { menuPorRol } from "../../utils/menuPorRol";
@@ -23,6 +24,7 @@ export function MenuUsuario() {
 
   const { usuario, rol, cerrarSesion } = useAutenticacion();
 
+  const navigate = useNavigate();
   // Se obtiene las opciones disponibles para el rol actual.
   const opcionesMenu = menuPorRol[rol] ?? [];
 
@@ -56,6 +58,11 @@ export function MenuUsuario() {
 
     const opcion = opcionesMenu.find((item) => item.clave === clave);
 
+    if (opcion?.ruta) {
+      navigate(opcion.ruta);
+      return;
+    }
+    
     toast.info(opcion?.etiqueta ?? "Sección", {
       description: "Sección en construcción. Muy pronto vas a poder usarla.",
     });
