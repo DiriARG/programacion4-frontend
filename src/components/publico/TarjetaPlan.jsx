@@ -1,14 +1,7 @@
 import { buttonVariants } from "@heroui/react";
 import { IconCheck } from "@tabler/icons-react";
 
-/* Formateador numérico nativo de JS (Intl.NumberFormat) adaptado a la región 
-de Argentina (es-AR) para mostrar precios en pesos sin decimales. */
-const formateadorMoneda  = new Intl.NumberFormat("es-AR", {
-  // El número debe formatearse como una cantidad monetaria (incluyendo el símbolo de la moneda).
-  style: "currency",
-  currency: "ARS",
-  maximumFractionDigits: 0,
-});
+import { formatearMoneda } from "../../utils/formatearMoneda";
 
 /* Componente visual que representa un único plan del gimnasio.
 Recibe los datos de un plan y se encarga de mostrar sus datos. */
@@ -28,7 +21,7 @@ export function TarjetaPlan({ plan, enlaceCta = "#contacto" }) {
       <p className="mt-6 flex items-baseline gap-2">
         <span className="titulo-xl text-4xl text-hueso">
           {typeof precioMensual === "number"
-            ? formateadorMoneda .format(precioMensual)
+            ? formatearMoneda(precioMensual)
             : "$—"}
         </span>
 

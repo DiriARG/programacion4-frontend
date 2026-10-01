@@ -29,5 +29,10 @@ export const menuPorRol = {
       etiqueta: "Administradores de gestión",
       ruta: "/usuarios/admin-gestion",
     },
+    {
+      clave: "planes",
+      etiqueta: "Planes",
+      ruta: "/planes",
+    },
   ],
 };
