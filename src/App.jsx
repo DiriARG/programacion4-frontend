@@ -5,6 +5,8 @@ import { RutaPublica } from "./routes/RutaPublica";
 import { PaginaPrincipal } from "./pages/PaginaPrincipal";
 import { PaginaLogin } from "./pages/PaginaLogin";
 import { PaginaNoEncontrada } from "./pages/NoEncontrado";
+import { PaginaUsuarios } from "./pages/PaginaUsuarios";
+import { PaginaPlanes } from "./pages/PaginaPlanes";
 
 function App() {
   return (
@@ -16,7 +18,10 @@ function App() {
         <Route path="/login" element={<PaginaLogin />} />
       </Route>
 
-      <Route element={<RutaPrivada />}></Route>
+      <Route element={<RutaPrivada />}>
+        <Route path="/usuarios/:tipo" element={<PaginaUsuarios />} />
+        <Route path="/planes" element={<PaginaPlanes />} />
+      </Route>
 
       <Route path="*" element={<PaginaNoEncontrada />} />
     </Routes>
