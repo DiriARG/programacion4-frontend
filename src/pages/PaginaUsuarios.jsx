@@ -6,6 +6,7 @@ import { useParams } from "react-router";
 
 import { TablaUsuarios } from "../components/comunes/TablaUsuarios";
 import { CrearUsuarioModal } from "../components/modales/CrearUsuarioModal";
+import { ModificarUsuarioModal } from "../components/modales/ModificarUsuarioModal";
 import { configuracionUsuarios } from "../utils/configuracionUsuarios";
 import { PaginaNoEncontrada } from "./NoEncontrado";
 
@@ -14,6 +15,9 @@ export function PaginaUsuarios() {
 
   const [crearUsuarioModalAbierto, setCrearUsuarioModalAbierto] =
     useState(false);
+  const [modificarUsuarioModalAbierto, setModificarUsuarioModalAbierto] =
+    useState(false);
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
 
   const configuracion = configuracionUsuarios[tipo];
 
@@ -32,6 +36,13 @@ export function PaginaUsuarios() {
   if (!configuracion) {
     return <PaginaNoEncontrada />;
   }
+
+  const abrirModificarUsuarioModal = (usuario) => {
+    // Guarda quién queremos modificar.
+    setUsuarioSeleccionado(usuario);
+    // Abre el modal.
+    setModificarUsuarioModalAbierto(true);
+  };
 
   return (
     <>
@@ -73,7 +84,10 @@ export function PaginaUsuarios() {
                   </p>
                 </div>
               ) : (
-                <TablaUsuarios usuarios={usuarios} />
+                <TablaUsuarios
+                  usuarios={usuarios}
+                  onModificar={abrirModificarUsuarioModal}
+                />
               )}
             </div>
           </div>
@@ -84,6 +98,12 @@ export function PaginaUsuarios() {
         isOpen={crearUsuarioModalAbierto}
         onOpenChange={setCrearUsuarioModalAbierto}
         rolFijo={configuracion.rolCrear}
+      />
+      <ModificarUsuarioModal
+        isOpen={modificarUsuarioModalAbierto}
+        onOpenChange={setModificarUsuarioModalAbierto}
+        usuario={usuarioSeleccionado}
+        modificar={configuracion.modificar}
       />
     </>
   );

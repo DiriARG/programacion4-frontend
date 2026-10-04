@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
-import { Chip, Pagination, Table } from "@heroui/react";
-
+import {
+  Button,
+  Chip,
+  Dropdown,
+  Label,
+  Pagination,
+  Table,
+} from "@heroui/react";
+import { IconDotsVertical, IconPencil } from "@tabler/icons-react";
 const usuariosPorPagina = 10;
 
-export function TablaUsuarios({ usuarios = [] }) {
+export function TablaUsuarios({ usuarios = [], onModificar }) {
   // La tabla comienza siempre en la página 1.
   const [paginaActual, setPaginaActual] = useState(1);
 
@@ -35,6 +42,7 @@ export function TablaUsuarios({ usuarios = [] }) {
             <Table.Column>Email</Table.Column>
             <Table.Column>Teléfono</Table.Column>
             <Table.Column>Estado</Table.Column>
+            <Table.Column>Acciones</Table.Column>
           </Table.Header>
 
           <Table.Body
@@ -59,6 +67,33 @@ export function TablaUsuarios({ usuarios = [] }) {
                   >
                     {usuario.activo ? "Activo" : "Inactivo"}
                   </Chip>
+                </Table.Cell>
+                <Table.Cell>
+                  <Dropdown>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      aria-label={`Acciones de ${usuario.nombre} ${usuario.apellido}`}
+                    >
+                      <IconDotsVertical size={18} />
+                    </Button>
+
+                    <Dropdown.Popover>
+                      <Dropdown.Menu
+                        onAction={(accion) => {
+                          if (accion === "modificar") {
+                            onModificar(usuario);
+                          }
+                        }}
+                      >
+                        <Dropdown.Item id="modificar" textValue="Modificar">
+                          <IconPencil size={16} />
+                          <Label>Modificar</Label>
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown.Popover>
+                  </Dropdown>
                 </Table.Cell>
               </Table.Row>
             )}
