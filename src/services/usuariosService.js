@@ -27,4 +27,30 @@ export const usuariosService = {
 
   modificarAdminGestion: (id, data) =>
     api.put(`/api/usuarios/admin-gestion/${id}`, data).then((res) => res.data),
+
+  desactivarAlumno: (id) =>
+    api.patch(`/api/usuarios/alumnos/${id}/desactivar`).then((res) => res.data),
+
+  reactivarAlumno: (id) =>
+    api.patch(`/api/usuarios/alumnos/${id}/reactivar`).then((res) => res.data),
+
+  desactivarProfesor: (id) =>
+    api
+      .patch(`/api/usuarios/profesores/${id}/desactivar`)
+      .then((res) => res.data),
+
+  reactivarProfesor: (id) =>
+    api
+      .patch(`/api/usuarios/profesores/${id}/reactivar`)
+      .then((res) => res.data),
+
+  desactivarAdminGestion: (id) =>
+    api
+      .patch(`/api/usuarios/admin-gestion/${id}/desactivar`)
+      .then((res) => res.data),
+
+  reactivarAdminGestion: (id) =>
+    api
+      .patch(`/api/usuarios/admin-gestion/${id}/reactivar`)
+      .then((res) => res.data),
 };

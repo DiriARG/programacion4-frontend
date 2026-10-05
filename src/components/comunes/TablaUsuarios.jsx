@@ -7,10 +7,20 @@ import {
   Pagination,
   Table,
 } from "@heroui/react";
-import { IconDotsVertical, IconPencil } from "@tabler/icons-react";
+import {
+  IconDotsVertical,
+  IconPencil,
+  IconBan,
+  IconRefresh,
+} from "@tabler/icons-react";
 const usuariosPorPagina = 10;
 
-export function TablaUsuarios({ usuarios = [], onModificar }) {
+export function TablaUsuarios({
+  usuarios = [],
+  onModificar,
+  onDesactivar,
+  onReactivar,
+}) {
   // La tabla comienza siempre en la página 1.
   const [paginaActual, setPaginaActual] = useState(1);
 
@@ -85,12 +95,30 @@ export function TablaUsuarios({ usuarios = [], onModificar }) {
                           if (accion === "modificar") {
                             onModificar(usuario);
                           }
+                          if (accion === "desactivar") {
+                            onDesactivar(usuario);
+                          }
+
+                          if (accion === "reactivar") {
+                            onReactivar(usuario);
+                          }
                         }}
                       >
                         <Dropdown.Item id="modificar" textValue="Modificar">
                           <IconPencil size={16} />
                           <Label>Modificar</Label>
                         </Dropdown.Item>
+                        {usuario.activo ? (
+                          <Dropdown.Item id="desactivar" textValue="Desactivar">
+                            <IconBan size={16} />
+                            <Label>Desactivar</Label>
+                          </Dropdown.Item>
+                        ) : (
+                          <Dropdown.Item id="reactivar" textValue="Reactivar">
+                            <IconRefresh size={16} />
+                            <Label>Reactivar</Label>
+                          </Dropdown.Item>
+                        )}
                       </Dropdown.Menu>
                     </Dropdown.Popover>
                   </Dropdown>

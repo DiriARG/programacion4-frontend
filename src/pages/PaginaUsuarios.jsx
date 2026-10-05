@@ -7,6 +7,7 @@ import { useParams } from "react-router";
 import { TablaUsuarios } from "../components/comunes/TablaUsuarios";
 import { CrearUsuarioModal } from "../components/modales/CrearUsuarioModal";
 import { ModificarUsuarioModal } from "../components/modales/ModificarUsuarioModal";
+import { CambioEstadoUsuarioModal } from "../components/modales/CambioEstadoUsuarioModal";
 import { configuracionUsuarios } from "../utils/configuracionUsuarios";
 import { PaginaNoEncontrada } from "./NoEncontrado";
 
@@ -18,6 +19,7 @@ export function PaginaUsuarios() {
   const [modificarUsuarioModalAbierto, setModificarUsuarioModalAbierto] =
     useState(false);
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+  const [cambioEstadoUsuario, setCambioEstadoUsuario] = useState(null);
 
   const configuracion = configuracionUsuarios[tipo];
 
@@ -42,6 +44,13 @@ export function PaginaUsuarios() {
     setUsuarioSeleccionado(usuario);
     // Abre el modal.
     setModificarUsuarioModalAbierto(true);
+  };
+
+  const abrirCambioEstadoUsuario = (usuario, accion) => {
+    setCambioEstadoUsuario({
+      usuario,
+      accion,
+    });
   };
 
   return (
@@ -87,6 +96,12 @@ export function PaginaUsuarios() {
                 <TablaUsuarios
                   usuarios={usuarios}
                   onModificar={abrirModificarUsuarioModal}
+                  onDesactivar={(usuario) =>
+                    abrirCambioEstadoUsuario(usuario, "desactivar")
+                  }
+                  onReactivar={(usuario) =>
+                    abrirCambioEstadoUsuario(usuario, "reactivar")
+                  }
                 />
               )}
             </div>
@@ -104,6 +119,21 @@ export function PaginaUsuarios() {
         onOpenChange={setModificarUsuarioModalAbierto}
         usuario={usuarioSeleccionado}
         modificar={configuracion.modificar}
+      />
+      <CambioEstadoUsuarioModal
+        isOpen={cambioEstadoUsuario !== null}
+        onOpenChange={(abierto) => {
+          if (!abierto) {
+            setCambioEstadoUsuario(null);
+          }
+        }}
+        usuario={cambioEstadoUsuario?.usuario}
+        accion={cambioEstadoUsuario?.accion}
+        cambiarEstado={
+          cambioEstadoUsuario?.accion === "desactivar"
+            ? configuracion.desactivar
+            : configuracion.reactivar
+        }
       />
     </>
   );

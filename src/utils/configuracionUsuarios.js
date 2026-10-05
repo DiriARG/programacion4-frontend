@@ -11,6 +11,8 @@ export const configuracionUsuarios = {
     titulo: "Alumnos",
     consultar: usuariosService.consultarAlumnos,
     modificar: usuariosService.modificarAlumno,
+    desactivar: usuariosService.desactivarAlumno,
+    reactivar: usuariosService.reactivarAlumno,
     rolCrear: "ALUMNO",
   },
 
@@ -18,6 +20,8 @@ export const configuracionUsuarios = {
     titulo: "Profesores",
     consultar: usuariosService.consultarProfesores,
     modificar: usuariosService.modificarProfesor,
+    desactivar: usuariosService.desactivarProfesor,
+    reactivar: usuariosService.reactivarProfesor,
     rolCrear: "PROFESOR",
   },
 
@@ -25,6 +29,8 @@ export const configuracionUsuarios = {
     titulo: "Administradores de gestión",
     consultar: usuariosService.consultarAdministradoresGestion,
     modificar: usuariosService.modificarAdminGestion,
+    desactivar: usuariosService.desactivarAdminGestion,
+    reactivar: usuariosService.reactivarAdminGestion,
     rolCrear: "ADMIN_GESTION",
   },
 };
