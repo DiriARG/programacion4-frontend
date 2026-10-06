@@ -16,8 +16,6 @@ export function PaginaUsuarios() {
 
   const [crearUsuarioModalAbierto, setCrearUsuarioModalAbierto] =
     useState(false);
-  const [modificarUsuarioModalAbierto, setModificarUsuarioModalAbierto] =
-    useState(false);
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
   const [cambioEstadoUsuario, setCambioEstadoUsuario] = useState(null);
 
@@ -42,8 +40,6 @@ export function PaginaUsuarios() {
   const abrirModificarUsuarioModal = (usuario) => {
     // Guarda quién queremos modificar.
     setUsuarioSeleccionado(usuario);
-    // Abre el modal.
-    setModificarUsuarioModalAbierto(true);
   };
 
   const abrirCambioEstadoUsuario = (usuario, accion) => {
@@ -115,8 +111,12 @@ export function PaginaUsuarios() {
         rolFijo={configuracion.rolCrear}
       />
       <ModificarUsuarioModal
-        isOpen={modificarUsuarioModalAbierto}
-        onOpenChange={setModificarUsuarioModalAbierto}
+        isOpen={usuarioSeleccionado !== null}
+        onOpenChange={(abierto) => {
+          if (!abierto) {
+            setUsuarioSeleccionado(null);
+          }
+        }}
         usuario={usuarioSeleccionado}
         modificar={configuracion.modificar}
       />
