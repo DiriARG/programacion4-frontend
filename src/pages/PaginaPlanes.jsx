@@ -5,10 +5,12 @@ import { IconPlus } from "@tabler/icons-react";
 
 import { TablaPlanes } from "../components/planes/TablaPlanes";
 import { CrearPlanModal } from "../components/modales/CrearPlanModal";
+import { ModificarPlanModal } from "../components/modales/ModificarPlanModal";
 import { planesService } from "../services/planesService";
 
 export function PaginaPlanes() {
   const [crearPlanModalAbierto, setCrearPlanModalAbierto] = useState(false);
+  const [planSeleccionado, setPlanSeleccionado] = useState(null);
 
   const {
     data: planes = [],
@@ -18,6 +20,10 @@ export function PaginaPlanes() {
     queryKey: ["planes"],
     queryFn: planesService.consultarPlanes,
   });
+
+  const abrirModificarPlanModal = (plan) => {
+    setPlanSeleccionado(plan);
+  };
 
   return (
     <>
@@ -57,7 +63,10 @@ export function PaginaPlanes() {
                   </p>
                 </div>
               ) : (
-                <TablaPlanes planes={planes} />
+                <TablaPlanes
+                  planes={planes}
+                  onModificar={abrirModificarPlanModal}
+                />
               )}
             </div>
           </div>
@@ -67,6 +76,15 @@ export function PaginaPlanes() {
       <CrearPlanModal
         isOpen={crearPlanModalAbierto}
         onOpenChange={setCrearPlanModalAbierto}
+      />
+      <ModificarPlanModal
+        isOpen={planSeleccionado !== null}
+        onOpenChange={(abierto) => {
+          if (!abierto) {
+            setPlanSeleccionado(null);
+          }
+        }}
+        plan={planSeleccionado}
       />
     </>
   );

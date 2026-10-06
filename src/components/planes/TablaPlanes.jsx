@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
-import { Chip, Pagination, Table } from "@heroui/react";
+import {
+  Button,
+  Chip,
+  Dropdown,
+  Label,
+  Pagination,
+  Table,
+} from "@heroui/react";
+import { IconDotsVertical, IconPencil } from "@tabler/icons-react";
 
 import { formatearMoneda } from "../../utils/formatearMoneda";
 
 const planesPorPagina = 10;
 
-export function TablaPlanes({ planes = [] }) {
+export function TablaPlanes({ planes = [], onModificar }) {
   const [paginaActual, setPaginaActual] = useState(1);
 
   const cantidadPaginas = Math.ceil(planes.length / planesPorPagina);
@@ -32,6 +40,7 @@ export function TablaPlanes({ planes = [] }) {
             <Table.Column>Precio mensual</Table.Column>
             <Table.Column>Beneficios</Table.Column>
             <Table.Column>Estado</Table.Column>
+            <Table.Column>Acciones</Table.Column>
           </Table.Header>
 
           <Table.Body
@@ -77,6 +86,33 @@ export function TablaPlanes({ planes = [] }) {
                   >
                     {plan.activo ? "Activo" : "Inactivo"}
                   </Chip>
+                </Table.Cell>
+                <Table.Cell>
+                  <Dropdown>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      aria-label={`Acciones del plan ${plan.nombre}`}
+                    >
+                      <IconDotsVertical size={18} />
+                    </Button>
+
+                    <Dropdown.Popover>
+                      <Dropdown.Menu
+                        onAction={(accion) => {
+                          if (accion === "modificar") {
+                            onModificar(plan);
+                          }
+                        }}
+                      >
+                        <Dropdown.Item id="modificar" textValue="Modificar">
+                          <IconPencil size={16} />
+                          <Label>Modificar</Label>
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown.Popover>
+                  </Dropdown>
                 </Table.Cell>
               </Table.Row>
             )}
