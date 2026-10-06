@@ -6,11 +6,13 @@ import { IconPlus } from "@tabler/icons-react";
 import { TablaPlanes } from "../components/planes/TablaPlanes";
 import { CrearPlanModal } from "../components/modales/CrearPlanModal";
 import { ModificarPlanModal } from "../components/modales/ModificarPlanModal";
+import { CambioEstadoPlanModal } from "../components/modales/CambioEstadoPlanModal";
 import { planesService } from "../services/planesService";
 
 export function PaginaPlanes() {
   const [crearPlanModalAbierto, setCrearPlanModalAbierto] = useState(false);
   const [planSeleccionado, setPlanSeleccionado] = useState(null);
+  const [cambioEstadoPlan, setCambioEstadoPlan] = useState(null);
 
   const {
     data: planes = [],
@@ -23,6 +25,10 @@ export function PaginaPlanes() {
 
   const abrirModificarPlanModal = (plan) => {
     setPlanSeleccionado(plan);
+  };
+
+  const abrirCambioEstadoPlan = (plan, accion) => {
+    setCambioEstadoPlan({ plan, accion });
   };
 
   return (
@@ -66,6 +72,12 @@ export function PaginaPlanes() {
                 <TablaPlanes
                   planes={planes}
                   onModificar={abrirModificarPlanModal}
+                  onDesactivar={(plan) =>
+                    abrirCambioEstadoPlan(plan, "desactivar")
+                  }
+                  onReactivar={(plan) =>
+                    abrirCambioEstadoPlan(plan, "reactivar")
+                  }
                 />
               )}
             </div>
@@ -85,6 +97,21 @@ export function PaginaPlanes() {
           }
         }}
         plan={planSeleccionado}
+      />
+      <CambioEstadoPlanModal
+        isOpen={cambioEstadoPlan !== null}
+        onOpenChange={(abierto) => {
+          if (!abierto) {
+            setCambioEstadoPlan(null);
+          }
+        }}
+        plan={cambioEstadoPlan?.plan}
+        accion={cambioEstadoPlan?.accion}
+        cambiarEstado={
+          cambioEstadoPlan?.accion === "desactivar"
+            ? planesService.desactivarPlan
+            : planesService.reactivarPlan
+        }
       />
     </>
   );

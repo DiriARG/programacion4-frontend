@@ -7,13 +7,22 @@ import {
   Pagination,
   Table,
 } from "@heroui/react";
-import { IconDotsVertical, IconPencil } from "@tabler/icons-react";
-
+import {
+  IconBan,
+  IconDotsVertical,
+  IconPencil,
+  IconRefresh,
+} from "@tabler/icons-react";
 import { formatearMoneda } from "../../utils/formatearMoneda";
 
 const planesPorPagina = 10;
 
-export function TablaPlanes({ planes = [], onModificar }) {
+export function TablaPlanes({
+  planes = [],
+  onModificar,
+  onDesactivar,
+  onReactivar,
+}) {
   const [paginaActual, setPaginaActual] = useState(1);
 
   const cantidadPaginas = Math.ceil(planes.length / planesPorPagina);
@@ -104,12 +113,31 @@ export function TablaPlanes({ planes = [], onModificar }) {
                           if (accion === "modificar") {
                             onModificar(plan);
                           }
+
+                          if (accion === "desactivar") {
+                            onDesactivar(plan);
+                          }
+
+                          if (accion === "reactivar") {
+                            onReactivar(plan);
+                          }
                         }}
                       >
                         <Dropdown.Item id="modificar" textValue="Modificar">
                           <IconPencil size={16} />
                           <Label>Modificar</Label>
                         </Dropdown.Item>
+                        {plan.activo ? (
+                          <Dropdown.Item id="desactivar" textValue="Desactivar">
+                            <IconBan size={16} />
+                            <Label>Desactivar</Label>
+                          </Dropdown.Item>
+                        ) : (
+                          <Dropdown.Item id="reactivar" textValue="Reactivar">
+                            <IconRefresh size={16} />
+                            <Label>Reactivar</Label>
+                          </Dropdown.Item>
+                        )}
                       </Dropdown.Menu>
                     </Dropdown.Popover>
                   </Dropdown>
