@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Spinner } from "@heroui/react";
 import { IconArrowLeft, IconUserPlus } from "@tabler/icons-react";
-import { Link, useParams } from "react-router";
+import { Link } from "react-router";
 
 import { TablaUsuarios } from "../components/comunes/TablaUsuarios";
 import { CrearUsuarioModal } from "../components/modales/CrearUsuarioModal";
@@ -11,9 +11,7 @@ import { CambioEstadoUsuarioModal } from "../components/modales/CambioEstadoUsua
 import { configuracionUsuarios } from "../utils/configuracionUsuarios";
 import { PaginaNoEncontrada } from "./NoEncontrado";
 
-export function PaginaUsuarios() {
-  const { tipo } = useParams();
-
+export function PaginaUsuarios({ tipo }) {
   const [crearUsuarioModalAbierto, setCrearUsuarioModalAbierto] =
     useState(false);
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
