@@ -111,7 +111,7 @@ export function CrearUsuarioModal({ isOpen, onOpenChange, rolFijo }) {
       }
 
       // Para errores inesperados como por ejemplo desconexión con el back.
-      toast.error("No se pudo crear al usuario", {
+      toast.error("No se pudo crear el usuario", {
         description:
           respuesta?.mensaje ?? "Ocurrió un problema al registrar el usuario.",
       });

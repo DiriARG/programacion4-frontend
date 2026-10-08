@@ -1,11 +1,28 @@
 import { useEffect, useState } from "react";
-import { Chip, Pagination, Table } from "@heroui/react";
-
+import {
+  Button,
+  Chip,
+  Dropdown,
+  Label,
+  Pagination,
+  Table,
+} from "@heroui/react";
+import {
+  IconBan,
+  IconDotsVertical,
+  IconPencil,
+  IconRefresh,
+} from "@tabler/icons-react";
 import { formatearMoneda } from "../../utils/formatearMoneda";
 
 const planesPorPagina = 10;
 
-export function TablaPlanes({ planes = [] }) {
+export function TablaPlanes({
+  planes = [],
+  onModificar,
+  onDesactivar,
+  onReactivar,
+}) {
   const [paginaActual, setPaginaActual] = useState(1);
 
   const cantidadPaginas = Math.ceil(planes.length / planesPorPagina);
@@ -32,6 +49,7 @@ export function TablaPlanes({ planes = [] }) {
             <Table.Column>Precio mensual</Table.Column>
             <Table.Column>Beneficios</Table.Column>
             <Table.Column>Estado</Table.Column>
+            <Table.Column>Acciones</Table.Column>
           </Table.Header>
 
           <Table.Body
@@ -77,6 +95,52 @@ export function TablaPlanes({ planes = [] }) {
                   >
                     {plan.activo ? "Activo" : "Inactivo"}
                   </Chip>
+                </Table.Cell>
+                <Table.Cell>
+                  <Dropdown>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      aria-label={`Acciones del plan ${plan.nombre}`}
+                    >
+                      <IconDotsVertical size={18} />
+                    </Button>
+
+                    <Dropdown.Popover>
+                      <Dropdown.Menu
+                        onAction={(accion) => {
+                          if (accion === "modificar") {
+                            onModificar(plan);
+                          }
+
+                          if (accion === "desactivar") {
+                            onDesactivar(plan);
+                          }
+
+                          if (accion === "reactivar") {
+                            onReactivar(plan);
+                          }
+                        }}
+                      >
+                        <Dropdown.Item id="modificar" textValue="Modificar">
+                          <IconPencil size={16} />
+                          <Label>Modificar</Label>
+                        </Dropdown.Item>
+                        {plan.activo ? (
+                          <Dropdown.Item id="desactivar" textValue="Desactivar">
+                            <IconBan size={16} />
+                            <Label>Desactivar</Label>
+                          </Dropdown.Item>
+                        ) : (
+                          <Dropdown.Item id="reactivar" textValue="Reactivar">
+                            <IconRefresh size={16} />
+                            <Label>Reactivar</Label>
+                          </Dropdown.Item>
+                        )}
+                      </Dropdown.Menu>
+                    </Dropdown.Popover>
+                  </Dropdown>
                 </Table.Cell>
               </Table.Row>
             )}

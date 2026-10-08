@@ -7,6 +7,7 @@ import { PaginaLogin } from "./pages/PaginaLogin";
 import { PaginaNoEncontrada } from "./pages/NoEncontrado";
 import { PaginaUsuarios } from "./pages/PaginaUsuarios";
 import { PaginaPlanes } from "./pages/PaginaPlanes";
+import { PaginaTurnos } from "./pages/PaginaTurnos";
 
 function App() {
   return (
@@ -18,8 +19,29 @@ function App() {
         <Route path="/login" element={<PaginaLogin />} />
       </Route>
 
-      <Route element={<RutaPrivada />}>
-        <Route path="/usuarios/:tipo" element={<PaginaUsuarios />} />
+      <Route
+        element={
+          <RutaPrivada rolesPermitidos={["ADMIN_GESTION", "ADMIN_GENERAL"]} />
+        }
+      >
+        <Route
+          path="/usuarios/alumnos"
+          element={<PaginaUsuarios tipo="alumnos" />}
+        />
+        <Route path="/turnos" element={<PaginaTurnos />} />
+      </Route>
+
+      <Route element={<RutaPrivada rolesPermitidos={["ADMIN_GENERAL"]} />}>
+        <Route
+          path="/usuarios/profesores"
+          element={<PaginaUsuarios tipo="profesores" />}
+        />
+
+        <Route
+          path="/usuarios/admin-gestion"
+          element={<PaginaUsuarios tipo="admin-gestion" />}
+        />
+
         <Route path="/planes" element={<PaginaPlanes />} />
       </Route>
 
