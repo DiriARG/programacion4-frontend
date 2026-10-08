@@ -10,6 +10,11 @@ export const menuPorRol = {
       etiqueta: "Alumnos",
       ruta: "/usuarios/alumnos",
     },
+    {
+      clave: "turnos",
+      etiqueta: "Turnos",
+      ruta: "/turnos",
+    },
   ],
 
   ADMIN_GENERAL: [
@@ -33,6 +38,11 @@ export const menuPorRol = {
       clave: "planes",
       etiqueta: "Planes",
       ruta: "/planes",
+    },
+    {
+      clave: "turnos",
+      etiqueta: "Turnos",
+      ruta: "/turnos",
     },
   ],
 };
