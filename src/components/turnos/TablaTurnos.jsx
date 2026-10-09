@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Chip, Pagination, Table } from "@heroui/react";
+import {
+  Button,
+  Chip,
+  Dropdown,
+  Label,
+  Pagination,
+  Table,
+} from "@heroui/react";
+import { IconDotsVertical, IconEye } from "@tabler/icons-react";
 
 const turnosPorPagina = 10;
 
@@ -16,7 +24,7 @@ const diasSemana = {
 // El back devuelve por ej: 18:00:00, se recorta a 18:00.
 const formatearHora = (hora) => hora?.slice(0, 5) ?? "";
 
-export function TablaTurnos({ turnos = [] }) {
+export function TablaTurnos({ turnos = [], onVerDetalle }) {
   const [paginaActual, setPaginaActual] = useState(1);
 
   const cantidadPaginas = Math.ceil(turnos.length / turnosPorPagina);
@@ -43,6 +51,7 @@ export function TablaTurnos({ turnos = [] }) {
             <Table.Column>Día</Table.Column>
             <Table.Column>Horario</Table.Column>
             <Table.Column>Estado</Table.Column>
+            <Table.Column>Acciones</Table.Column>
           </Table.Header>
 
           <Table.Body
@@ -79,6 +88,33 @@ export function TablaTurnos({ turnos = [] }) {
                   >
                     {turno.activo ? "Activo" : "Inactivo"}
                   </Chip>
+                </Table.Cell>
+                <Table.Cell>
+                  <Dropdown>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      aria-label={`Acciones del turno ${turno.nombreClase}`}
+                    >
+                      <IconDotsVertical size={18} />
+                    </Button>
+
+                    <Dropdown.Popover>
+                      <Dropdown.Menu
+                        onAction={(accion) => {
+                          if (accion === "ver-detalle") {
+                            onVerDetalle(turno);
+                          }
+                        }}
+                      >
+                        <Dropdown.Item id="ver-detalle" textValue="Ver detalle">
+                          <IconEye size={16} />
+                          <Label>Ver detalle</Label>
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown.Popover>
+                  </Dropdown>
                 </Table.Cell>
               </Table.Row>
             )}
