@@ -8,21 +8,12 @@ import {
   Table,
 } from "@heroui/react";
 import { IconDotsVertical, IconEye } from "@tabler/icons-react";
+import {
+  formatearDiaSemana,
+  formatearHora,
+} from "../../utils/formatearDiaYHora";
 
 const turnosPorPagina = 10;
-
-const diasSemana = {
-  LUNES: "Lunes",
-  MARTES: "Martes",
-  MIERCOLES: "Miércoles",
-  JUEVES: "Jueves",
-  VIERNES: "Viernes",
-  SABADO: "Sábado",
-  DOMINGO: "Domingo",
-};
-
-// El back devuelve por ej: 18:00:00, se recorta a 18:00.
-const formatearHora = (hora) => hora?.slice(0, 5) ?? "";
 
 export function TablaTurnos({ turnos = [], onVerDetalle }) {
   const [paginaActual, setPaginaActual] = useState(1);
@@ -71,7 +62,7 @@ export function TablaTurnos({ turnos = [], onVerDetalle }) {
                 </Table.Cell>
 
                 <Table.Cell>
-                  {diasSemana[turno.diaSemana] ?? turno.diaSemana}
+                  {formatearDiaSemana(turno.diaSemana)}
                 </Table.Cell>
 
                 <Table.Cell>

@@ -1,17 +1,9 @@
 import { Modal, Button, Chip, Spinner, Table } from "@heroui/react";
 import { IconCalendarEvent, IconUsers } from "@tabler/icons-react";
-
-const diasSemana = {
-  LUNES: "Lunes",
-  MARTES: "Martes",
-  MIERCOLES: "Miércoles",
-  JUEVES: "Jueves",
-  VIERNES: "Viernes",
-  SABADO: "Sábado",
-  DOMINGO: "Domingo",
-};
-
-const formatearHora = (hora) => hora?.slice(0, 5) ?? "";
+import {
+  formatearDiaSemana,
+  formatearHora,
+} from "../../utils/formatearDiaYHora";
 
 export function DetalleTurnoModal({
   isOpen,
@@ -48,7 +40,7 @@ export function DetalleTurnoModal({
             </Modal.Header>
 
             <Modal.Body className="space-y-6 text-sm text-hierro-200">
-              {isPending ? (
+              {!isOpen ? null : isPending ? (
                 <div className="flex min-h-60 flex-col items-center justify-center gap-3">
                   <Spinner size="lg" />
                   <p className="text-hierro-400">
@@ -103,7 +95,7 @@ export function DetalleTurnoModal({
                         </dt>
 
                         <dd className="mt-1 text-hierro-200">
-                          {diasSemana[turno.diaSemana] ?? turno.diaSemana}
+                          {formatearDiaSemana(turno.diaSemana)}
                         </dd>
                       </div>
 
