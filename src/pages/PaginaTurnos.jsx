@@ -7,11 +7,13 @@ import { Link } from "react-router";
 import { TablaTurnos } from "../components/turnos/TablaTurnos";
 import { DetalleTurnoModal } from "../components/modales/DetalleTurnoModal";
 import { CrearTurnoModal } from "../components/modales/CrearTurnoModal";
+import { ModificarTurnoModal } from "../components/modales/ModificarTurnoModal";
 import { turnosService } from "../services/turnosService";
 
 export function PaginaTurnos() {
   const [crearTurnoModalAbierto, setCrearTurnoModalAbierto] = useState(false);
   const [turnoSeleccionado, setTurnoSeleccionado] = useState(null);
+  const [turnoAModificar, setTurnoAModificar] = useState(null);
 
   const {
     data: turnos = [],
@@ -35,6 +37,10 @@ export function PaginaTurnos() {
 
   const abrirDetalleTurno = (turno) => {
     setTurnoSeleccionado(turno);
+  };
+
+  const abrirModificarTurno = (turno) => {
+    setTurnoAModificar(turno);
   };
 
   return (
@@ -86,7 +92,11 @@ export function PaginaTurnos() {
                   </p>
                 </div>
               ) : (
-                <TablaTurnos turnos={turnos} onVerDetalle={abrirDetalleTurno} />
+                <TablaTurnos
+                  turnos={turnos}
+                  onVerDetalle={abrirDetalleTurno}
+                  onModificar={abrirModificarTurno}
+                />
               )}
             </div>
           </div>
@@ -108,6 +118,16 @@ export function PaginaTurnos() {
         turno={turnoDetalle}
         isPending={detallePendiente}
         isError={detalleError}
+      />
+
+      <ModificarTurnoModal
+        isOpen={turnoAModificar !== null}
+        onOpenChange={(abierto) => {
+          if (!abierto) {
+            setTurnoAModificar(null);
+          }
+        }}
+        turno={turnoAModificar}
       />
     </>
   );

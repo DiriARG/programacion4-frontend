@@ -7,7 +7,8 @@ import {
   Pagination,
   Table,
 } from "@heroui/react";
-import { IconDotsVertical, IconEye } from "@tabler/icons-react";
+import { IconDotsVertical, IconEye, IconPencil } from "@tabler/icons-react";
+
 import {
   formatearDiaSemana,
   formatearHora,
@@ -15,7 +16,7 @@ import {
 
 const turnosPorPagina = 10;
 
-export function TablaTurnos({ turnos = [], onVerDetalle }) {
+export function TablaTurnos({ turnos = [], onVerDetalle, onModificar }) {
   const [paginaActual, setPaginaActual] = useState(1);
 
   const cantidadPaginas = Math.ceil(turnos.length / turnosPorPagina);
@@ -61,9 +62,7 @@ export function TablaTurnos({ turnos = [], onVerDetalle }) {
                   {turno.profesorNombre} {turno.profesorApellido}
                 </Table.Cell>
 
-                <Table.Cell>
-                  {formatearDiaSemana(turno.diaSemana)}
-                </Table.Cell>
+                <Table.Cell>{formatearDiaSemana(turno.diaSemana)}</Table.Cell>
 
                 <Table.Cell>
                   <span className="whitespace-nowrap">
@@ -80,6 +79,7 @@ export function TablaTurnos({ turnos = [], onVerDetalle }) {
                     {turno.activo ? "Activo" : "Inactivo"}
                   </Chip>
                 </Table.Cell>
+
                 <Table.Cell>
                   <Dropdown>
                     <Button
@@ -97,12 +97,23 @@ export function TablaTurnos({ turnos = [], onVerDetalle }) {
                           if (accion === "ver-detalle") {
                             onVerDetalle(turno);
                           }
+
+                          if (accion === "modificar") {
+                            onModificar(turno);
+                          }
                         }}
                       >
                         <Dropdown.Item id="ver-detalle" textValue="Ver detalle">
                           <IconEye size={16} />
                           <Label>Ver detalle</Label>
                         </Dropdown.Item>
+
+                        {turno.activo ? (
+                          <Dropdown.Item id="modificar" textValue="Modificar">
+                            <IconPencil size={16} />
+                            <Label>Modificar</Label>
+                          </Dropdown.Item>
+                        ) : null}
                       </Dropdown.Menu>
                     </Dropdown.Popover>
                   </Dropdown>
