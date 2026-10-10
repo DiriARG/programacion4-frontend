@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Spinner } from "@heroui/react";
-import { IconArrowLeft } from "@tabler/icons-react";
+import { Button, Spinner } from "@heroui/react";
+import { IconArrowLeft, IconPlus } from "@tabler/icons-react";
 import { Link } from "react-router";
 
 import { TablaTurnos } from "../components/turnos/TablaTurnos";
 import { DetalleTurnoModal } from "../components/modales/DetalleTurnoModal";
+import { CrearTurnoModal } from "../components/modales/CrearTurnoModal";
 import { turnosService } from "../services/turnosService";
 
 export function PaginaTurnos() {
+  const [crearTurnoModalAbierto, setCrearTurnoModalAbierto] = useState(false);
   const [turnoSeleccionado, setTurnoSeleccionado] = useState(null);
 
   const {
@@ -50,10 +52,21 @@ export function PaginaTurnos() {
                 Inicio
               </Link>
 
-              <div>
-                <p className="etiqueta text-azul-500">Gestión de turnos</p>
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="etiqueta text-azul-500">Gestión de turnos</p>
 
-                <h1 className="heading-xl mt-3 text-hueso">Turnos</h1>
+                  <h1 className="heading-xl mt-3 text-hueso">Turnos</h1>
+                </div>
+
+                <Button
+                  variant="primary"
+                  size="md"
+                  onPress={() => setCrearTurnoModalAbierto(true)}
+                >
+                  <IconPlus size={18} />
+                  Crear
+                </Button>
               </div>
             </div>
 
@@ -79,6 +92,12 @@ export function PaginaTurnos() {
           </div>
         </section>
       </main>
+
+      <CrearTurnoModal
+        isOpen={crearTurnoModalAbierto}
+        onOpenChange={setCrearTurnoModalAbierto}
+      />
+
       <DetalleTurnoModal
         isOpen={turnoSeleccionado !== null}
         onOpenChange={(abierto) => {

@@ -15,6 +15,9 @@ export const usuariosService = {
 
   consultarProfesores: () =>
     api.get("/api/usuarios/profesores").then((res) => res.data),
+  
+  consultarProfesoresActivos: () =>
+    api.get("/api/usuarios/profesores/activos").then((res) => res.data),
 
   consultarAdministradoresGestion: () =>
     api.get("/api/usuarios/admin-gestion").then((res) => res.data),

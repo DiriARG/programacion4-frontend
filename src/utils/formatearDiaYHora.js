@@ -1,4 +1,4 @@
-const nombresDias = {
+export const nombresDias = {
   LUNES: "Lunes",
   MARTES: "Martes",
   MIERCOLES: "Miércoles",
