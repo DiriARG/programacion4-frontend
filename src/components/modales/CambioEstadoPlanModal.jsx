@@ -46,6 +46,10 @@ export function CambioEstadoPlanModal({
       );
     },
   });
+  
+  if (!plan) {
+    return null;
+  }
 
   return (
     <AlertDialog>

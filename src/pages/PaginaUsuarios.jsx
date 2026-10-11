@@ -101,12 +101,7 @@ export function PaginaUsuarios({ tipo }) {
                 <TablaUsuarios
                   usuarios={usuarios}
                   onModificar={abrirModificarUsuarioModal}
-                  onDesactivar={(usuario) =>
-                    abrirCambioEstadoUsuario(usuario, "desactivar")
-                  }
-                  onReactivar={(usuario) =>
-                    abrirCambioEstadoUsuario(usuario, "reactivar")
-                  }
+                  onCambiarEstado={abrirCambioEstadoUsuario}
                 />
               )}
             </div>
