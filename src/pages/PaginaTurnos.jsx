@@ -8,12 +8,14 @@ import { TablaTurnos } from "../components/turnos/TablaTurnos";
 import { DetalleTurnoModal } from "../components/modales/DetalleTurnoModal";
 import { CrearTurnoModal } from "../components/modales/CrearTurnoModal";
 import { ModificarTurnoModal } from "../components/modales/ModificarTurnoModal";
+import { CambioEstadoTurnoModal } from "../components/modales/CambioEstadoTurnoModal";
 import { turnosService } from "../services/turnosService";
 
 export function PaginaTurnos() {
   const [crearTurnoModalAbierto, setCrearTurnoModalAbierto] = useState(false);
   const [turnoSeleccionado, setTurnoSeleccionado] = useState(null);
   const [turnoAModificar, setTurnoAModificar] = useState(null);
+  const [cambioEstadoTurno, setCambioEstadoTurno] = useState(null);
 
   const {
     data: turnos = [],
@@ -41,6 +43,10 @@ export function PaginaTurnos() {
 
   const abrirModificarTurno = (turno) => {
     setTurnoAModificar(turno);
+  };
+
+  const abrirCambioEstadoTurno = (turno, accion) => {
+    setCambioEstadoTurno({ turno, accion });
   };
 
   return (
@@ -96,6 +102,7 @@ export function PaginaTurnos() {
                   turnos={turnos}
                   onVerDetalle={abrirDetalleTurno}
                   onModificar={abrirModificarTurno}
+                  onCambiarEstado={abrirCambioEstadoTurno}
                 />
               )}
             </div>
@@ -128,6 +135,22 @@ export function PaginaTurnos() {
           }
         }}
         turno={turnoAModificar}
+      />
+
+      <CambioEstadoTurnoModal
+        isOpen={cambioEstadoTurno !== null}
+        onOpenChange={(abierto) => {
+          if (!abierto) {
+            setCambioEstadoTurno(null);
+          }
+        }}
+        turno={cambioEstadoTurno?.turno}
+        accion={cambioEstadoTurno?.accion}
+        cambiarEstado={
+          cambioEstadoTurno?.accion === "desactivar"
+            ? turnosService.desactivarTurno
+            : turnosService.reactivarTurno
+        }
       />
     </>
   );

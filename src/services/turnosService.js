@@ -6,4 +6,8 @@ export const turnosService = {
   crearTurno: (data) => api.post("/api/turnos", data).then((res) => res.data),
   modificarTurno: (id, data) =>
     api.put(`/api/turnos/${id}`, data).then((res) => res.data),
+  desactivarTurno: (id) =>
+    api.patch(`/api/turnos/${id}/desactivar`).then((res) => res.data),
+  reactivarTurno: (id) =>
+    api.patch(`/api/turnos/${id}/reactivar`).then((res) => res.data),
 };

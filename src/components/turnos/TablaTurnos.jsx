@@ -7,7 +7,13 @@ import {
   Pagination,
   Table,
 } from "@heroui/react";
-import { IconDotsVertical, IconEye, IconPencil } from "@tabler/icons-react";
+import {
+  IconBan,
+  IconDotsVertical,
+  IconEye,
+  IconPencil,
+  IconRefresh,
+} from "@tabler/icons-react";
 
 import {
   formatearDiaSemana,
@@ -16,7 +22,12 @@ import {
 
 const turnosPorPagina = 10;
 
-export function TablaTurnos({ turnos = [], onVerDetalle, onModificar }) {
+export function TablaTurnos({
+  turnos = [],
+  onVerDetalle,
+  onModificar,
+  onCambiarEstado,
+}) {
   const [paginaActual, setPaginaActual] = useState(1);
 
   const cantidadPaginas = Math.ceil(turnos.length / turnosPorPagina);
@@ -101,6 +112,14 @@ export function TablaTurnos({ turnos = [], onVerDetalle, onModificar }) {
                           if (accion === "modificar") {
                             onModificar(turno);
                           }
+
+                          if (accion === "desactivar") {
+                            onCambiarEstado(turno, "desactivar");
+                          }
+
+                          if (accion === "reactivar") {
+                            onCambiarEstado(turno, "reactivar");
+                          }
                         }}
                       >
                         <Dropdown.Item id="ver-detalle" textValue="Ver detalle">
@@ -109,11 +128,26 @@ export function TablaTurnos({ turnos = [], onVerDetalle, onModificar }) {
                         </Dropdown.Item>
 
                         {turno.activo ? (
-                          <Dropdown.Item id="modificar" textValue="Modificar">
-                            <IconPencil size={16} />
-                            <Label>Modificar</Label>
+                          <>
+                            <Dropdown.Item id="modificar" textValue="Modificar">
+                              <IconPencil size={16} />
+                              <Label>Modificar</Label>
+                            </Dropdown.Item>
+
+                            <Dropdown.Item
+                              id="desactivar"
+                              textValue="Desactivar"
+                            >
+                              <IconBan size={16} />
+                              <Label>Desactivar</Label>
+                            </Dropdown.Item>
+                          </>
+                        ) : (
+                          <Dropdown.Item id="reactivar" textValue="Reactivar">
+                            <IconRefresh size={16} />
+                            <Label>Reactivar</Label>
                           </Dropdown.Item>
-                        ) : null}
+                        )}
                       </Dropdown.Menu>
                     </Dropdown.Popover>
                   </Dropdown>
