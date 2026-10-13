@@ -13,6 +13,7 @@ import {
   IconEye,
   IconPencil,
   IconRefresh,
+  IconUserPlus,
 } from "@tabler/icons-react";
 
 import {
@@ -27,6 +28,7 @@ export function TablaTurnos({
   onVerDetalle,
   onModificar,
   onCambiarEstado,
+  onInscribirAlumno,
 }) {
   const [paginaActual, setPaginaActual] = useState(1);
 
@@ -120,6 +122,9 @@ export function TablaTurnos({
                           if (accion === "reactivar") {
                             onCambiarEstado(turno, "reactivar");
                           }
+                          if (accion === "inscribir-alumno") {
+                            onInscribirAlumno(turno);
+                          }
                         }}
                       >
                         <Dropdown.Item id="ver-detalle" textValue="Ver detalle">
@@ -133,7 +138,13 @@ export function TablaTurnos({
                               <IconPencil size={16} />
                               <Label>Modificar</Label>
                             </Dropdown.Item>
-
+                            <Dropdown.Item
+                              id="inscribir-alumno"
+                              textValue="Inscribir alumno"
+                            >
+                              <IconUserPlus size={16} />
+                              <Label>Inscribir alumno</Label>
+                            </Dropdown.Item>
                             <Dropdown.Item
                               id="desactivar"
                               textValue="Desactivar"

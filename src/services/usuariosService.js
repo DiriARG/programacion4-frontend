@@ -12,10 +12,13 @@ export const usuariosService = {
 
   consultarAlumnos: () =>
     api.get("/api/usuarios/alumnos").then((res) => res.data),
+  
+  consultarAlumnosActivos: () =>
+    api.get("/api/usuarios/alumnos/activos").then((res) => res.data),
 
   consultarProfesores: () =>
     api.get("/api/usuarios/profesores").then((res) => res.data),
-  
+
   consultarProfesoresActivos: () =>
     api.get("/api/usuarios/profesores/activos").then((res) => res.data),
 

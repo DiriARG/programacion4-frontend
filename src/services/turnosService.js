@@ -10,4 +10,13 @@ export const turnosService = {
     api.patch(`/api/turnos/${id}/desactivar`).then((res) => res.data),
   reactivarTurno: (id) =>
     api.patch(`/api/turnos/${id}/reactivar`).then((res) => res.data),
+  inscribirAlumno: (turnoId, alumnoId) =>
+    api
+      .post(`/api/turnos/${turnoId}/alumnos/${alumnoId}`)
+      .then((res) => res.data),
+
+  quitarAlumno: (turnoId, alumnoId) =>
+    api
+      .delete(`/api/turnos/${turnoId}/alumnos/${alumnoId}`)
+      .then((res) => res.data),
 };
