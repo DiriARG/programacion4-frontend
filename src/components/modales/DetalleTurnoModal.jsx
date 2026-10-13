@@ -225,6 +225,7 @@ export function DetalleTurnoModal({
                                           size="sm"
                                           isDisabled={mutation.isPending}
                                           aria-label={`Quitar a ${alumno.nombre} ${alumno.apellido} del turno`}
+                                          // Guarda al alumno seleccionado en el estado.
                                           onPress={() =>
                                             setAlumnoAEliminar(alumno)
                                           }
@@ -271,6 +272,7 @@ export function DetalleTurnoModal({
 
       <AlertDialog>
         <AlertDialog.Backdrop
+          // Como alumnoAEliminar tiene un alumno, isOpen es true y se abre el AlertDialog.
           isOpen={alumnoAEliminar !== null}
           onOpenChange={(abierto) => {
             if (!abierto && !mutation.isPending) {
