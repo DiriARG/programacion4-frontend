@@ -84,12 +84,7 @@ export function PaginaPlanes() {
                 <TablaPlanes
                   planes={planes}
                   onModificar={abrirModificarPlanModal}
-                  onDesactivar={(plan) =>
-                    abrirCambioEstadoPlan(plan, "desactivar")
-                  }
-                  onReactivar={(plan) =>
-                    abrirCambioEstadoPlan(plan, "reactivar")
-                  }
+                  onCambiarEstado={abrirCambioEstadoPlan}
                 />
               )}
             </div>

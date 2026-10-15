@@ -15,12 +15,7 @@ import {
 } from "@tabler/icons-react";
 const usuariosPorPagina = 10;
 
-export function TablaUsuarios({
-  usuarios = [],
-  onModificar,
-  onDesactivar,
-  onReactivar,
-}) {
+export function TablaUsuarios({ usuarios = [], onModificar, onCambiarEstado }) {
   // La tabla comienza siempre en la página 1.
   const [paginaActual, setPaginaActual] = useState(1);
 
@@ -96,11 +91,11 @@ export function TablaUsuarios({
                             onModificar(usuario);
                           }
                           if (accion === "desactivar") {
-                            onDesactivar(usuario);
+                            onCambiarEstado(usuario, "desactivar");
                           }
 
                           if (accion === "reactivar") {
-                            onReactivar(usuario);
+                            onCambiarEstado(usuario, "reactivar");
                           }
                         }}
                       >

@@ -17,12 +17,7 @@ import { formatearMoneda } from "../../utils/formatearMoneda";
 
 const planesPorPagina = 10;
 
-export function TablaPlanes({
-  planes = [],
-  onModificar,
-  onDesactivar,
-  onReactivar,
-}) {
+export function TablaPlanes({ planes = [], onModificar, onCambiarEstado }) {
   const [paginaActual, setPaginaActual] = useState(1);
 
   const cantidadPaginas = Math.ceil(planes.length / planesPorPagina);
@@ -115,11 +110,11 @@ export function TablaPlanes({
                           }
 
                           if (accion === "desactivar") {
-                            onDesactivar(plan);
+                            onCambiarEstado(plan, "desactivar");
                           }
 
                           if (accion === "reactivar") {
-                            onReactivar(plan);
+                            onCambiarEstado(plan, "reactivar");
                           }
                         }}
                       >

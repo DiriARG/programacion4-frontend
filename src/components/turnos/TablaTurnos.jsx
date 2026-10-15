@@ -1,22 +1,35 @@
 import { useEffect, useState } from "react";
-import { Chip, Pagination, Table } from "@heroui/react";
+import {
+  Button,
+  Chip,
+  Dropdown,
+  Label,
+  Pagination,
+  Table,
+} from "@heroui/react";
+import {
+  IconBan,
+  IconDotsVertical,
+  IconEye,
+  IconPencil,
+  IconRefresh,
+  IconUserPlus,
+} from "@tabler/icons-react";
+
+import {
+  formatearDiaSemana,
+  formatearHora,
+} from "../../utils/formatearDiaYHora";
 
 const turnosPorPagina = 10;
 
-const diasSemana = {
-  LUNES: "Lunes",
-  MARTES: "Martes",
-  MIERCOLES: "Miércoles",
-  JUEVES: "Jueves",
-  VIERNES: "Viernes",
-  SABADO: "Sábado",
-  DOMINGO: "Domingo",
-};
-
-// El back devuelve por ej: 18:00:00, se recorta a 18:00.
-const formatearHora = (hora) => hora?.slice(0, 5) ?? "";
-
-export function TablaTurnos({ turnos = [] }) {
+export function TablaTurnos({
+  turnos = [],
+  onVerDetalle,
+  onModificar,
+  onCambiarEstado,
+  onInscribirAlumno,
+}) {
   const [paginaActual, setPaginaActual] = useState(1);
 
   const cantidadPaginas = Math.ceil(turnos.length / turnosPorPagina);
@@ -43,6 +56,7 @@ export function TablaTurnos({ turnos = [] }) {
             <Table.Column>Día</Table.Column>
             <Table.Column>Horario</Table.Column>
             <Table.Column>Estado</Table.Column>
+            <Table.Column>Acciones</Table.Column>
           </Table.Header>
 
           <Table.Body
@@ -61,9 +75,7 @@ export function TablaTurnos({ turnos = [] }) {
                   {turno.profesorNombre} {turno.profesorApellido}
                 </Table.Cell>
 
-                <Table.Cell>
-                  {diasSemana[turno.diaSemana] ?? turno.diaSemana}
-                </Table.Cell>
+                <Table.Cell>{formatearDiaSemana(turno.diaSemana)}</Table.Cell>
 
                 <Table.Cell>
                   <span className="whitespace-nowrap">
@@ -79,6 +91,77 @@ export function TablaTurnos({ turnos = [] }) {
                   >
                     {turno.activo ? "Activo" : "Inactivo"}
                   </Chip>
+                </Table.Cell>
+
+                <Table.Cell>
+                  <Dropdown>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      aria-label={`Acciones del turno ${turno.nombreClase}`}
+                    >
+                      <IconDotsVertical size={18} />
+                    </Button>
+
+                    <Dropdown.Popover>
+                      <Dropdown.Menu
+                        onAction={(accion) => {
+                          if (accion === "ver-detalle") {
+                            onVerDetalle(turno);
+                          }
+
+                          if (accion === "modificar") {
+                            onModificar(turno);
+                          }
+
+                          if (accion === "desactivar") {
+                            onCambiarEstado(turno, "desactivar");
+                          }
+
+                          if (accion === "reactivar") {
+                            onCambiarEstado(turno, "reactivar");
+                          }
+                          if (accion === "inscribir-alumno") {
+                            onInscribirAlumno(turno);
+                          }
+                        }}
+                      >
+                        <Dropdown.Item id="ver-detalle" textValue="Ver detalle">
+                          <IconEye size={16} />
+                          <Label>Ver detalle</Label>
+                        </Dropdown.Item>
+
+                        {turno.activo ? (
+                          <>
+                            <Dropdown.Item id="modificar" textValue="Modificar">
+                              <IconPencil size={16} />
+                              <Label>Modificar</Label>
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              id="inscribir-alumno"
+                              textValue="Inscribir alumno"
+                            >
+                              <IconUserPlus size={16} />
+                              <Label>Inscribir alumno</Label>
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              id="desactivar"
+                              textValue="Desactivar"
+                            >
+                              <IconBan size={16} />
+                              <Label>Desactivar</Label>
+                            </Dropdown.Item>
+                          </>
+                        ) : (
+                          <Dropdown.Item id="reactivar" textValue="Reactivar">
+                            <IconRefresh size={16} />
+                            <Label>Reactivar</Label>
+                          </Dropdown.Item>
+                        )}
+                      </Dropdown.Menu>
+                    </Dropdown.Popover>
+                  </Dropdown>
                 </Table.Cell>
               </Table.Row>
             )}
