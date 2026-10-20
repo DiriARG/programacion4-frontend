@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button, Label, ListBox, Select, Spinner } from "@heroui/react";
 import {
   IconArrowLeft,
+  IconCalendarPlus,
   IconFilter,
   IconRefresh,
   IconSearch,
@@ -16,6 +17,7 @@ import { useAutenticacion } from "../context/AutenticacionContext";
 import { asistenciasService } from "../services/asistenciasService";
 import { turnosService } from "../services/turnosService";
 import { formatearDiaSemana, formatearHora } from "../utils/formatearDiaYHora";
+import { RegistrarAsistenciaModal } from "../components/modales/RegistrarAsistenciaModal";
 
 // Cantidad de asistencias que se solicitan por página (aunque por defecto en el back también usa 10).
 const asistenciasPorPagina = 10;
@@ -36,6 +38,7 @@ export function PaginaAsistencias() {
   // Guarda los filtros que se aplicarán al consultar el historial.
   const [filtrosAplicados, setFiltrosAplicados] = useState(filtrosIniciales);
   const [paginaActual, setPaginaActual] = useState(0);
+  const [modalRegistroAbierto, setModalRegistroAbierto] = useState(false);
 
   const rolPermitido = ["ADMIN_GESTION", "ADMIN_GENERAL", "PROFESOR"].includes(
     rol,
@@ -335,14 +338,26 @@ export function PaginaAsistencias() {
           </form>
 
           <section className="mt-8 space-y-4">
-            <div>
-              <h2 className="font-titulos text-lg tracking-[0.08em] text-hueso uppercase">
-                Registros
-              </h2>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="font-titulos text-lg tracking-[0.08em] text-hueso uppercase">
+                  Registros
+                </h2>
 
-              <p className="mt-1 text-sm text-hierro-400">
-                Ordenados desde la asistencia más reciente.
-              </p>
+                <p className="mt-1 text-sm text-hierro-400">
+                  Ordenados desde la asistencia más reciente.
+                </p>
+              </div>
+
+              <Button
+                type="button"
+                variant="primary"
+                size="md"
+                onPress={() => setModalRegistroAbierto(true)}
+              >
+                <IconCalendarPlus size={16} />
+                Registrar asistencia
+              </Button>
             </div>
 
             {isPending ? (
@@ -379,6 +394,10 @@ export function PaginaAsistencias() {
               />
             )}
           </section>
+          <RegistrarAsistenciaModal
+            isOpen={modalRegistroAbierto}
+            onOpenChange={setModalRegistroAbierto}
+          />
         </div>
       </section>
     </main>

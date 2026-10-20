@@ -22,4 +22,7 @@ export const asistenciasService = {
         params: crearParametrosConsulta(filtros),
       })
       .then((res) => res.data),
+
+  registrarAsistencia: (data) =>
+    api.post("/api/asistencias", data).then((res) => res.data),
 };
