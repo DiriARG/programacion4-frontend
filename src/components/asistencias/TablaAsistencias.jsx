@@ -1,18 +1,7 @@
 import { Pagination, Table } from "@heroui/react";
 
-import { formatearHora } from "../../utils/formatearDiaYHora";
+import { formatearFecha, formatearHora } from "../../utils/formatearDiaYHora";
 import { etiquetasRol } from "../../utils/etiquetasRol";
-
-// Formatea la fecha ej: 2026-10-19 a 19/10/2026.
-const formatearFecha = (fecha) => {
-  if (!fecha) return "—";
-
-  const [anio, mes, dia] = fecha.split("-");
-
-  if (!anio || !mes || !dia) return fecha;
-
-  return `${dia}/${mes}/${anio}`;
-};
 
 export function TablaAsistencias({
   asistencias = [],
