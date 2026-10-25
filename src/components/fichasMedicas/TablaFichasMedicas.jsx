@@ -2,6 +2,48 @@ import { useState } from "react";
 import { Button, Pagination, Table, Chip } from "@heroui/react";
 import { formatearFecha } from "../../utils/formatearDiaYHora";
 
+// Muestra las observaciones de una ficha y permite expandirlas de manera independiente a las observaciones de las demás filas.
+function ContenidoObservaciones({ observaciones }) {
+  const [expandida, setExpandida] = useState(false);
+
+  const observacion = observaciones?.trim() ?? "";
+
+  if (!observacion) {
+    return <span className="text-sm text-hierro-400">Sin observaciones</span>;
+  }
+
+  return (
+    // Se limita el ancho para que las observaciones no ensanchen la tabla.
+    <div className="max-w-xs">
+      {/* Mostramos dos líneas inicialmente y el texto completo al expandir. */}
+      <p
+        className={`break-words text-sm text-hierro-200 ${
+          // Contrae el texto a dos líneas, salvo que el usuario lo expanda.
+          expandida ? "" : "line-clamp-2"
+        }`}
+      >
+        {observacion}
+      </p>
+
+      {/* Solo mostramos el botón cuando el texto podría necesitar expansión. */}
+      {observacion.length > 70 ? (
+        <Button
+          type="button"
+          variant="secondary"
+          size="sm"
+          className="mt-1"
+          // Informa si el contenido de esta fila está expandido.
+          aria-expanded={expandida}
+          // Cambia el estado únicamente para esta ficha.
+          onPress={() => setExpandida((actual) => !actual)}
+        >
+          {expandida ? "Ver menos" : "Ver completa"}
+        </Button>
+      ) : null}
+    </div>
+  );
+}
+
 export function TablaFichasMedicas({
   fichasMedicas = [],
   paginaActual = 0,
@@ -10,10 +52,6 @@ export function TablaFichasMedicas({
   registrosPorPagina = 10,
   onCambiarPagina,
 }) {
-  const [observacionesExpandidas, setObservacionesExpandidas] = useState(
-    () => new Set(),
-  );
-
   const indiceInicial =
     totalElementos === 0 ? 0 : paginaActual * registrosPorPagina + 1;
 
@@ -21,24 +59,6 @@ export function TablaFichasMedicas({
     (paginaActual + 1) * registrosPorPagina,
     totalElementos,
   );
-
-  const alternarObservacion = (id) => {
-    setObservacionesExpandidas((actuales) => {
-      // Se crea una copia para no modificar directamente el estado anterior.
-      const nuevas = new Set(actuales);
-
-      /* Si la ficha ya está expandida, se contrae. 
-      Si esta contraída, se agrega su ID para expandirla. */
-      if (nuevas.has(id)) {
-        nuevas.delete(id);
-      } else {
-        nuevas.add(id);
-      }
-
-      // React actualiza el estado con el nuevo conjunto.
-      return nuevas;
-    });
-  };
 
   return (
     <Table>
@@ -60,14 +80,6 @@ export function TablaFichasMedicas({
             )}
           >
             {(ficha) => {
-              /* Se obtiene la observación sin espacios al principio o al final. 
-              Si es null, undefined o queda vacía, se utiliza una cadena vacía. */
-              const observacion = ficha.observaciones?.trim() ?? "";
-              // Se comprueba si esta ficha está incluida en el conjunto de filas expandidas.
-              const observacionExpandida = observacionesExpandidas.has(
-                ficha.id,
-              );
-
               return (
                 <Table.Row id={ficha.id}>
                   <Table.Cell>
@@ -88,7 +100,6 @@ export function TablaFichasMedicas({
                     </span>
                   </Table.Cell>
 
-
                   <Table.Cell>
                     <div className="min-w-32 space-y-2">
                       <p className="whitespace-nowrap text-sm text-hueso">
@@ -98,9 +109,7 @@ export function TablaFichasMedicas({
                       <Chip
                         variant="soft"
                         color={
-                          ficha.estado === "VIGENTE"
-                            ? "success"
-                            : "danger"
+                          ficha.estado === "VIGENTE" ? "success" : "danger"
                         }
                       >
                         {ficha.estado === "VIGENTE" ? "Vigente" : "Vencida"}
@@ -109,40 +118,9 @@ export function TablaFichasMedicas({
                   </Table.Cell>
 
                   <Table.Cell>
-                    {observacion ? (
-                      // Se limita el ancho para que las observaciones no ensanchen la tabla.
-                      <div className="max-w-xs">
-                        <p
-                          className={`break-words text-sm text-hierro-200 ${
-                            // Contrae el texto a dos líneas, salvo que el usuario lo expanda.
-                            observacionExpandida ? "" : "line-clamp-2"
-                          }`}
-                        >
-                          {observacion}
-                        </p>
-
-                        {observacion.length > 70 ? (
-                          <Button
-                            type="button"
-                            variant="secondary"
-                            size="sm"
-                            className="mt-1"
-                            // Informa si el contenido de esta fila está expandido.
-                            aria-expanded={observacionExpandida}
-                            // Cambia el estado únicamente para esta ficha.
-                            onPress={() => alternarObservacion(ficha.id)}
-                          >
-                            {observacionExpandida
-                              ? "Ver menos"
-                              : "Ver completa"}
-                          </Button>
-                        ) : null}
-                      </div>
-                    ) : (
-                      <span className="text-sm text-hierro-400">
-                        Sin observaciones
-                      </span>
-                    )}
+                    <ContenidoObservaciones
+                      observaciones={ficha.observaciones}
+                    />
                   </Table.Cell>
                 </Table.Row>
               );
