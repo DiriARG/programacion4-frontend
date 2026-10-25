@@ -98,13 +98,6 @@ export function RegistrarAsistenciaModal({ isOpen, onOpenChange }) {
     onSuccess: async (asistenciaCreada) => {
       queryClient.invalidateQueries({ queryKey: ["asistencias"] });
 
-      const nombreAlumno = [
-        asistenciaCreada.alumnoNombre,
-        asistenciaCreada.alumnoApellido,
-      ]
-        .filter(Boolean)
-        .join(" ");
-
       toast.success("Asistencia registrada", {
         description: `Se registró correctamente la asistencia de ${asistenciaCreada.alumnoNombre} ${asistenciaCreada.alumnoApellido}.`,
       });
