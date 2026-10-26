@@ -6,6 +6,7 @@ import {
   IconFilter,
   IconRefresh,
   IconSearch,
+  IconFilePlus,
 } from "@tabler/icons-react";
 import { Link } from "react-router";
 import { toast } from "sonner";
@@ -14,6 +15,7 @@ import { CampoFormulario } from "../components/comunes/CampoFormulario";
 import { TablaFichasMedicas } from "../components/fichasMedicas/TablaFichasMedicas";
 import { useAutenticacion } from "../context/AutenticacionContext";
 import { fichasMedicasService } from "../services/fichasMedicasService";
+import { RegistrarFichaMedicaModal } from "../components/modales/RegistrarFichaMedicaModal";
 
 const fichasMedicasPorPagina = 10;
 
@@ -28,10 +30,9 @@ export function PaginaFichasMedicas() {
   const { rol } = useAutenticacion();
 
   const [filtrosFormulario, setFiltrosFormulario] = useState(filtrosIniciales);
-
   const [filtrosAplicados, setFiltrosAplicados] = useState(filtrosIniciales);
-
   const [paginaActual, setPaginaActual] = useState(0);
+  const [modalRegistroAbierto, setModalRegistroAbierto] = useState(false);
 
   const rolPermitido = ["ADMIN_GESTION", "ADMIN_GENERAL"].includes(rol);
 
@@ -50,7 +51,7 @@ export function PaginaFichasMedicas() {
     queryFn: () => {
       const parametros = {
         ...filtrosAplicados,
-        /* Si se selecciona "TODOS", se envía una cadena vacía para que el servicio (fichasMedicasSerivice) omita el parámetro "estado" y el back devuelva fichas de ambos estados. 
+        /* Si se selecciona "TODOS", se envía una cadena vacía para que el servicio (fichasMedicasService) omita el parámetro "estado" y el back devuelva fichas de ambos estados. 
         Caso contrario, se envia el estado seleccionado para filtrar los resultados. */
         estado:
           filtrosAplicados.estado === "TODOS" ? "" : filtrosAplicados.estado,
@@ -225,14 +226,26 @@ export function PaginaFichasMedicas() {
           </form>
 
           <section className="mt-8 space-y-4">
-            <div>
-              <h2 className="font-titulos text-lg tracking-[0.08em] text-hueso uppercase">
-                Listado de fichas
-              </h2>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="font-titulos text-lg tracking-[0.08em] text-hueso uppercase">
+                  Listado de fichas
+                </h2>
 
-              <p className="mt-1 text-sm text-hierro-400">
-                Consultá los certificados y sus fechas de vencimiento.
-              </p>
+                <p className="mt-1 text-sm text-hierro-400">
+                  Consultá los certificados y sus fechas de vencimiento.
+                </p>
+              </div>
+
+              <Button
+                type="button"
+                variant="primary"
+                size="md"
+                onPress={() => setModalRegistroAbierto(true)}
+              >
+                <IconFilePlus size={16} />
+                Registrar ficha médica
+              </Button>
             </div>
 
             {isPending ? (
@@ -269,6 +282,10 @@ export function PaginaFichasMedicas() {
               />
             )}
           </section>
+          <RegistrarFichaMedicaModal
+            isOpen={modalRegistroAbierto}
+            onOpenChange={setModalRegistroAbierto}
+          />
         </div>
       </section>
     </main>
