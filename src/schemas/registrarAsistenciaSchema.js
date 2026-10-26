@@ -1,25 +1,9 @@
 import { z } from "zod";
 
-// Comprueba que la fecha tenga el formato año-mes-día.
-const formatoFecha = /^\d{4}-\d{2}-\d{2}$/;
+import { esFechaCalendarioValida } from "../utils/validacionesFecha";
+
 const formatoHora = /^([01]\d|2[0-3]):[0-5]\d$/;
 
-const fechaCalendarioValida = (fecha) => {
-  // Si la fecha no respeta el formato esperado...
-  if (!formatoFecha.test(fecha)) return false;
-
-  // Separa el año, mes y día, y convierte cada parte en un número.
-  const [anio, mes, dia] = fecha.split("-").map(Number);
-  // Se resta 1 al mes porque JS numera los meses de 0 a 11.
-  const fechaConstruida = new Date(Date.UTC(anio, mes - 1, dia));
-
-  // Se valida que la fecha sea real.
-  return (
-    fechaConstruida.getUTCFullYear() === anio &&
-    fechaConstruida.getUTCMonth() === mes - 1 &&
-    fechaConstruida.getUTCDate() === dia
-  );
-};
 
 export const registrarAsistenciaSchema = z.object({
   alumnoId: z
@@ -43,7 +27,7 @@ export const registrarAsistenciaSchema = z.object({
   fecha: z
     .string()
     .min(1, "La fecha de la asistencia es obligatoria.")
-    .refine(fechaCalendarioValida, "Ingresá una fecha válida."),
+    .refine(esFechaCalendarioValida, "Ingresá una fecha válida."),
 
   hora: z
     .string()

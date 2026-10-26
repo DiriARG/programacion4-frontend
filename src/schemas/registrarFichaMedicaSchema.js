@@ -1,24 +1,11 @@
 import { z } from "zod";
 
+import { esFechaCalendarioValida } from "../utils/validacionesFecha";
+
 const TAMANIO_MAXIMO_ARCHIVO = 5 * 1024 * 1024;
 
 const TIPOS_PERMITIDOS = ["application/pdf", "image/jpeg", "image/png"];
 
-const formatoFecha = /^\d{4}-\d{2}-\d{2}$/;
-
-// Comprueba que la fecha exista en el calendario.
-const fechaCalendarioValida = (fecha) => {
-  if (!formatoFecha.test(fecha)) return false;
-
-  const [anio, mes, dia] = fecha.split("-").map(Number);
-  const fechaConstruida = new Date(Date.UTC(anio, mes - 1, dia));
-
-  return (
-    fechaConstruida.getUTCFullYear() === anio &&
-    fechaConstruida.getUTCMonth() === mes - 1 &&
-    fechaConstruida.getUTCDate() === dia
-  );
-};
 
 /* Se comprueba que el valor recibido sea realmente un archivo File (objeto que representa un archivo) del navegador, y no una cadena,  otro objeto o cualquier dato.
 También se verifica que File exista antes de utilizarlo para evitar errores en entornos donde esa API File no esté disponible. */
@@ -68,9 +55,12 @@ export const registrarFichaMedicaSchema = z.object({
   certificado: certificadoSchema,
 
   fechaVencimiento: z
-    .string()
-    .min(1, "La fecha de vencimiento es obligatoria.")
-    .refine(fechaCalendarioValida, "Ingresá una fecha válida."),
+  .string()
+  .min(1, "La fecha de vencimiento es obligatoria.")
+  .refine(
+    esFechaCalendarioValida,
+    "Ingresá una fecha válida."
+  ),
 
   observaciones: z.string().trim().optional(),
 });
