@@ -41,6 +41,20 @@ export const fichasMedicasService = {
         responseType: "blob",
       })
       .then((res) => res.data),
+  renovarFichaMedica: (alumnoId, data) => {
+    const datos = {
+      certificado: data.certificado,
+      fechaVencimiento: data.fechaVencimiento,
+
+      ...(data.observaciones?.trim()
+        ? { observaciones: data.observaciones.trim() }
+        : {}),
+    };
+
+    return api
+      .put(`/api/fichas-medicas/alumnos/${alumnoId}`, toFormData(datos))
+      .then((res) => res.data);
+  },
 };
 
 export default fichasMedicasService;

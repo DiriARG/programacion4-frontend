@@ -17,6 +17,7 @@ import { useAutenticacion } from "../context/AutenticacionContext";
 import { fichasMedicasService } from "../services/fichasMedicasService";
 import { RegistrarFichaMedicaModal } from "../components/modales/RegistrarFichaMedicaModal";
 import { VerCertificadoModal } from "../components/modales/VerCertificadoModal";
+import { RenovarFichaMedicaModal } from "../components/modales/RenovarFichaMedicaModal";
 
 const fichasMedicasPorPagina = 10;
 
@@ -35,8 +36,10 @@ export function PaginaFichasMedicas() {
   const [paginaActual, setPaginaActual] = useState(0);
   const [modalRegistroAbierto, setModalRegistroAbierto] = useState(false);
   const [fichaSeleccionada, setFichaSeleccionada] = useState(null);
+  const [fichaARenovar, setFichaARenovar] = useState(null);
   // El modal se abre cuando hay una ficha seleccionada.
   const modalCertificadoAbierto = Boolean(fichaSeleccionada);
+  const modalRenovacionAbierto = Boolean(fichaARenovar);
   const rolPermitido = ["ADMIN_GESTION", "ADMIN_GENERAL"].includes(rol);
 
   const {
@@ -115,6 +118,16 @@ export function PaginaFichasMedicas() {
   const cambiarModalCertificado = (abierto) => {
     if (!abierto) {
       setFichaSeleccionada(null);
+    }
+  };
+
+  const renovarFicha = (ficha) => {
+    setFichaARenovar(ficha);
+  };
+
+  const cambiarModalRenovacion = (abierto) => {
+    if (!abierto) {
+      setFichaARenovar(null);
     }
   };
 
@@ -295,6 +308,7 @@ export function PaginaFichasMedicas() {
                 registrosPorPagina={fichasMedicasPorPagina}
                 onCambiarPagina={setPaginaActual}
                 onVerCertificado={verCertificado}
+                onRenovarFicha={renovarFicha}
               />
             )}
           </section>
@@ -306,6 +320,11 @@ export function PaginaFichasMedicas() {
             isOpen={modalCertificadoAbierto}
             onOpenChange={cambiarModalCertificado}
             ficha={fichaSeleccionada}
+          />
+          <RenovarFichaMedicaModal
+            isOpen={modalRenovacionAbierto}
+            onOpenChange={cambiarModalRenovacion}
+            ficha={fichaARenovar}
           />
         </div>
       </section>

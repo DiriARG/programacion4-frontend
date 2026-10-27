@@ -7,7 +7,7 @@ import {
   Pagination,
   Table,
 } from "@heroui/react";
-import { IconDotsVertical, IconEye } from "@tabler/icons-react";
+import { IconDotsVertical, IconEye, IconRefresh } from "@tabler/icons-react";
 import { formatearFecha } from "../../utils/formatearDiaYHora";
 
 // Muestra las observaciones de una ficha y permite expandirlas de manera independiente a las observaciones de las demás filas.
@@ -60,6 +60,7 @@ export function TablaFichasMedicas({
   registrosPorPagina = 10,
   onCambiarPagina,
   onVerCertificado,
+  onRenovarFicha,
 }) {
   const indiceInicial =
     totalElementos === 0 ? 0 : paginaActual * registrosPorPagina + 1;
@@ -149,6 +150,9 @@ export function TablaFichasMedicas({
                             if (accion === "ver-certificado") {
                               onVerCertificado?.(ficha);
                             }
+                            if (accion === "renovar-ficha") {
+                              onRenovarFicha?.(ficha);
+                            }
                           }}
                         >
                           <Dropdown.Item
@@ -157,6 +161,13 @@ export function TablaFichasMedicas({
                           >
                             <IconEye size={16} />
                             <Label>Ver certificado</Label>
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            id="renovar-ficha"
+                            textValue="Renovar ficha"
+                          >
+                            <IconRefresh size={16} />
+                            <Label>Renovar ficha</Label>
                           </Dropdown.Item>
                         </Dropdown.Menu>
                       </Dropdown.Popover>
