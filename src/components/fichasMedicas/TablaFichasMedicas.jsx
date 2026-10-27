@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Button, Pagination, Table, Chip } from "@heroui/react";
+import {
+  Button,
+  Chip,
+  Dropdown,
+  Label,
+  Pagination,
+  Table,
+} from "@heroui/react";
+import { IconDotsVertical, IconEye } from "@tabler/icons-react";
 import { formatearFecha } from "../../utils/formatearDiaYHora";
 
 // Muestra las observaciones de una ficha y permite expandirlas de manera independiente a las observaciones de las demás filas.
@@ -51,6 +59,7 @@ export function TablaFichasMedicas({
   totalElementos = 0,
   registrosPorPagina = 10,
   onCambiarPagina,
+  onVerCertificado,
 }) {
   const indiceInicial =
     totalElementos === 0 ? 0 : paginaActual * registrosPorPagina + 1;
@@ -69,6 +78,7 @@ export function TablaFichasMedicas({
             <Table.Column>Registro / actualización</Table.Column>
             <Table.Column>Vencimiento</Table.Column>
             <Table.Column>Observaciones</Table.Column>
+            <Table.Column>Acciones</Table.Column>
           </Table.Header>
 
           <Table.Body
@@ -121,6 +131,36 @@ export function TablaFichasMedicas({
                     <ContenidoObservaciones
                       observaciones={ficha.observaciones}
                     />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Dropdown>
+                      <Button
+                        isIconOnly
+                        variant="ghost"
+                        size="sm"
+                        aria-label={`Acciones de la ficha médica de ${ficha.alumnoNombre} ${ficha.alumnoApellido}`}
+                      >
+                        <IconDotsVertical size={18} />
+                      </Button>
+
+                      <Dropdown.Popover>
+                        <Dropdown.Menu
+                          onAction={(accion) => {
+                            if (accion === "ver-certificado") {
+                              onVerCertificado?.(ficha);
+                            }
+                          }}
+                        >
+                          <Dropdown.Item
+                            id="ver-certificado"
+                            textValue="Ver certificado"
+                          >
+                            <IconEye size={16} />
+                            <Label>Ver certificado</Label>
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown.Popover>
+                    </Dropdown>
                   </Table.Cell>
                 </Table.Row>
               );

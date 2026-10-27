@@ -16,6 +16,7 @@ import { TablaFichasMedicas } from "../components/fichasMedicas/TablaFichasMedic
 import { useAutenticacion } from "../context/AutenticacionContext";
 import { fichasMedicasService } from "../services/fichasMedicasService";
 import { RegistrarFichaMedicaModal } from "../components/modales/RegistrarFichaMedicaModal";
+import { VerCertificadoModal } from "../components/modales/VerCertificadoModal";
 
 const fichasMedicasPorPagina = 10;
 
@@ -33,7 +34,9 @@ export function PaginaFichasMedicas() {
   const [filtrosAplicados, setFiltrosAplicados] = useState(filtrosIniciales);
   const [paginaActual, setPaginaActual] = useState(0);
   const [modalRegistroAbierto, setModalRegistroAbierto] = useState(false);
-
+  const [fichaSeleccionada, setFichaSeleccionada] = useState(null);
+  // El modal se abre cuando hay una ficha seleccionada.
+  const modalCertificadoAbierto = Boolean(fichaSeleccionada);
   const rolPermitido = ["ADMIN_GESTION", "ADMIN_GENERAL"].includes(rol);
 
   const {
@@ -101,6 +104,18 @@ export function PaginaFichasMedicas() {
     setFiltrosFormulario({ ...filtrosIniciales });
     setFiltrosAplicados({ ...filtrosIniciales });
     setPaginaActual(0);
+  };
+
+  // Guarda la ficha elegida para visualizar su certificado.
+  const verCertificado = (ficha) => {
+    setFichaSeleccionada(ficha);
+  };
+
+  // Al cerrar el modal, se limpia la ficha seleccionada.
+  const cambiarModalCertificado = (abierto) => {
+    if (!abierto) {
+      setFichaSeleccionada(null);
+    }
   };
 
   return (
@@ -279,12 +294,18 @@ export function PaginaFichasMedicas() {
                 totalElementos={historialPaginado?.totalElements ?? 0}
                 registrosPorPagina={fichasMedicasPorPagina}
                 onCambiarPagina={setPaginaActual}
+                onVerCertificado={verCertificado}
               />
             )}
           </section>
           <RegistrarFichaMedicaModal
             isOpen={modalRegistroAbierto}
             onOpenChange={setModalRegistroAbierto}
+          />
+          <VerCertificadoModal
+            isOpen={modalCertificadoAbierto}
+            onOpenChange={cambiarModalCertificado}
+            ficha={fichaSeleccionada}
           />
         </div>
       </section>

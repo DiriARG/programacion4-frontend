@@ -34,6 +34,13 @@ export const fichasMedicasService = {
       .post(`/api/fichas-medicas/alumnos/${alumnoId}`, toFormData(datos))
       .then((res) => res.data);
   },
+  consultarCertificado: (fichaMedicaId) =>
+    api
+      .get(`/api/fichas-medicas/${fichaMedicaId}/certificado`, {
+        // Permite que axios entregue el contenido binario del certificado en lugar de tratarlo como JSON.
+        responseType: "blob",
+      })
+      .then((res) => res.data),
 };
 
 export default fichasMedicasService;
