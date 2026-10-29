@@ -1,7 +1,14 @@
 export const menuPorRol = {
   ALUMNO: [{ clave: "perfil", etiqueta: "Mi perfil" }],
 
-  PROFESOR: [{ clave: "perfil", etiqueta: "Mi perfil" }],
+  PROFESOR: [
+    { clave: "perfil", etiqueta: "Mi perfil" },
+    {
+      clave: "asistencias",
+      etiqueta: "Asistencias",
+      ruta: "/asistencias",
+    },
+  ],
 
   ADMIN_GESTION: [
     { clave: "perfil", etiqueta: "Mi perfil" },
@@ -14,6 +21,11 @@ export const menuPorRol = {
       clave: "turnos",
       etiqueta: "Turnos",
       ruta: "/turnos",
+    },
+    {
+      clave: "asistencias",
+      etiqueta: "Asistencias",
+      ruta: "/asistencias",
     },
   ],
 
@@ -43,6 +55,16 @@ export const menuPorRol = {
       clave: "turnos",
       etiqueta: "Turnos",
       ruta: "/turnos",
+    },
+    {
+      clave: "fichas-medicas",
+      etiqueta: "Fichas médicas",
+      ruta: "/fichas-medicas",
+    },
+    {
+      clave: "asistencias",
+      etiqueta: "Asistencias",
+      ruta: "/asistencias",
     },
   ],
 };
