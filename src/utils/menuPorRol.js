@@ -8,6 +8,11 @@ export const menuPorRol = {
       etiqueta: "Asistencias",
       ruta: "/asistencias",
     },
+    {
+      clave: "rutinas",
+      etiqueta: "Rutinas",
+      ruta: "/rutinas",
+    },
   ],
 
   ADMIN_GESTION: [
