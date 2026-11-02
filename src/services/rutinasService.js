@@ -14,6 +14,11 @@ export const rutinasService = {
         params: crearParametrosConsulta(filtros),
       })
       .then((res) => res.data),
+
+  consultarEjerciciosActivos: () =>
+    api.get("/api/ejercicios/activos").then((res) => res.data),
+
+  crearRutina: (data) => api.post("/api/rutinas", data).then((res) => res.data),
 };
 
 export default rutinasService;
