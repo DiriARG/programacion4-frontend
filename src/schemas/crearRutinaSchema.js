@@ -7,26 +7,26 @@ const idPositivoSchema = (mensaje) =>
     .string()
     .trim()
     .min(1, mensaje)
-    .refine(
-      (valor) => valor === "" || /^[1-9]\d*$/.test(valor),
-      "El identificador seleccionado no es válido.",
-    )
-    .transform(Number);
+    .pipe(
+      z
+        .string()
+        .regex(/^[1-9]\d*$/, "El identificador seleccionado no es válido.")
+        .transform(Number),
+    );
 
 const enteroPositivoSchema = (mensaje) =>
   z
     .string()
     .trim()
     .min(1, mensaje)
-    .refine(
-      (valor) => valor === "" || /^[1-9]\d*$/.test(valor),
-      "Ingresá un número entero mayor que cero.",
-    )
-    .transform(Number);
-
+    .pipe(
+      z
+        .string()
+        .regex(/^[1-9]\d*$/, "Ingresá un número entero mayor que cero.")
+        .transform(Number),
+    );
 
 const ejercicioRutinaSchema = z.object({
-  // Este mensaje corresponde a un campo vacío.
   ejercicioId: idPositivoSchema("Seleccioná un ejercicio."),
 
   series: enteroPositivoSchema("La cantidad de series es obligatoria."),
@@ -36,21 +36,29 @@ const ejercicioRutinaSchema = z.object({
   ),
 
   peso: z
-  .string()
-  .trim()
-  .refine(
-    (valor) => valor === "" || /^(?:\d{1,3})(?:\.\d{1,2})?$/.test(valor),
-    "El peso debe tener como máximo 3 enteros y 2 decimales.",
-  )
-  .transform((valor) => (valor === "" ? null : Number(valor))),
+    .string()
+    .trim()
+    .pipe(
+      z
+        .string()
+        .refine(
+          (valor) => valor === "" || /^(?:\d{1,3})(?:\.\d{1,2})?$/.test(valor),
+          "El peso debe tener como máximo 3 enteros y 2 decimales.",
+        )
+        .transform((valor) => (valor === "" ? null : Number(valor))),
+    ),
 
   diaSemana: z
     .string()
     .trim()
     .min(1, "Seleccioná un día de la semana.")
-    .refine(
-      (dia) => Object.hasOwn(nombresDias, dia),
-      "El día de la semana no es válido.",
+    .pipe(
+      z
+        .string()
+        .refine(
+          (dia) => Object.hasOwn(nombresDias, dia),
+          "El día de la semana no es válido.",
+        ),
     ),
 });
 
