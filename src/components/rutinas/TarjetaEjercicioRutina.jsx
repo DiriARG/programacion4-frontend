@@ -73,40 +73,58 @@ export function TarjetaEjercicioRutina({
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <CampoFormulario
-          label="Series"
-          type="number"
-          min="1"
-          step="1"
-          placeholder="Ej.: 3"
-          registration={register(`ejercicios.${indice}.series`)}
-          error={errores?.series?.message}
-          isRequired
-          isDisabled={isDisabled}
+        <Controller
+          name={`ejercicios.${indice}.series`}
+          control={control}
+          render={({ field }) => (
+            <CampoFormulario
+              label="Series"
+              type="number"
+              min="1"
+              step="1"
+              placeholder="Ej.: 3"
+              registration={field}
+              error={errores?.series?.message}
+              isRequired
+              isDisabled={isDisabled}
+            />
+          )}
         />
 
-        <CampoFormulario
-          label="Repeticiones"
-          type="number"
-          min="1"
-          step="1"
-          placeholder="Ej.: 12"
-          registration={register(`ejercicios.${indice}.repeticiones`)}
-          error={errores?.repeticiones?.message}
-          isRequired
-          isDisabled={isDisabled}
+        <Controller
+          name={`ejercicios.${indice}.repeticiones`}
+          control={control}
+          render={({ field }) => (
+            <CampoFormulario
+              label="Repeticiones"
+              type="number"
+              min="1"
+              step="1"
+              placeholder="Ej.: 12"
+              registration={field}
+              error={errores?.repeticiones?.message}
+              isRequired
+              isDisabled={isDisabled}
+            />
+          )}
         />
 
-        <CampoFormulario
-          label="Peso (kg)"
-          type="number"
-          min="0"
-          max="999.99"
-          step="0.01"
-          placeholder="Opcional"
-          registration={register(`ejercicios.${indice}.peso`)}
-          error={errores?.peso?.message}
-          isDisabled={isDisabled}
+        <Controller
+          name={`ejercicios.${indice}.peso`}
+          control={control}
+          render={({ field }) => (
+            <CampoFormulario
+              label="Peso (kg)"
+              type="number"
+              min="0"
+              max="999.99"
+              step="0.01"
+              placeholder="Opcional"
+              registration={field}
+              error={errores?.peso?.message}
+              isDisabled={isDisabled}
+            />
+          )}
         />
 
         <SelectDiaSemana

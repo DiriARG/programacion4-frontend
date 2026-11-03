@@ -1,4 +1,12 @@
-import { Chip, Pagination, Table } from "@heroui/react";
+import {
+  Button,
+  Chip,
+  Dropdown,
+  Label,
+  Pagination,
+  Table,
+} from "@heroui/react";
+import { IconDotsVertical, IconEdit } from "@tabler/icons-react";
 import { formatearFecha } from "../../utils/formatearDiaYHora";
 
 export function TablaRutinas({
@@ -8,6 +16,7 @@ export function TablaRutinas({
   totalElementos = 0,
   registrosPorPagina = 10,
   onCambiarPagina,
+  onModificarRutina,
 }) {
   const indiceInicial =
     totalElementos === 0 ? 0 : paginaActual * registrosPorPagina + 1;
@@ -26,6 +35,7 @@ export function TablaRutinas({
             <Table.Column>Rutina</Table.Column>
             <Table.Column>Fecha de creación</Table.Column>
             <Table.Column>Estado</Table.Column>
+            <Table.Column>Acciones</Table.Column>
           </Table.Header>
 
           <Table.Body
@@ -69,6 +79,47 @@ export function TablaRutinas({
                   >
                     {rutina.activa ? "Activa" : "Inactiva"}
                   </Chip>
+                </Table.Cell>
+
+                <Table.Cell>
+                  <Dropdown>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      aria-label={`Acciones de la rutina ${rutina.nombre}`}
+                    >
+                      <IconDotsVertical size={18} />
+                    </Button>
+
+                    <Dropdown.Popover>
+                      <Dropdown.Menu
+                        onAction={(accion) => {
+                          if (accion === "modificar-rutina") {
+                            onModificarRutina?.(rutina);
+                          }
+                        }}
+                      >
+                        {rutina.activa ? (
+                          <Dropdown.Item
+                            id="modificar-rutina"
+                            textValue="Modificar rutina"
+                          >
+                            <IconEdit size={16} />
+                            <Label>Modificar rutina</Label>
+                          </Dropdown.Item>
+                        ) : (
+                          <Dropdown.Item
+                            id="sin-acciones"
+                            textValue="Sin acciones disponibles"
+                            isDisabled
+                          >
+                            <Label>Sin acciones disponibles</Label>
+                          </Dropdown.Item>
+                        )}
+                      </Dropdown.Menu>
+                    </Dropdown.Popover>
+                  </Dropdown>
                 </Table.Cell>
               </Table.Row>
             )}

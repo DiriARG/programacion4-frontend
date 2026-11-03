@@ -15,6 +15,7 @@ import { TablaRutinas } from "../components/rutinas/TablaRutinas";
 import { useAutenticacion } from "../context/AutenticacionContext";
 import { rutinasService } from "../services/rutinasService";
 import { CrearRutinaModal } from "../components/rutinas/CrearRutinaModal";
+import { ModificarRutinaModal } from "../components/rutinas/ModificarRutinaModal";
 
 const rutinasPorPagina = 10;
 
@@ -30,6 +31,7 @@ export function PaginaRutinas() {
   const [filtrosAplicados, setFiltrosAplicados] = useState(filtrosIniciales);
   const [paginaActual, setPaginaActual] = useState(0);
   const [modalCrearRutinaAbierto, setModalCrearRutinaAbierto] = useState(false);
+  const [rutinaAModificar, setRutinaAModificar] = useState(null);
   const rolPermitido = rol === "PROFESOR";
 
   const {
@@ -238,12 +240,22 @@ export function PaginaRutinas() {
                 totalElementos={rutinasPaginadas?.totalElements ?? 0}
                 registrosPorPagina={rutinasPorPagina}
                 onCambiarPagina={setPaginaActual}
+                onModificarRutina={setRutinaAModificar}
               />
             )}
           </section>
           <CrearRutinaModal
             isOpen={modalCrearRutinaAbierto}
             onOpenChange={setModalCrearRutinaAbierto}
+          />
+          <ModificarRutinaModal
+            isOpen={rutinaAModificar !== null}
+            onOpenChange={(abierto) => {
+              if (!abierto) {
+                setRutinaAModificar(null);
+              }
+            }}
+            rutina={rutinaAModificar}
           />
         </div>
       </section>
