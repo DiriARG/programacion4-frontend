@@ -6,6 +6,7 @@ import {
   IconFilter,
   IconRefresh,
   IconSearch,
+  IconPlus,
 } from "@tabler/icons-react";
 import { Link } from "react-router";
 
@@ -13,6 +14,7 @@ import { CampoFormulario } from "../components/comunes/CampoFormulario";
 import { TablaRutinas } from "../components/rutinas/TablaRutinas";
 import { useAutenticacion } from "../context/AutenticacionContext";
 import { rutinasService } from "../services/rutinasService";
+import { CrearRutinaModal } from "../components/rutinas/CrearRutinaModal";
 
 const rutinasPorPagina = 10;
 
@@ -27,7 +29,7 @@ export function PaginaRutinas() {
   const [filtrosFormulario, setFiltrosFormulario] = useState(filtrosIniciales);
   const [filtrosAplicados, setFiltrosAplicados] = useState(filtrosIniciales);
   const [paginaActual, setPaginaActual] = useState(0);
-
+  const [modalCrearRutinaAbierto, setModalCrearRutinaAbierto] = useState(false);
   const rolPermitido = rol === "PROFESOR";
 
   const {
@@ -43,8 +45,8 @@ export function PaginaRutinas() {
         activa:
           filtrosAplicados.estado === "TODAS"
             ? ""
-            // El backend espera un Boolean (activa) por lo tanto cuando el estado seleccionado es "ACTIVA", devuelve true, pero cuando es "INACTIVA", devuelve false.
-            : filtrosAplicados.estado === "ACTIVA",
+            : // El backend espera un Boolean (activa) por lo tanto cuando el estado seleccionado es "ACTIVA", devuelve true, pero cuando es "INACTIVA", devuelve false.
+              filtrosAplicados.estado === "ACTIVA",
         page: paginaActual,
         size: rutinasPorPagina,
       };
@@ -183,14 +185,26 @@ export function PaginaRutinas() {
           </form>
 
           <section className="mt-8 space-y-4">
-            <div>
-              <h2 className="font-titulos text-lg tracking-[0.08em] text-hueso uppercase">
-                Listado de rutinas
-              </h2>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="font-titulos text-lg tracking-[0.08em] text-hueso uppercase">
+                  Listado de rutinas
+                </h2>
 
-              <p className="mt-1 text-sm text-hierro-400">
-                Consultá la información general y el estado de cada rutina.
-              </p>
+                <p className="mt-1 text-sm text-hierro-400">
+                  Consultá la información general y el estado de cada rutina.
+                </p>
+              </div>
+
+              <Button
+                type="button"
+                variant="primary"
+                size="md"
+                onPress={() => setModalCrearRutinaAbierto(true)}
+              >
+                <IconPlus size={16} />
+                Crear rutina
+              </Button>
             </div>
 
             {isPending ? (
@@ -227,6 +241,10 @@ export function PaginaRutinas() {
               />
             )}
           </section>
+          <CrearRutinaModal
+            isOpen={modalCrearRutinaAbierto}
+            onOpenChange={setModalCrearRutinaAbierto}
+          />
         </div>
       </section>
     </main>
