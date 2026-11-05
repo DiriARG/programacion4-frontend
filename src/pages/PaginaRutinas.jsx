@@ -16,6 +16,7 @@ import { useAutenticacion } from "../context/AutenticacionContext";
 import { rutinasService } from "../services/rutinasService";
 import { CrearRutinaModal } from "../components/rutinas/CrearRutinaModal";
 import { ModificarRutinaModal } from "../components/rutinas/ModificarRutinaModal";
+import { DetalleRutinaModal } from "../components/rutinas/DetalleRutinaModal";
 
 const rutinasPorPagina = 10;
 
@@ -32,6 +33,7 @@ export function PaginaRutinas() {
   const [paginaActual, setPaginaActual] = useState(0);
   const [modalCrearRutinaAbierto, setModalCrearRutinaAbierto] = useState(false);
   const [rutinaAModificar, setRutinaAModificar] = useState(null);
+  const [rutinaAConsultar, setRutinaAConsultar] = useState(null);
   const rolPermitido = rol === "PROFESOR";
 
   const {
@@ -241,6 +243,7 @@ export function PaginaRutinas() {
                 registrosPorPagina={rutinasPorPagina}
                 onCambiarPagina={setPaginaActual}
                 onModificarRutina={setRutinaAModificar}
+                onVerDetalleRutina={setRutinaAConsultar}
               />
             )}
           </section>
@@ -256,6 +259,15 @@ export function PaginaRutinas() {
               }
             }}
             rutina={rutinaAModificar}
+          />
+          <DetalleRutinaModal
+            isOpen={rutinaAConsultar !== null}
+            onOpenChange={(abierto) => {
+              if (!abierto) {
+                setRutinaAConsultar(null);
+              }
+            }}
+            rutina={rutinaAConsultar}
           />
         </div>
       </section>

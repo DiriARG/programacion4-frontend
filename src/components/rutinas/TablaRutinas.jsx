@@ -6,7 +6,7 @@ import {
   Pagination,
   Table,
 } from "@heroui/react";
-import { IconDotsVertical, IconEdit } from "@tabler/icons-react";
+import { IconDotsVertical, IconEdit, IconEye } from "@tabler/icons-react";
 import { formatearFecha } from "../../utils/formatearDiaYHora";
 
 export function TablaRutinas({
@@ -17,6 +17,7 @@ export function TablaRutinas({
   registrosPorPagina = 10,
   onCambiarPagina,
   onModificarRutina,
+  onVerDetalleRutina,
 }) {
   const indiceInicial =
     totalElementos === 0 ? 0 : paginaActual * registrosPorPagina + 1;
@@ -95,11 +96,20 @@ export function TablaRutinas({
                     <Dropdown.Popover>
                       <Dropdown.Menu
                         onAction={(accion) => {
+                          if (accion === "ver-detalle") {
+                            onVerDetalleRutina?.(rutina);
+                          }
+
                           if (accion === "modificar-rutina") {
                             onModificarRutina?.(rutina);
                           }
                         }}
                       >
+                        <Dropdown.Item id="ver-detalle" textValue="Ver detalle">
+                          <IconEye size={16} />
+                          <Label>Ver detalle</Label>
+                        </Dropdown.Item>
+
                         {rutina.activa ? (
                           <Dropdown.Item
                             id="modificar-rutina"
@@ -108,15 +118,7 @@ export function TablaRutinas({
                             <IconEdit size={16} />
                             <Label>Modificar rutina</Label>
                           </Dropdown.Item>
-                        ) : (
-                          <Dropdown.Item
-                            id="sin-acciones"
-                            textValue="Sin acciones disponibles"
-                            isDisabled
-                          >
-                            <Label>Sin acciones disponibles</Label>
-                          </Dropdown.Item>
-                        )}
+                        ) : null}
                       </Dropdown.Menu>
                     </Dropdown.Popover>
                   </Dropdown>
