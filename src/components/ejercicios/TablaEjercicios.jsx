@@ -1,4 +1,5 @@
 import { Chip, Pagination, Table } from "@heroui/react";
+import { TextoExpandible } from "../comunes/TextoExpandible";
 
 export function TablaEjercicios({
   ejercicios = [],
@@ -51,11 +52,11 @@ export function TablaEjercicios({
                 </Table.Cell>
 
                 <Table.Cell>
-                  <div className="max-w-sm">
-                    <p className="line-clamp-2 break-words text-sm text-hierro-200">
-                      {ejercicio.descripcion?.trim() || "Sin descripción"}
-                    </p>
-                  </div>
+                  <TextoExpandible
+                    texto={ejercicio.descripcion}
+                    mensajeVacio="Sin descripción"
+                    className="max-w-sm"
+                  />
                 </Table.Cell>
 
                 <Table.Cell>

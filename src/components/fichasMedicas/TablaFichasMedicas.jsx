@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Button,
   Chip,
@@ -9,48 +8,7 @@ import {
 } from "@heroui/react";
 import { IconDotsVertical, IconEye, IconRefresh } from "@tabler/icons-react";
 import { formatearFecha } from "../../utils/formatearDiaYHora";
-
-// Muestra las observaciones de una ficha y permite expandirlas de manera independiente a las observaciones de las demás filas.
-function ContenidoObservaciones({ observaciones }) {
-  const [expandida, setExpandida] = useState(false);
-
-  const observacion = observaciones?.trim() ?? "";
-
-  if (!observacion) {
-    return <span className="text-sm text-hierro-400">Sin observaciones</span>;
-  }
-
-  return (
-    // Se limita el ancho para que las observaciones no ensanchen la tabla.
-    <div className="max-w-xs">
-      {/* Mostramos dos líneas inicialmente y el texto completo al expandir. */}
-      <p
-        className={`break-words text-sm text-hierro-200 ${
-          // Contrae el texto a dos líneas, salvo que el usuario lo expanda.
-          expandida ? "" : "line-clamp-2"
-        }`}
-      >
-        {observacion}
-      </p>
-
-      {/* Solo mostramos el botón cuando el texto podría necesitar expansión. */}
-      {observacion.length > 70 ? (
-        <Button
-          type="button"
-          variant="secondary"
-          size="sm"
-          className="mt-1"
-          // Informa si el contenido de esta fila está expandido.
-          aria-expanded={expandida}
-          // Cambia el estado únicamente para esta ficha.
-          onPress={() => setExpandida((actual) => !actual)}
-        >
-          {expandida ? "Ver menos" : "Ver completa"}
-        </Button>
-      ) : null}
-    </div>
-  );
-}
+import { TextoExpandible } from "../comunes/TextoExpandible";
 
 export function TablaFichasMedicas({
   fichasMedicas = [],
@@ -129,8 +87,9 @@ export function TablaFichasMedicas({
                   </Table.Cell>
 
                   <Table.Cell>
-                    <ContenidoObservaciones
-                      observaciones={ficha.observaciones}
+                    <TextoExpandible
+                      texto={ficha.observaciones}
+                      mensajeVacio="Sin observaciones"
                     />
                   </Table.Cell>
                   <Table.Cell>
