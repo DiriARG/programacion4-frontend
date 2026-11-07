@@ -11,6 +11,7 @@ import { PaginaTurnos } from "./pages/PaginaTurnos";
 import { PaginaAsistencias } from "./pages/PaginaAsistencias";
 import { PaginaFichasMedicas } from "./pages/PaginaFichasMedicas";
 import { PaginaRutinas } from "./pages/PaginaRutinas";
+import { PaginaEjercicios } from "./pages/PaginaEjercicios";
 
 function App() {
   return (
@@ -48,6 +49,8 @@ function App() {
         />
 
         <Route path="/planes" element={<PaginaPlanes />} />
+
+        <Route path="/ejercicios" element={<PaginaEjercicios />} />
       </Route>
 
       <Route

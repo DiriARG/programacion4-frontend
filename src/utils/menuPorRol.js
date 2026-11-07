@@ -62,14 +62,19 @@ export const menuPorRol = {
       ruta: "/turnos",
     },
     {
+      clave: "asistencias",
+      etiqueta: "Asistencias",
+      ruta: "/asistencias",
+    },
+    {
       clave: "fichas-medicas",
       etiqueta: "Fichas médicas",
       ruta: "/fichas-medicas",
     },
     {
-      clave: "asistencias",
-      etiqueta: "Asistencias",
-      ruta: "/asistencias",
+      clave: "ejercicios",
+      etiqueta: "Catálogo de ejercicios",
+      ruta: "/ejercicios",
     },
   ],
 };
