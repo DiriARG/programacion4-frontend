@@ -6,6 +6,7 @@ import {
   IconFilter,
   IconRefresh,
   IconSearch,
+  IconPlus,
 } from "@tabler/icons-react";
 import { Link } from "react-router";
 
@@ -13,6 +14,7 @@ import { CampoFormulario } from "../components/comunes/CampoFormulario";
 import { TablaEjercicios } from "../components/ejercicios/TablaEjercicios";
 import { useAutenticacion } from "../context/AutenticacionContext";
 import { ejerciciosService } from "../services/ejerciciosService";
+import { CrearEjercicioModal } from "../components/ejercicios/CrearEjercicioModal";
 
 const ejerciciosPorPagina = 10;
 
@@ -27,6 +29,8 @@ export function PaginaEjercicios() {
   const [filtrosFormulario, setFiltrosFormulario] = useState(filtrosIniciales);
   const [filtrosAplicados, setFiltrosAplicados] = useState(filtrosIniciales);
   const [paginaActual, setPaginaActual] = useState(0);
+  const [modalCrearEjercicioAbierto, setModalCrearEjercicioAbierto] =
+    useState(false);
   const rolPermitido = rol === "ADMIN_GENERAL";
 
   const {
@@ -103,8 +107,8 @@ export function PaginaEjercicios() {
               </h1>
 
               <p className="mt-3 max-w-2xl text-sm text-hierro-400">
-                Consultá los ejercicios disponibles, sus grupos
-                musculares y su estado de actividad.
+                Consultá los ejercicios disponibles, sus grupos musculares y su
+                estado de actividad.
               </p>
             </div>
           </div>
@@ -188,14 +192,26 @@ export function PaginaEjercicios() {
           </form>
 
           <section className="mt-8 space-y-4">
-            <div>
-              <h2 className="font-titulos text-lg tracking-[0.08em] text-hueso uppercase">
-                Listado de ejercicios
-              </h2>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="font-titulos text-lg tracking-[0.08em] text-hueso uppercase">
+                  Listado de ejercicios
+                </h2>
 
-              <p className="mt-1 text-sm text-hierro-400">
-                Ejercicios registrados en el sistema.
-              </p>
+                <p className="mt-1 text-sm text-hierro-400">
+                  Ejercicios registrados en el sistema.
+                </p>
+              </div>
+
+              <Button
+                type="button"
+                variant="primary"
+                size="md"
+                onPress={() => setModalCrearEjercicioAbierto(true)}
+              >
+                <IconPlus size={16} />
+                Crear ejercicio
+              </Button>
             </div>
 
             {isPending ? (
@@ -232,6 +248,10 @@ export function PaginaEjercicios() {
               />
             )}
           </section>
+          <CrearEjercicioModal
+            isOpen={modalCrearEjercicioAbierto}
+            onOpenChange={setModalCrearEjercicioAbierto}
+          />
         </div>
       </section>
     </main>
