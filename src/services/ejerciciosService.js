@@ -16,6 +16,16 @@ export const ejerciciosService = {
       })
       .then((res) => res.data),
 
+  consultarEjerciciosActivos: () =>
+    api.get("/api/ejercicios/activos").then((res) => res.data),
+
+  consultarImagenEjercicio: (ejercicioId) =>
+    api
+      .get(`/api/ejercicios/${ejercicioId}/imagen`, {
+        responseType: "blob",
+      })
+      .then((res) => res.data),
+
   crearEjercicio: (data) => {
     const datos = {
       nombre: data.nombre,

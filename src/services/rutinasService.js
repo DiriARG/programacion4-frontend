@@ -18,16 +18,6 @@ export const rutinasService = {
   consultarRutina: (rutinaId) =>
     api.get(`/api/rutinas/${rutinaId}`).then((res) => res.data),
 
-  consultarImagenEjercicio: (ejercicioId) =>
-    api
-      .get(`/api/ejercicios/${ejercicioId}/imagen`, {
-        responseType: "blob",
-      })
-      .then((res) => res.data),
-
-  consultarEjerciciosActivos: () =>
-    api.get("/api/ejercicios/activos").then((res) => res.data),
-
   crearRutina: (data) => api.post("/api/rutinas", data).then((res) => res.data),
 
   modificarRutina: (rutinaId, data) =>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, Separator, Spinner } from "@heroui/react";
 
-import { rutinasService } from "../../services/rutinasService";
+import { ejerciciosService } from "../../services/ejerciciosService";
 
 const TIPOS_IMAGEN_PERMITIDOS = ["image/jpeg", "image/png"];
 
@@ -17,7 +17,7 @@ export function TarjetaEjercicioDetalle({ ejercicio }) {
   const { data: imagen, isPending } = useQuery({
     queryKey: ["ejercicios", ejercicio.ejercicioId, "imagen"],
     queryFn: async () => {
-      const archivo = await rutinasService.consultarImagenEjercicio(
+      const archivo = await ejerciciosService.consultarImagenEjercicio(
         ejercicio.ejercicioId,
       );
 

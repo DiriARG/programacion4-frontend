@@ -10,6 +10,7 @@ import { SelectorAlumnoRutina } from "./SelectorAlumnoRutina";
 import { SelectorEjercicioRutina } from "./SelectorEjercicioRutina";
 import { TarjetaEjercicioRutina } from "./TarjetaEjercicioRutina";
 import { crearRutinaSchema } from "../../schemas/crearRutinaSchema";
+import { ejerciciosService } from "../../services/ejerciciosService";
 import { rutinasService } from "../../services/rutinasService";
 import { usuariosService } from "../../services/usuariosService";
 
@@ -126,7 +127,7 @@ export function CrearRutinaModal({ isOpen, onOpenChange }) {
     refetch: refetchEjercicios,
   } = useQuery({
     queryKey: ["ejercicios", "activos"],
-    queryFn: rutinasService.consultarEjerciciosActivos,
+    queryFn: ejerciciosService.consultarEjerciciosActivos,
     enabled: isOpen,
   });
 
