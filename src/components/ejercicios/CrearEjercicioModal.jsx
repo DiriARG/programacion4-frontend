@@ -58,7 +58,7 @@ export function CrearEjercicioModal({ isOpen, onOpenChange }) {
   }, [isOpen, reset]);
 
   const quitarImagen = () => {
-    /* Se le indica a RHF que modifique el valor del campo "imagen" (register) y lo establezca en null (sin archivo).
+    /* Se le indica a RHF que modifique el valor del campo "imagen" del formulario y lo establezca en null (sin archivo). --> esa es la función de setValue.
     Se utiliza null y no "undefined" acá y en obtenerValoresIniciales porque RHF no admite undefined como segundo argumento de setValue. */
     setValue("imagen", null, {
       // Recalcula si el campo fue modificado respecto de sus valores iniciales.
@@ -214,7 +214,7 @@ export function CrearEjercicioModal({ isOpen, onOpenChange }) {
                       id="imagen"
                       type="file"
                       className="hidden"
-                      accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+                      accept="image/jpeg,image/png"
                       name={imagenRegistro.name}
                       onBlur={imagenRegistro.onBlur}
                       onChange={imagenRegistro.onChange}

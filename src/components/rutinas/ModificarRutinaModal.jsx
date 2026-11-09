@@ -11,6 +11,7 @@ import { SelectorEjercicioRutina } from "./SelectorEjercicioRutina";
 import { TarjetaEjercicioRutina } from "./TarjetaEjercicioRutina";
 import { modificarRutinaSchema } from "../../schemas/modificarRutinaSchema";
 import { rutinasService } from "../../services/rutinasService";
+import { ejerciciosService } from "../../services/ejerciciosService";
 
 const valoresIniciales = {
   nombre: "",
@@ -119,7 +120,7 @@ export function ModificarRutinaModal({ isOpen, onOpenChange, rutina }) {
     refetch: refetchEjercicios,
   } = useQuery({
     queryKey: ["ejercicios", "activos"],
-    queryFn: rutinasService.consultarEjerciciosActivos,
+    queryFn: ejerciciosService.consultarEjerciciosActivos,
     enabled: isOpen,
   });
 
