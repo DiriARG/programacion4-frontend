@@ -39,6 +39,27 @@ export const ejerciciosService = {
       .post("/api/ejercicios", toFormData(datos))
       .then((res) => res.data);
   },
+
+  modificarEjercicio: (ejercicioId, data) => {
+    /* Comprueba si el admin seleccionó un archivo nuevo:
+    Si no seleccionó una imagen, data.imagen vale null --> false.
+    Si seleccionó una imagen, data.imagen contiene un objeto File --> true. */
+    const tieneImagenNueva = Boolean(data.imagen);
+
+    const datos = {
+      nombre: data.nombre,
+      grupoMuscular: data.grupoMuscular,
+      ...(data.descripcion ? { descripcion: data.descripcion } : {}),
+      ...(tieneImagenNueva ? { imagen: data.imagen } : {}),
+      /* Si hay una imagen nueva, no se solicita su eliminación porque se reemplazará a la anterior.
+      Caso contrario, respeta la decisión del admin de conservarla (false) o eliminarla (true).*/
+      eliminarImagen: tieneImagenNueva ? false : data.eliminarImagen,
+    };
+
+    return api
+      .put(`/api/ejercicios/${ejercicioId}`, toFormData(datos))
+      .then((res) => res.data);
+  },
 };
 
 export default ejerciciosService;

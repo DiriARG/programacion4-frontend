@@ -15,6 +15,7 @@ import { TablaEjercicios } from "../components/ejercicios/TablaEjercicios";
 import { useAutenticacion } from "../context/AutenticacionContext";
 import { ejerciciosService } from "../services/ejerciciosService";
 import { CrearEjercicioModal } from "../components/ejercicios/CrearEjercicioModal";
+import { ModificarEjercicioModal } from "../components/ejercicios/ModificarEjercicioModal";
 
 const ejerciciosPorPagina = 10;
 
@@ -31,6 +32,8 @@ export function PaginaEjercicios() {
   const [paginaActual, setPaginaActual] = useState(0);
   const [modalCrearEjercicioAbierto, setModalCrearEjercicioAbierto] =
     useState(false);
+  const [ejercicioAModificar, setEjercicioAModificar] = useState(null);
+
   const rolPermitido = rol === "ADMIN_GENERAL";
 
   const {
@@ -245,12 +248,22 @@ export function PaginaEjercicios() {
                 totalElementos={ejerciciosPaginados?.totalElements ?? 0}
                 registrosPorPagina={ejerciciosPorPagina}
                 onCambiarPagina={setPaginaActual}
+                onModificarEjercicio={setEjercicioAModificar}
               />
             )}
           </section>
           <CrearEjercicioModal
             isOpen={modalCrearEjercicioAbierto}
             onOpenChange={setModalCrearEjercicioAbierto}
+          />
+          <ModificarEjercicioModal
+            isOpen={ejercicioAModificar !== null}
+            onOpenChange={(abierto) => {
+              if (!abierto) {
+                setEjercicioAModificar(null);
+              }
+            }}
+            ejercicio={ejercicioAModificar}
           />
         </div>
       </section>
