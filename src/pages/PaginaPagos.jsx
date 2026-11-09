@@ -4,7 +4,7 @@ import { Button, Label, ListBox, Select, Spinner } from "@heroui/react";
 import {
   IconArrowLeft,
   IconFilter,
-  IconPlus,
+  IconCalendarPlus,
   IconRefresh,
   IconSearch,
 } from "@tabler/icons-react";
@@ -205,7 +205,7 @@ export function PaginaPagos() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="font-titulos text-lg tracking-[0.08em] text-hueso uppercase">
-                  Registros de cobro
+                  Registros
                 </h2>
                 <p className="mt-1 text-sm text-hierro-400">
                   Ordenados desde la transacción más reciente.
@@ -218,7 +218,7 @@ export function PaginaPagos() {
                 size="md"
                 onPress={() => setModalRegistroAbierto(true)}
               >
-                <IconPlus size={16} /> Registrar nuevo pago
+                <IconCalendarPlus size={16} /> Registrar nuevo pago
               </Button>
             </div>
 
