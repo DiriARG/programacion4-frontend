@@ -15,7 +15,7 @@ export function TarjetaEjercicioDetalle({ ejercicio }) {
   const tieneImagen = Boolean(ejercicio.imagenUrl && ejercicio.ejercicioId);
 
   const { data: imagen, isPending } = useQuery({
-    queryKey: ["ejercicios", ejercicio.ejercicioId, "imagen"],
+    queryKey: ["imagenesEjercicios", ejercicio.ejercicioId],
     queryFn: async () => {
       const archivo = await ejerciciosService.consultarImagenEjercicio(
         ejercicio.ejercicioId,
@@ -40,7 +40,8 @@ export function TarjetaEjercicioDetalle({ ejercicio }) {
     // Al recibir una nueva imagen se pone false para intentar volver a mostrarla.
     setErrorVisualizacion(false);
 
-    if (!imagen) {
+    // Si el ejercicio ya no tiene imagen (ej, fue eliminada al modificar el ejercicio) o la consolta aún no devolvió el archivo, se limpia la URL temporal.
+    if (!tieneImagen || !imagen) {
       setUrlImagen("");
       return;
     }
@@ -52,7 +53,7 @@ export function TarjetaEjercicioDetalle({ ejercicio }) {
     return () => {
       URL.revokeObjectURL(urlTemporal);
     };
-  }, [imagen]);
+  }, [tieneImagen, imagen]);
 
   // Existe una URL temporal de la imagen y el navegador no informó un error al mostrarla.
   const mostrarImagen = Boolean(urlImagen) && !errorVisualizacion;
