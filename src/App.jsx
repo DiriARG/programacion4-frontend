@@ -12,6 +12,7 @@ import { PaginaAsistencias } from "./pages/PaginaAsistencias";
 import { PaginaFichasMedicas } from "./pages/PaginaFichasMedicas";
 import { PaginaRutinas } from "./pages/PaginaRutinas";
 import { PaginaEjercicios } from "./pages/PaginaEjercicios";
+import { PaginaRutinaAlumno } from "./pages/PaginaRutinaAlumno";
 
 function App() {
   return (
@@ -68,6 +69,10 @@ function App() {
       </Route>
 
       <Route path="*" element={<PaginaNoEncontrada />} />
+
+      <Route element={<RutaPrivada rolesPermitidos={["ALUMNO"]} />}>
+        <Route path="/mi-rutina" element={<PaginaRutinaAlumno />} />
+      </Route>
     </Routes>
   );
 }

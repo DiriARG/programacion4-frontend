@@ -1,5 +1,12 @@
 export const menuPorRol = {
-  ALUMNO: [{ clave: "perfil", etiqueta: "Mi perfil" }],
+  ALUMNO: [
+    { clave: "perfil", etiqueta: "Mi perfil" },
+    {
+      clave: "rutina",
+      etiqueta: "Mi rutina",
+      ruta: "/mi-rutina",
+    },
+  ],
 
   PROFESOR: [
     { clave: "perfil", etiqueta: "Mi perfil" },

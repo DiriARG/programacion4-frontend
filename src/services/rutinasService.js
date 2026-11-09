@@ -18,6 +18,9 @@ export const rutinasService = {
   consultarRutina: (rutinaId) =>
     api.get(`/api/rutinas/${rutinaId}`).then((res) => res.data),
 
+  consultarRutinaActual: () =>
+    api.get("/api/rutinas/actual").then((res) => res.data),
+
   crearRutina: (data) => api.post("/api/rutinas", data).then((res) => res.data),
 
   modificarRutina: (rutinaId, data) =>
