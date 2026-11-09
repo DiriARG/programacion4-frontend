@@ -32,6 +32,11 @@ export const menuPorRol = {
       etiqueta: "Asistencias",
       ruta: "/asistencias",
     },
+     {
+      clave: "pagos",
+      etiqueta: "Pagos",
+      ruta: "/pagos",
+    },
   ],
 
   ADMIN_GENERAL: [
@@ -70,6 +75,11 @@ export const menuPorRol = {
       clave: "fichas-medicas",
       etiqueta: "Fichas médicas",
       ruta: "/fichas-medicas",
+    },
+    {
+      clave: "pagos",
+      etiqueta: "Pagos",
+      ruta: "/pagos",
     },
     {
       clave: "ejercicios",

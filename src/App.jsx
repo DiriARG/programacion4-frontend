@@ -12,6 +12,7 @@ import { PaginaAsistencias } from "./pages/PaginaAsistencias";
 import { PaginaFichasMedicas } from "./pages/PaginaFichasMedicas";
 import { PaginaRutinas } from "./pages/PaginaRutinas";
 import { PaginaEjercicios } from "./pages/PaginaEjercicios";
+import { PaginaPagos } from "./pages/PaginaPagos";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" element={<PaginaLogin />} />
       </Route>
 
+      {/* Rutas para ADMIN_GESTION y ADMIN_GENERAL */}
       <Route
         element={
           <RutaPrivada rolesPermitidos={["ADMIN_GESTION", "ADMIN_GENERAL"]} />
@@ -36,7 +38,11 @@ function App() {
         <Route path="/turnos" element={<PaginaTurnos />} />
 
         <Route path="/fichas-medicas" element={<PaginaFichasMedicas />} />
+
+        <Route path="/pagos" element={<PaginaPagos />} />
       </Route>
+
+      {/* Rutas exclusivas para ADMIN_GENERAL */}
       <Route element={<RutaPrivada rolesPermitidos={["ADMIN_GENERAL"]} />}>
         <Route
           path="/usuarios/profesores"
@@ -53,6 +59,7 @@ function App() {
         <Route path="/ejercicios" element={<PaginaEjercicios />} />
       </Route>
 
+      {/* Rutas compartidas con PROFESOR */}
       <Route
         element={
           <RutaPrivada
@@ -63,10 +70,12 @@ function App() {
         <Route path="/asistencias" element={<PaginaAsistencias />} />
       </Route>
 
+      {/* Rutas exclusivas para PROFESOR */}
       <Route element={<RutaPrivada rolesPermitidos={["PROFESOR"]} />}>
         <Route path="/rutinas" element={<PaginaRutinas />} />
       </Route>
 
+      {/* Ruta 404 No Encontrada */}
       <Route path="*" element={<PaginaNoEncontrada />} />
     </Routes>
   );
