@@ -151,8 +151,44 @@ export function ModificarEjercicioModal({ isOpen, onOpenChange, ejercicio }) {
     mutationFn: (data) =>
       ejerciciosService.modificarEjercicio(ejercicio.id, data),
 
-    onSuccess: (ejercicioModificado) => {
-      queryClient.invalidateQueries({ queryKey: ["ejercicios"] });
+    /* ejercicioModificado: respuesta del back con los datos actualizados.
+    datosEnviados: valores originales del formulario que se enviaron al backend. */
+    onSuccess: async (ejercicioModificado, datosEnviados) => {
+      const claveImagen = ["imagenesEjercicios", ejercicio.id];
+
+      const imagenModificada =
+        Boolean(datosEnviados.imagen) || datosEnviados.eliminarImagen;
+
+      const actualizaciones = [
+        queryClient.invalidateQueries({ queryKey: ["ejercicios"] }),
+      ];
+
+      if (imagenModificada) {
+        /* Cancela cualquier consulta GET en curso para evitar que una petición vieja y lenta termine de descargarse después y sobrescriba la caché con datos desactualizados.
+        "exact: true" asegura que solo afecte exactamente a esta queryKey (con este id específico). */
+        await queryClient.cancelQueries({
+          queryKey: claveImagen,
+          exact: true,
+        });
+
+        if (ejercicioModificado.imagenUrl) {
+          /*El backend confirma que el ejercicio tiene una imagen asociada.
+            Invalida la caché para que se obtenga el nuevo archivo desde el servidor y se reemplace el Blob anterior.
+           Su promesa se agrega al array para esperar también esta actualización. */
+          actualizaciones.push(
+            queryClient.invalidateQueries({
+              queryKey: claveImagen,
+              exact: true,
+            }),
+          );
+        } else {
+          // Si se eliminó la imagen, descarta el Blob anterior sin hacer otro GET.
+          queryClient.setQueryData(claveImagen, null);
+        }
+      }
+
+      // Espera a que finalicen las actualizaciones del catálogo y, si corresponde, de la imagen.
+      await Promise.all(actualizaciones);
 
       toast.success("Ejercicio modificado", {
         description: `Se actualizaron correctamente los datos de "${ejercicioModificado.nombre}".`,
