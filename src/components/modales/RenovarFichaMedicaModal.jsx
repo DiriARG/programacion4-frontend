@@ -122,7 +122,11 @@ export function RenovarFichaMedicaModal({ isOpen, onOpenChange, ficha }) {
             aria-describedby="renovar-ficha-medica-descripcion"
             className="border border-hierro-700 bg-hierro-900"
           >
-            <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <form
+              noValidate
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex min-h-0 flex-1 flex-col"
+            >
               <Modal.Header className="border-b border-hierro-800">
                 <Modal.Icon className="text-azul-500">
                   <IconRefresh size={22} />
