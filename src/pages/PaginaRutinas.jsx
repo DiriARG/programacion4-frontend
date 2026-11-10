@@ -92,7 +92,7 @@ export function PaginaRutinas() {
             <Link
               to="/"
               aria-label="Volver al inicio"
-              className="mb-6 inline-flex items-center gap-2 font-titulos text-xs tracking-[0.2em] text-hierro-400 uppercase transition-colors hover:text-hueso lg:absolute lg:-left-[250px] lg:top-6 lg:mb-0"
+              className="mb-6 inline-flex items-center gap-2 font-titulos text-xs tracking-[0.2em] text-hierro-400 uppercase transition-colors hover:text-hueso min-[1600px]:absolute min-[1600px]:-left-[250px] min-[1600px]:top-6 min-[1600px]:mb-0"
             >
               <IconArrowLeft size={16} />
               Inicio
