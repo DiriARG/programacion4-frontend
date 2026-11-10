@@ -158,7 +158,11 @@ export function RegistrarFichaMedicaModal({ isOpen, onOpenChange }) {
             aria-describedby="registrar-ficha-medica-descripcion"
             className="border border-hierro-700 bg-hierro-900"
           >
-            <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <form
+              noValidate
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex min-h-0 flex-1 flex-col"
+            >
               <Modal.Header className="border-b border-hierro-800">
                 <Modal.Icon className="text-azul-500">
                   <IconFilePlus size={22} />
@@ -277,7 +281,10 @@ export function RegistrarFichaMedicaModal({ isOpen, onOpenChange }) {
                   ) : null}
 
                   <div className="space-y-2">
-                    <Label id="certificado-label" className="font-titulos text-xs tracking-[0.2em] text-hierro-200 uppercase">
+                    <Label
+                      id="certificado-label"
+                      className="font-titulos text-xs tracking-[0.2em] text-hierro-200 uppercase"
+                    >
                       Certificado de aptitud física
                       <span className="text-danger" aria-hidden="true">
                         {" "}

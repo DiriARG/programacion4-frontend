@@ -1,5 +1,12 @@
 export const menuPorRol = {
-  ALUMNO: [{ clave: "perfil", etiqueta: "Mi perfil" }],
+  ALUMNO: [
+    { clave: "perfil", etiqueta: "Mi perfil" },
+    {
+      clave: "rutina",
+      etiqueta: "Mi rutina",
+      ruta: "/mi-rutina",
+    },
+  ],
 
   PROFESOR: [
     { clave: "perfil", etiqueta: "Mi perfil" },
@@ -7,6 +14,11 @@ export const menuPorRol = {
       clave: "asistencias",
       etiqueta: "Asistencias",
       ruta: "/asistencias",
+    },
+    {
+      clave: "rutinas",
+      etiqueta: "Rutinas",
+      ruta: "/rutinas",
     },
   ],
 
@@ -57,14 +69,19 @@ export const menuPorRol = {
       ruta: "/turnos",
     },
     {
+      clave: "asistencias",
+      etiqueta: "Asistencias",
+      ruta: "/asistencias",
+    },
+    {
       clave: "fichas-medicas",
       etiqueta: "Fichas médicas",
       ruta: "/fichas-medicas",
     },
     {
-      clave: "asistencias",
-      etiqueta: "Asistencias",
-      ruta: "/asistencias",
+      clave: "ejercicios",
+      etiqueta: "Catálogo de ejercicios",
+      ruta: "/ejercicios",
     },
   ],
 };

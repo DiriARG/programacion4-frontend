@@ -1,0 +1,176 @@
+import {
+  Button,
+  Chip,
+  Dropdown,
+  Label,
+  Pagination,
+  Table,
+} from "@heroui/react";
+import { IconDotsVertical, IconEdit } from "@tabler/icons-react";
+import { TextoExpandible } from "../comunes/TextoExpandible";
+
+export function TablaEjercicios({
+  ejercicios = [],
+  paginaActual = 0,
+  totalPaginas = 0,
+  totalElementos = 0,
+  registrosPorPagina = 10,
+  onCambiarPagina,
+  onModificarEjercicio,
+}) {
+  const indiceInicial =
+    totalElementos === 0 ? 0 : paginaActual * registrosPorPagina + 1;
+
+  const indiceFinal = Math.min(
+    (paginaActual + 1) * registrosPorPagina,
+    totalElementos,
+  );
+
+  return (
+    <Table>
+      <Table.ScrollContainer>
+        <Table.Content aria-label="Catálogo de ejercicios">
+          <Table.Header>
+            <Table.Column isRowHeader>Ejercicio</Table.Column>
+            <Table.Column>Grupo muscular</Table.Column>
+            <Table.Column>Descripción</Table.Column>
+            <Table.Column>Imagen</Table.Column>
+            <Table.Column>Estado</Table.Column>
+            <Table.Column>Acciones</Table.Column>
+          </Table.Header>
+
+          <Table.Body
+            items={ejercicios}
+            renderEmptyState={() => (
+              <p className="py-6 text-center text-sm text-hierro-400">
+                No hay ejercicios que coincidan con los filtros.
+              </p>
+            )}
+          >
+            {(ejercicio) => (
+              <Table.Row id={ejercicio.id}>
+                <Table.Cell>
+                  <p className="min-w-36 text-sm font-medium text-hueso">
+                    {ejercicio.nombre}
+                  </p>
+                </Table.Cell>
+
+                <Table.Cell>
+                  <span className="min-w-32 text-sm text-hierro-200">
+                    {ejercicio.grupoMuscular}
+                  </span>
+                </Table.Cell>
+
+                <Table.Cell>
+                  <TextoExpandible
+                    texto={ejercicio.descripcion}
+                    mensajeVacio="Sin descripción"
+                    className="max-w-sm"
+                  />
+                </Table.Cell>
+
+                <Table.Cell>
+                  <Chip
+                    variant="soft"
+                    color={ejercicio.imagenUrl ? "success" : "default"}
+                  >
+                    {ejercicio.imagenUrl ? "Disponible" : "Sin imagen"}
+                  </Chip>
+                </Table.Cell>
+
+                <Table.Cell>
+                  <Chip
+                    variant="soft"
+                    color={ejercicio.activo ? "success" : "danger"}
+                  >
+                    {ejercicio.activo ? "Activo" : "Inactivo"}
+                  </Chip>
+                </Table.Cell>
+                <Table.Cell>
+                  <Dropdown>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      aria-label={`Acciones del ejercicio ${ejercicio.nombre}`}
+                    >
+                      <IconDotsVertical size={18} />
+                    </Button>
+
+                    <Dropdown.Popover>
+                      <Dropdown.Menu
+                        onAction={(accion) => {
+                          if (accion === "modificar") {
+                            onModificarEjercicio?.(ejercicio);
+                          }
+                        }}
+                      >
+                        <Dropdown.Item id="modificar" textValue="Modificar">
+                          <IconEdit size={16} />
+                          <Label>Modificar</Label>
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown.Popover>
+                  </Dropdown>
+                </Table.Cell>
+              </Table.Row>
+            )}
+          </Table.Body>
+        </Table.Content>
+      </Table.ScrollContainer>
+
+      {totalPaginas > 1 ? (
+        <Table.Footer className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <Pagination>
+            <Pagination.Summary>
+              Mostrando {indiceInicial}-{indiceFinal} de {totalElementos}{" "}
+              ejercicios
+            </Pagination.Summary>
+
+            <Pagination.Content>
+              <Pagination.Item>
+                <Pagination.Previous
+                  aria-label="Página anterior"
+                  isDisabled={paginaActual === 0}
+                  onPress={() => onCambiarPagina(Math.max(0, paginaActual - 1))}
+                >
+                  <Pagination.PreviousIcon />
+                </Pagination.Previous>
+              </Pagination.Item>
+
+              {Array.from({ length: totalPaginas }, (_, indice) => indice).map(
+                (pagina) => (
+                  <Pagination.Item key={pagina}>
+                    <Pagination.Link
+                      aria-label={`Página ${pagina + 1}`}
+                      isActive={paginaActual === pagina}
+                      onPress={() => onCambiarPagina(pagina)}
+                    >
+                      {pagina + 1}
+                    </Pagination.Link>
+                  </Pagination.Item>
+                ),
+              )}
+
+              <Pagination.Item>
+                <Pagination.Next
+                  aria-label="Página siguiente"
+                  isDisabled={paginaActual === totalPaginas - 1}
+                  onPress={() =>
+                    onCambiarPagina(
+                      Math.min(totalPaginas - 1, paginaActual + 1),
+                    )
+                  }
+                >
+                  <Pagination.NextIcon />
+                </Pagination.Next>
+              </Pagination.Item>
+            </Pagination.Content>
+          </Pagination>
+        </Table.Footer>
+      ) : null}
+    </Table>
+  );
+}
+
+export default TablaEjercicios;

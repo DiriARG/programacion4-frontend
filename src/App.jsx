@@ -10,6 +10,9 @@ import { PaginaPlanes } from "./pages/PaginaPlanes";
 import { PaginaTurnos } from "./pages/PaginaTurnos";
 import { PaginaAsistencias } from "./pages/PaginaAsistencias";
 import { PaginaFichasMedicas } from "./pages/PaginaFichasMedicas";
+import { PaginaRutinas } from "./pages/PaginaRutinas";
+import { PaginaEjercicios } from "./pages/PaginaEjercicios";
+import { PaginaRutinaAlumno } from "./pages/PaginaRutinaAlumno";
 
 function App() {
   return (
@@ -47,6 +50,8 @@ function App() {
         />
 
         <Route path="/planes" element={<PaginaPlanes />} />
+
+        <Route path="/ejercicios" element={<PaginaEjercicios />} />
       </Route>
 
       <Route
@@ -59,7 +64,15 @@ function App() {
         <Route path="/asistencias" element={<PaginaAsistencias />} />
       </Route>
 
+      <Route element={<RutaPrivada rolesPermitidos={["PROFESOR"]} />}>
+        <Route path="/rutinas" element={<PaginaRutinas />} />
+      </Route>
+
       <Route path="*" element={<PaginaNoEncontrada />} />
+
+      <Route element={<RutaPrivada rolesPermitidos={["ALUMNO"]} />}>
+        <Route path="/mi-rutina" element={<PaginaRutinaAlumno />} />
+      </Route>
     </Routes>
   );
 }

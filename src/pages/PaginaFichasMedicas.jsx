@@ -139,7 +139,7 @@ export function PaginaFichasMedicas() {
             <Link
               to="/"
               aria-label="Volver al inicio"
-              className="mb-6 inline-flex items-center gap-2 font-titulos text-xs tracking-[0.2em] text-hierro-400 uppercase transition-colors hover:text-hueso lg:absolute lg:-left-[250px] lg:top-6 lg:mb-0"
+              className="mb-6 inline-flex items-center gap-2 font-titulos text-xs tracking-[0.2em] text-hierro-400 uppercase transition-colors hover:text-hueso min-[1600px]:absolute min-[1600px]:-left-[250px] min-[1600px]:top-6 min-[1600px]:mb-0"
             >
               <IconArrowLeft size={16} />
               Inicio
@@ -261,7 +261,7 @@ export function PaginaFichasMedicas() {
                 </h2>
 
                 <p className="mt-1 text-sm text-hierro-400">
-                  Consultá los certificados y sus fechas de vencimiento.
+                  Ordenados desde la fecha de vencimiento más próxima.
                 </p>
               </div>
 
