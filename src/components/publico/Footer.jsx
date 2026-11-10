@@ -47,7 +47,7 @@ const enlaces = [
 const datosContacto = [
   "Dirección pendiente de definición",
   "+54 000 000-0000",
-  "contacto@ironempire.placeholder",
+  "contacto@ironempire.com",
 ];
 
 export function Footer() {

@@ -261,7 +261,7 @@ export function PaginaFichasMedicas() {
                 </h2>
 
                 <p className="mt-1 text-sm text-hierro-400">
-                  Consultá los certificados y sus fechas de vencimiento.
+                  Ordenados desde la fecha de vencimiento más próxima.
                 </p>
               </div>
 

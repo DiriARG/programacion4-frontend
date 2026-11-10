@@ -24,7 +24,7 @@ const datosContacto  = [
   {
     icono: IconMail,
     etiqueta: "Email",
-    valor: "contacto@ironempire.placeholder",
+    valor: "contacto@ironempire.com",
   },
   {
     icono: IconClock,

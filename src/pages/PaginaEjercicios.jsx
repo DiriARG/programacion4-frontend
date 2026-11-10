@@ -202,7 +202,7 @@ export function PaginaEjercicios() {
                 </h2>
 
                 <p className="mt-1 text-sm text-hierro-400">
-                  Ejercicios registrados en el sistema.
+                  Ordenados alfabéticamente por nombre.
                 </p>
               </div>
 
