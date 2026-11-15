@@ -25,6 +25,12 @@ export const rutinasService = {
 
   modificarRutina: (rutinaId, data) =>
     api.put(`/api/rutinas/${rutinaId}`, data).then((res) => res.data),
+
+  desactivarRutina: (rutinaId) =>
+    api.patch(`/api/rutinas/${rutinaId}/desactivar`).then((res) => res.data),
+
+  reactivarRutina: (rutinaId) =>
+    api.patch(`/api/rutinas/${rutinaId}/reactivar`).then((res) => res.data),
 };
 
 export default rutinasService;

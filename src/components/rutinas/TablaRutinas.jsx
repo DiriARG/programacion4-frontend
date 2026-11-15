@@ -6,7 +6,13 @@ import {
   Pagination,
   Table,
 } from "@heroui/react";
-import { IconDotsVertical, IconEdit, IconEye } from "@tabler/icons-react";
+import {
+  IconDotsVertical,
+  IconEdit,
+  IconEye,
+  IconBan,
+  IconRefresh,
+} from "@tabler/icons-react";
 import { formatearFecha } from "../../utils/formatearDiaYHora";
 
 export function TablaRutinas({
@@ -18,6 +24,7 @@ export function TablaRutinas({
   onCambiarPagina,
   onModificarRutina,
   onVerDetalleRutina,
+  onCambiarEstadoRutina,
 }) {
   const indiceInicial =
     totalElementos === 0 ? 0 : paginaActual * registrosPorPagina + 1;
@@ -103,8 +110,21 @@ export function TablaRutinas({
                           if (accion === "modificar-rutina") {
                             onModificarRutina?.(rutina);
                           }
+
+                          if (accion === "desactivar-rutina") {
+                            onCambiarEstadoRutina?.(rutina, "desactivar");
+                          }
+
+                          if (accion === "reactivar-rutina") {
+                            onCambiarEstadoRutina?.(rutina, "reactivar");
+                          }
                         }}
                       >
+                        <Dropdown.Item id="ver-detalle" textValue="Ver detalle">
+                          <IconEye size={16} />
+                          <Label>Ver detalle</Label>
+                        </Dropdown.Item>
+
                         <Dropdown.Item id="ver-detalle" textValue="Ver detalle">
                           <IconEye size={16} />
                           <Label>Ver detalle</Label>
@@ -119,6 +139,24 @@ export function TablaRutinas({
                             <Label>Modificar rutina</Label>
                           </Dropdown.Item>
                         ) : null}
+
+                        {rutina.activa ? (
+                          <Dropdown.Item
+                            id="desactivar-rutina"
+                            textValue="Desactivar rutina"
+                          >
+                            <IconBan size={16} />
+                            <Label>Desactivar rutina</Label>
+                          </Dropdown.Item>
+                        ) : (
+                          <Dropdown.Item
+                            id="reactivar-rutina"
+                            textValue="Reactivar rutina"
+                          >
+                            <IconRefresh size={16} />
+                            <Label>Reactivar rutina</Label>
+                          </Dropdown.Item>
+                        )}
                       </Dropdown.Menu>
                     </Dropdown.Popover>
                   </Dropdown>

@@ -17,6 +17,7 @@ import { rutinasService } from "../services/rutinasService";
 import { CrearRutinaModal } from "../components/rutinas/CrearRutinaModal";
 import { ModificarRutinaModal } from "../components/rutinas/ModificarRutinaModal";
 import { DetalleRutinaModal } from "../components/rutinas/DetalleRutinaModal";
+import { CambioEstadoRutinaModal } from "../components/rutinas/CambioEstadoRutinaModal";
 
 const rutinasPorPagina = 10;
 
@@ -34,6 +35,7 @@ export function PaginaRutinas() {
   const [modalCrearRutinaAbierto, setModalCrearRutinaAbierto] = useState(false);
   const [rutinaAModificar, setRutinaAModificar] = useState(null);
   const [rutinaAConsultar, setRutinaAConsultar] = useState(null);
+  const [cambioEstadoRutina, setCambioEstadoRutina] = useState(null);
   const rolPermitido = rol === "PROFESOR";
 
   const {
@@ -84,6 +86,9 @@ export function PaginaRutinas() {
     setPaginaActual(0);
   };
 
+  const abrirCambioEstadoRutina = (rutina, accion) => {
+    setCambioEstadoRutina({ rutina, accion });
+  };
   return (
     <main className="min-h-screen bg-hierro-950 pt-10 pb-16">
       <section className="py-12 sm:py-16">
@@ -244,6 +249,7 @@ export function PaginaRutinas() {
                 onCambiarPagina={setPaginaActual}
                 onModificarRutina={setRutinaAModificar}
                 onVerDetalleRutina={setRutinaAConsultar}
+                onCambiarEstadoRutina={abrirCambioEstadoRutina}
               />
             )}
           </section>
@@ -268,6 +274,21 @@ export function PaginaRutinas() {
               }
             }}
             rutina={rutinaAConsultar}
+          />
+          <CambioEstadoRutinaModal
+            isOpen={cambioEstadoRutina !== null}
+            onOpenChange={(abierto) => {
+              if (!abierto) {
+                setCambioEstadoRutina(null);
+              }
+            }}
+            rutina={cambioEstadoRutina?.rutina}
+            accion={cambioEstadoRutina?.accion}
+            cambiarEstado={
+              cambioEstadoRutina?.accion === "desactivar"
+                ? rutinasService.desactivarRutina
+                : rutinasService.reactivarRutina
+            }
           />
         </div>
       </section>
