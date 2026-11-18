@@ -108,8 +108,7 @@ export function TablaFichasMedicas({
                           onAction={(accion) => {
                             if (accion === "ver-certificado") {
                               onVerCertificado?.(ficha);
-                            }
-                            if (accion === "renovar-ficha") {
+                            } else if (accion === "renovar-ficha") {
                               onRenovarFicha?.(ficha);
                             }
                           }}

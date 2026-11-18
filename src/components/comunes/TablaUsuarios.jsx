@@ -89,12 +89,9 @@ export function TablaUsuarios({ usuarios = [], onModificar, onCambiarEstado }) {
                         onAction={(accion) => {
                           if (accion === "modificar") {
                             onModificar(usuario);
-                          }
-                          if (accion === "desactivar") {
+                          } else if (accion === "desactivar") {
                             onCambiarEstado(usuario, "desactivar");
-                          }
-
-                          if (accion === "reactivar") {
+                          } else if (accion === "reactivar") {
                             onCambiarEstado(usuario, "reactivar");
                           }
                         }}

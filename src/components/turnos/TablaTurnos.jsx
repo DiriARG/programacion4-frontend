@@ -109,20 +109,13 @@ export function TablaTurnos({
                         onAction={(accion) => {
                           if (accion === "ver-detalle") {
                             onVerDetalle(turno);
-                          }
-
-                          if (accion === "modificar") {
+                          } else if (accion === "modificar") {
                             onModificar(turno);
-                          }
-
-                          if (accion === "desactivar") {
+                          } else if (accion === "desactivar") {
                             onCambiarEstado(turno, "desactivar");
-                          }
-
-                          if (accion === "reactivar") {
+                          } else if (accion === "reactivar") {
                             onCambiarEstado(turno, "reactivar");
-                          }
-                          if (accion === "inscribir-alumno") {
+                          } else if (accion === "inscribir-alumno") {
                             onInscribirAlumno(turno);
                           }
                         }}

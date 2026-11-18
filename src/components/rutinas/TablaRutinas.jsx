@@ -105,26 +105,15 @@ export function TablaRutinas({
                         onAction={(accion) => {
                           if (accion === "ver-detalle") {
                             onVerDetalleRutina?.(rutina);
-                          }
-
-                          if (accion === "modificar-rutina") {
+                          } else if (accion === "modificar-rutina") {
                             onModificarRutina?.(rutina);
-                          }
-
-                          if (accion === "desactivar-rutina") {
+                          } else if (accion === "desactivar-rutina") {
                             onCambiarEstadoRutina?.(rutina, "desactivar");
-                          }
-
-                          if (accion === "reactivar-rutina") {
+                          } else if (accion === "reactivar-rutina") {
                             onCambiarEstadoRutina?.(rutina, "reactivar");
                           }
                         }}
                       >
-                        <Dropdown.Item id="ver-detalle" textValue="Ver detalle">
-                          <IconEye size={16} />
-                          <Label>Ver detalle</Label>
-                        </Dropdown.Item>
-
                         <Dropdown.Item id="ver-detalle" textValue="Ver detalle">
                           <IconEye size={16} />
                           <Label>Ver detalle</Label>

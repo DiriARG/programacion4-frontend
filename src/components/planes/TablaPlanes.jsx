@@ -107,13 +107,9 @@ export function TablaPlanes({ planes = [], onModificar, onCambiarEstado }) {
                         onAction={(accion) => {
                           if (accion === "modificar") {
                             onModificar(plan);
-                          }
-
-                          if (accion === "desactivar") {
+                          } else if (accion === "desactivar") {
                             onCambiarEstado(plan, "desactivar");
-                          }
-
-                          if (accion === "reactivar") {
+                          } else if (accion === "reactivar") {
                             onCambiarEstado(plan, "reactivar");
                           }
                         }}
