@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const api = axios.create({
   baseURL: "http://localhost:8080",
-  timeout: 5000,
+  timeout: 15000,
 });
 
 // Intercepta las solicitudes para agregar el token de autenticación si existe.

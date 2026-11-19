@@ -1,39 +1,40 @@
-import { useState } from "react";
 import {
   Button,
   Chip,
-  Dropdown,
-  Label,
   Pagination,
   Table,
 } from "@heroui/react";
 import {
   IconBan,
-  IconDotsVertical,
   IconDownload,
   IconReceipt,
 } from "@tabler/icons-react";
 import { formatearMoneda } from "../../utils/formatearMoneda";
 
-const pagosPorPagina = 10;
+// "2026-11-17" -> "17/11/2026" (sin pasar por Date, para evitar corrimientos de zona horaria).
+function formatearFecha(fechaIso) {
+  if (!fechaIso) return "-";
+  const [anio, mes, dia] = fechaIso.split("-");
+  return `${dia}/${mes}/${anio}`;
+}
 
+/*
+ * La paginación la hace el servidor: "pagos" ya trae solo la página actual.
+ * paginaActual empieza en 0 (así lo espera Spring Data).
+ */
 export function TablaPagos({
   pagos = [],
+  paginaActual = 0,
+  totalPaginas = 0,
+  totalElementos = 0,
+  registrosPorPagina = 10,
+  onCambiarPagina,
   onAnularPago,
   onDescargarComprobante,
   rolUsuario,
 }) {
-  const [paginaActual, setPaginaActual] = useState(1);
-
-  const cantidadPaginas = Math.ceil(pagos.length / pagosPorPagina);
-
-  const indiceInicial = (paginaActual - 1) * pagosPorPagina;
-  const indiceFinal = indiceInicial + pagosPorPagina;
-
-  const pagosVisibles = pagos.slice(indiceInicial, indiceFinal);
-
-  const primerPago = pagos.length === 0 ? 0 : indiceInicial + 1;
-  const ultimoPago = Math.min(indiceFinal, pagos.length);
+  const primerPago = totalElementos === 0 ? 0 : paginaActual * registrosPorPagina + 1;
+  const ultimoPago = Math.min((paginaActual + 1) * registrosPorPagina, totalElementos);
 
   return (
     <Table>
@@ -51,7 +52,7 @@ export function TablaPagos({
           </Table.Header>
 
           <Table.Body
-            items={pagosVisibles}
+            items={pagos}
             renderEmptyState={() => (
               <div className="py-12 text-center">
                 <IconReceipt className="mx-auto text-hierro-500" size={48} />
@@ -65,7 +66,7 @@ export function TablaPagos({
               <Table.Row id={pago.id}>
                 <Table.Cell>
                   <span className="whitespace-nowrap font-medium text-hueso">
-                    {pago.fechaPago}
+                    {formatearFecha(pago.fechaPago)}
                   </span>
                 </Table.Cell>
 
@@ -78,7 +79,7 @@ export function TablaPagos({
                   </div>
                 </Table.Cell>
 
-                <Table.Cell>{pago.nombrePlan}</Table.Cell>
+                <Table.Cell>{pago.planNombre}</Table.Cell>
 
                 <Table.Cell>
                   <span className="font-mono">
@@ -97,11 +98,8 @@ export function TablaPagos({
                 </Table.Cell>
 
                 <Table.Cell>
-                  <Chip
-                    variant="soft"
-                    color={pago.estado === "ANULADO" ? "danger" : "success"}
-                  >
-                    {pago.estado}
+                  <Chip variant="soft" color={pago.anulado ? "danger" : "success"}>
+                    {pago.anulado ? "ANULADO" : "REALIZADO"}
                   </Chip>
                 </Table.Cell>
 
@@ -119,7 +117,7 @@ export function TablaPagos({
                       </Button>
                     )}
 
-                    {pago.estado !== "ANULADO" && rolUsuario === "ADMIN_GENERAL" && (
+                    {!pago.anulado && rolUsuario === "ADMIN_GENERAL" && (
                       <Button
                         isIconOnly
                         variant="ghost"
@@ -139,50 +137,43 @@ export function TablaPagos({
         </Table.Content>
       </Table.ScrollContainer>
 
-      {cantidadPaginas > 1 ? (
+      {totalPaginas > 1 ? (
         <Table.Footer className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Pagination>
             <Pagination.Summary>
-              Mostrando {primerPago}-{ultimoPago} de {pagos.length} pagos
+              Mostrando {primerPago}-{ultimoPago} de {totalElementos} pagos
             </Pagination.Summary>
 
             <Pagination.Content>
               <Pagination.Item>
                 <Pagination.Previous
                   aria-label="Página anterior"
-                  isDisabled={paginaActual === 1}
-                  onPress={() =>
-                    setPaginaActual((pagina) => Math.max(1, pagina - 1))
-                  }
+                  isDisabled={paginaActual === 0}
+                  onPress={() => onCambiarPagina(paginaActual - 1)}
                 >
                   <Pagination.PreviousIcon />
                 </Pagination.Previous>
               </Pagination.Item>
 
-              {Array.from(
-                { length: cantidadPaginas },
-                (_, indice) => indice + 1,
-              ).map((pagina) => (
-                <Pagination.Item key={pagina}>
-                  <Pagination.Link
-                    aria-label={`Página ${pagina}`}
-                    isActive={paginaActual === pagina}
-                    onPress={() => setPaginaActual(pagina)}
-                  >
-                    {pagina}
-                  </Pagination.Link>
-                </Pagination.Item>
-              ))}
+              {Array.from({ length: totalPaginas }, (_, indice) => indice).map(
+                (indice) => (
+                  <Pagination.Item key={indice}>
+                    <Pagination.Link
+                      aria-label={`Página ${indice + 1}`}
+                      isActive={paginaActual === indice}
+                      onPress={() => onCambiarPagina(indice)}
+                    >
+                      {indice + 1}
+                    </Pagination.Link>
+                  </Pagination.Item>
+                ),
+              )}
 
               <Pagination.Item>
                 <Pagination.Next
                   aria-label="Página siguiente"
-                  isDisabled={paginaActual === cantidadPaginas}
-                  onPress={() =>
-                    setPaginaActual((pagina) =>
-                      Math.min(cantidadPaginas, pagina + 1),
-                    )
-                  }
+                  isDisabled={paginaActual >= totalPaginas - 1}
+                  onPress={() => onCambiarPagina(paginaActual + 1)}
                 >
                   <Pagination.NextIcon />
                 </Pagination.Next>

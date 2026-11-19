@@ -89,15 +89,16 @@ export function PaginaPagos() {
     setFiltrosAplicados({ ...filtrosIniciales });
     setPaginaActual(0);
   };
-
   const descargarComprobante = async (idPago) => {
     try {
       const blob = await pagosService.descargarComprobante(idPago);
+      const extension = blob.type === "application/pdf" ? "pdf" : (blob.type.split("/")[1] || "bin");
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `comprobante-pago-${idPago}.pdf`;
+      a.download = `comprobante-pago-${idPago}.${extension}`;
       a.click();
+      window.URL.revokeObjectURL(url);
     } catch {
       toast.error("No se pudo descargar el comprobante.");
     }

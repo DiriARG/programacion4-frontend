@@ -121,10 +121,10 @@ export function CrearPlanModal({ isOpen, onOpenChange }) {
           <Modal.Dialog
             aria-labelledby="crear-plan-titulo"
             aria-describedby="crear-plan-descripcion"
-            className="border border-hierro-700 bg-hierro-900"
+            className="flex max-h-[85vh] flex-col overflow-hidden border border-hierro-700 bg-hierro-900"
           >
-            <form noValidate onSubmit={handleSubmit(onSubmit)}>
-              <Modal.Header className="border-b border-hierro-800">
+            <form noValidate onSubmit={handleSubmit(onSubmit)} className="flex flex-col overflow-hidden">
+              <Modal.Header className="shrink-0 border-b border-hierro-800">
                 <Modal.Icon className="text-azul-500">
                   <IconPlus size={22} />
                 </Modal.Icon>
@@ -146,7 +146,8 @@ export function CrearPlanModal({ isOpen, onOpenChange }) {
                 </div>
               </Modal.Header>
 
-              <Modal.Body className="max-h-[60vh] overflow-y-auto py-6">
+              <Modal.Body className="flex-1 overflow-y-auto py-6">
+
                 <div className="grid gap-5 sm:grid-cols-2">
                   <CampoFormulario
                     label="Nombre"
@@ -242,7 +243,7 @@ export function CrearPlanModal({ isOpen, onOpenChange }) {
                 </div>
               </Modal.Body>
 
-              <Modal.Footer className="border-t border-hierro-800 pt-5">
+              <Modal.Footer className="shrink-0 border-t border-hierro-800 bg-hierro-900 pt-5">
                 <Button
                   type="button"
                   variant="secondary"
@@ -272,8 +273,8 @@ export function CrearPlanModal({ isOpen, onOpenChange }) {
             </form>
           </Modal.Dialog>
         </Modal.Container>
-      </Modal.Backdrop>
-    </Modal>
+      </Modal.Backdrop >
+    </Modal >
   );
 }
 

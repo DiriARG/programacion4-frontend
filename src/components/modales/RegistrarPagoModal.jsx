@@ -8,7 +8,10 @@ import { CampoFormulario } from "../comunes/CampoFormulario";
 import { pagosService } from "../../services/pagosService";
 import { usuariosService } from "../../services/usuariosService";
 import { planesService } from "../../services/planesService";
+import { crearPagoSchema } from "../../schemas/crearPagoSchema";
+import { mensajeDeError } from "../../utils/mensajeError";
 
+// Debe coincidir con la lista de métodos que valida crearPagoSchema.
 const METODOS_PAGO = [
   "EFECTIVO",
   "TRANSFERENCIA",
@@ -17,21 +20,31 @@ const METODOS_PAGO = [
   "MERCADO_PAGO",
 ];
 
-export function RegistrarPagoModal({ isOpen, onOpenChange }) {
-  const queryClient = useQueryClient();
-  const fechaHoy = new Date().toISOString().split("T")[0];
-  const mesActual = new Date().getMonth() + 1;
-  const anioActual = new Date().getFullYear();
+// Fecha local en formato AAAA-MM-DD (toISOString usa UTC y puede dar el día siguiente).
+function fechaLocalHoy() {
+  const hoy = new Date();
+  const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+  const dia = String(hoy.getDate()).padStart(2, "0");
+  return `${hoy.getFullYear()}-${mes}-${dia}`;
+}
 
-  const [form, setForm] = useState({
+function formularioInicial() {
+  const hoy = new Date();
+  return {
     alumnoId: "",
     planId: "",
     montoAbonado: "",
-    fechaPago: fechaHoy,
-    mesPeriodo: mesActual,
-    anioPeriodo: anioActual,
+    fechaPago: fechaLocalHoy(),
+    mesPeriodo: hoy.getMonth() + 1,
+    anioPeriodo: hoy.getFullYear(),
     metodoPago: "EFECTIVO",
-  });
+  };
+}
+
+export function RegistrarPagoModal({ isOpen, onOpenChange }) {
+  const queryClient = useQueryClient();
+
+  const [form, setForm] = useState(formularioInicial);
   const [comprobanteFile, setComprobanteFile] = useState(null);
 
   const {
@@ -48,28 +61,26 @@ export function RegistrarPagoModal({ isOpen, onOpenChange }) {
   });
 
   const {
-    data: planes = [],
-    isPending: planesPendientes,
-    isError: planesError,
-  } = useQuery({
-    queryKey: ["planes-select"],
-    queryFn: planesService.consultarPlanes,
-    enabled: isOpen,
-  });
+  data: planes = [],
+  isPending: planesPendientes,
+  isError: planesError,
+} = useQuery({
+  queryKey: ["planes-activos-select"],
+  queryFn: () => planesService.planesActivos(),
+  enabled: isOpen,
+});
+
+  // El backend rechaza los planes inactivos, así que ni se ofrecen.
+  const planesActivos = planes.filter((p) => p.activo !== false);
+
+  const resetForm = () => {
+    setForm(formularioInicial());
+    setComprobanteFile(null);
+  };
 
   const registrarMutation = useMutation({
-    mutationFn: () => {
-      const payload = {
-        alumnoId: Number(form.alumnoId),
-        planId: Number(form.planId),
-        montoAbonado: Number(form.montoAbonado),
-        fechaPago: form.fechaPago,
-        mesPeriodo: Number(form.mesPeriodo),
-        anioPeriodo: Number(form.anioPeriodo),
-        metodoPago: form.metodoPago,
-      };
-      return pagosService.registrarPago(payload, comprobanteFile);
-    },
+    // Recibe el payload ya validado y convertido por crearPagoSchema.
+    mutationFn: (payload) => pagosService.registrarPago(payload, comprobanteFile),
     onSuccess: () => {
       toast.success("Pago registrado exitosamente");
       queryClient.invalidateQueries({ queryKey: ["pagos"] });
@@ -77,33 +88,24 @@ export function RegistrarPagoModal({ isOpen, onOpenChange }) {
       resetForm();
     },
     onError: (error) => {
-      const msj = error.response?.data?.mensaje || "Error al registrar el pago";
-      toast.error("No se pudo registrar", { description: msj });
+      toast.error("No se pudo registrar", {
+        description: mensajeDeError(error, "Error al registrar el pago"),
+      });
     },
   });
 
-  const resetForm = () => {
-    setForm({
-      alumnoId: "",
-      planId: "",
-      montoAbonado: "",
-      fechaPago: fechaHoy,
-      mesPeriodo: mesActual,
-      anioPeriodo: anioActual,
-      metodoPago: "EFECTIVO",
-    });
-    setComprobanteFile(null);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.alumnoId || !form.planId || !form.montoAbonado) {
-      toast.error("Campos incompletos", {
-        description: "Completá los campos obligatorios.",
+
+    const resultado = crearPagoSchema.safeParse(form);
+    if (!resultado.success) {
+      toast.error("Revisá los datos", {
+        description: resultado.error.issues[0].message,
       });
       return;
     }
-    registrarMutation.mutate();
+
+    registrarMutation.mutate(resultado.data);
   };
 
   return (
@@ -206,13 +208,13 @@ export function RegistrarPagoModal({ isOpen, onOpenChange }) {
                         ? "Cargando planes..."
                         : planesError
                         ? "No se pudieron cargar los planes"
-                        : planes.length === 0
-                        ? "No hay planes disponibles"
+                        : planesActivos.length === 0
+                        ? "No hay planes activos"
                         : "Seleccioná un plan"
                     }
                     value={form.planId}
                     onChange={(val) => {
-                      const planSel = planes.find(
+                      const planSel = planesActivos.find(
                         (p) => String(p.id) === String(val)
                       );
                       setForm((prev) => ({
@@ -227,7 +229,7 @@ export function RegistrarPagoModal({ isOpen, onOpenChange }) {
                       registrarMutation.isPending ||
                       planesPendientes ||
                       planesError ||
-                      planes.length === 0
+                      planesActivos.length === 0
                     }
                   >
                     <Label className="font-titulos text-xs tracking-[0.2em] text-hierro-200 uppercase">
@@ -239,7 +241,7 @@ export function RegistrarPagoModal({ isOpen, onOpenChange }) {
                     </Select.Trigger>
                     <Select.Popover>
                       <ListBox>
-                        {planes.map((p) => {
+                        {planesActivos.map((p) => {
                           const precioPlan = p.precioMensual || p.precio || 0;
                           const textoPlan = `${p.nombre} · $${precioPlan}`;
                           return (

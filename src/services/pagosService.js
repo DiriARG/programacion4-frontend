@@ -1,10 +1,9 @@
 import { api } from "./api";
 
 export const pagosService = {
-  // Consultar historial paginado de pagos con filtros
+  // Historial paginado con filtros (pantalla de gestión de pagos).
   consultarHistorial: async ({
     alumno = "",
-    planId = "",
     estado = "TODOS",
     fechaDesde = "",
     fechaHasta = "",
@@ -13,44 +12,40 @@ export const pagosService = {
   }) => {
     const params = new URLSearchParams();
     if (alumno) params.append("alumno", alumno);
-    if (planId) params.append("planId", planId);
     if (estado && estado !== "TODOS") params.append("estado", estado);
     if (fechaDesde) params.append("fechaDesde", fechaDesde);
     if (fechaHasta) params.append("fechaHasta", fechaHasta);
     params.append("page", page);
     params.append("size", size);
 
-    const respuesta = await clienteAxios.get(`/pagos?${params.toString()}`);
+    const respuesta = await api.get(`/api/pagos?${params.toString()}`);
     return respuesta.data;
   },
 
-  // Registrar un pago (admite multipart/form-data por el comprobante en MinIO)
+  // Registrar un pago: multipart con la parte "pago" (JSON) y "comprobante" (opcional).
   registrarPago: async (datosPago, archivoComprobante = null) => {
     const formData = new FormData();
     formData.append(
       "pago",
-      new Blob([JSON.stringify(datosPago)], { type: "application/json" })
+      new Blob([JSON.stringify(datosPago)], { type: "application/json" }),
     );
-
     if (archivoComprobante) {
       formData.append("comprobante", archivoComprobante);
     }
 
-    const respuesta = await clienteAxios.post("/pagos", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    // Sin Content-Type manual: axios agrega solo el boundary del multipart.
+    const respuesta = await api.post("/api/pagos", formData, { timeout: 30000 });
     return respuesta.data;
   },
 
-  // Anular un pago
   anularPago: async (idPago, motivoData) => {
-    const respuesta = await clienteAxios.put(`/pagos/${idPago}/anular`, motivoData);
+    const respuesta = await api.patch(`/api/pagos/${idPago}/anular`, motivoData);
     return respuesta.data;
   },
 
-  // Obtener URL/Archivo del comprobante
+  // Descargar el comprobante como blob.
   descargarComprobante: async (idPago) => {
-    const respuesta = await clienteAxios.get(`/pagos/${idPago}/comprobante`, {
+    const respuesta = await api.get(`/api/pagos/${idPago}/comprobante`, {
       responseType: "blob",
     });
     return respuesta.data;
