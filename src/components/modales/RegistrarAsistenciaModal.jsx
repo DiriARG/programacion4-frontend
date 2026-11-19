@@ -48,7 +48,6 @@ export function RegistrarAsistenciaModal({ isOpen, onOpenChange }) {
   const queryClient = useQueryClient();
 
   const {
-    register,
     handleSubmit,
     reset,
     clearErrors,
@@ -360,22 +359,34 @@ export function RegistrarAsistenciaModal({ isOpen, onOpenChange }) {
                   )}
 
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <CampoFormulario
-                      label="Fecha"
-                      type="date"
-                      registration={register("fecha")}
-                      error={errors.fecha?.message}
-                      isRequired
-                      isDisabled={mutation.isPending}
+                    <Controller
+                      name="fecha"
+                      control={control}
+                      render={({ field }) => (
+                        <CampoFormulario
+                          label="Fecha"
+                          type="date"
+                          registration={field}
+                          error={errors.fecha?.message}
+                          isRequired
+                          isDisabled={mutation.isPending}
+                        />
+                      )}
                     />
 
-                    <CampoFormulario
-                      label="Hora"
-                      type="time"
-                      registration={register("hora")}
-                      error={errors.hora?.message}
-                      isRequired
-                      isDisabled={mutation.isPending}
+                    <Controller
+                      name="hora"
+                      control={control}
+                      render={({ field }) => (
+                        <CampoFormulario
+                          label="Hora"
+                          type="time"
+                          registration={field}
+                          error={errors.hora?.message}
+                          isRequired
+                          isDisabled={mutation.isPending}
+                        />
+                      )}
                     />
                   </div>
                 </div>
