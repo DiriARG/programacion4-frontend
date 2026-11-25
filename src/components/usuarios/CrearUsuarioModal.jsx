@@ -8,7 +8,7 @@ import { IconUserPlus } from "@tabler/icons-react";
 import { toast } from "sonner";
 
 import { crearUsuarioPorRol } from "../../utils/configuracionUsuarios";
-import { crearUsuarioSchema } from "../../schemas/crearUsuarioSchema";
+import { crearUsuarioSchema } from "../../schemas/usuarios/crearUsuarioSchema";
 import { CampoFormulario } from "../comunes/CampoFormulario";
 
 const valoresIniciales = {

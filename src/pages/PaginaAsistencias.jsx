@@ -17,7 +17,7 @@ import { useAutenticacion } from "../context/AutenticacionContext";
 import { asistenciasService } from "../services/asistenciasService";
 import { turnosService } from "../services/turnosService";
 import { formatearDiaSemana, formatearHora } from "../utils/formatearDiaYHora";
-import { RegistrarAsistenciaModal } from "../components/modales/RegistrarAsistenciaModal";
+import { RegistrarAsistenciaModal } from "../components/asistencias/RegistrarAsistenciaModal";
 
 // Cantidad de asistencias que se solicitan por página (aunque por defecto en el back también usa 10).
 const asistenciasPorPagina = 10;

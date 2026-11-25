@@ -7,7 +7,7 @@ import { IconPencil, IconX } from "@tabler/icons-react";
 import { toast } from "sonner";
 
 import { CampoFormulario } from "../comunes/CampoFormulario";
-import { modificarEjercicioSchema } from "../../schemas/modificarEjercicioSchema";
+import { modificarEjercicioSchema } from "../../schemas/ejercicios/modificarEjercicioSchema";
 import { ejerciciosService } from "../../services/ejerciciosService";
 
 const valoresIniciales = {

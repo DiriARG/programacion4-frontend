@@ -5,9 +5,9 @@ import { IconArrowLeft, IconPlus } from "@tabler/icons-react";
 import { Link } from "react-router";
 
 import { TablaPlanes } from "../components/planes/TablaPlanes";
-import { CrearPlanModal } from "../components/modales/CrearPlanModal";
-import { ModificarPlanModal } from "../components/modales/ModificarPlanModal";
-import { CambioEstadoPlanModal } from "../components/modales/CambioEstadoPlanModal";
+import { CrearPlanModal } from "../components/planes/CrearPlanModal";
+import { ModificarPlanModal } from "../components/planes/ModificarPlanModal";
+import { CambioEstadoPlanModal } from "../components/planes/CambioEstadoPlanModal";
 import { planesService } from "../services/planesService";
 
 export function PaginaPlanes() {

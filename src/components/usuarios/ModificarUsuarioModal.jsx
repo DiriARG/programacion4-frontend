@@ -6,7 +6,7 @@ import { Button, Modal, Spinner } from "@heroui/react";
 import { IconPencil } from "@tabler/icons-react";
 import { toast } from "sonner";
 
-import { modificarUsuarioSchema } from "../../schemas/modificarUsuarioSchema";
+import { modificarUsuarioSchema } from "../../schemas/usuarios/modificarUsuarioSchema";
 import { CampoFormulario } from "../comunes/CampoFormulario";
 
 const valoresIniciales = {

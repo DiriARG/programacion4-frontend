@@ -15,7 +15,7 @@ import { IconCalendarPlus } from "@tabler/icons-react";
 import { toast } from "sonner";
 
 import { CampoFormulario } from "../comunes/CampoFormulario";
-import { registrarAsistenciaSchema } from "../../schemas/registrarAsistenciaSchema";
+import { registrarAsistenciaSchema } from "../../schemas/asistencias/registrarAsistenciaSchema";
 import { asistenciasService } from "../../services/asistenciasService";
 import { turnosService } from "../../services/turnosService";
 import { usuariosService } from "../../services/usuariosService";

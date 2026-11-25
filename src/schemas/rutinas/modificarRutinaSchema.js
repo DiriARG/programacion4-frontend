@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { nombresDias } from "../utils/formatearDiaYHora";
+import { nombresDias } from "../../utils/formatearDiaYHora";
 
 const idPositivoOpcionalSchema = z
   .string()

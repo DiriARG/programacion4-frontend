@@ -1,14 +1,13 @@
 import { useEffect } from "react";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, Controller } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Modal, Spinner } from "@heroui/react";
-import { IconPlus, IconX } from "@tabler/icons-react";
+import { IconPencil, IconPlus, IconX } from "@tabler/icons-react";
 import { toast } from "sonner";
 
+import { modificarPlanSchema } from "../../schemas/planes/modificarPlanSchema";
 import { planesService } from "../../services/planesService";
-import { crearPlanSchema } from "../../schemas/crearPlanSchema";
 import { CampoFormulario } from "../comunes/CampoFormulario";
 
 const valoresIniciales = {
@@ -18,46 +17,47 @@ const valoresIniciales = {
   beneficios: [""],
 };
 
-export function CrearPlanModal({ isOpen, onOpenChange }) {
+export function ModificarPlanModal({ isOpen, onOpenChange, plan }) {
   const queryClient = useQueryClient();
 
   const {
-    register,
+    control,
     handleSubmit,
     reset,
     clearErrors,
     setError,
-    control,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(crearPlanSchema),
+    resolver: zodResolver(modificarPlanSchema),
     defaultValues: valoresIniciales,
     mode: "onBlur",
   });
 
-  /* Gestiona dinámicamente la lista de beneficios del formulario.
-   fields representa los beneficios actuales, append agrega uno nuevo, remove elimina uno y control conecta la lista con React Hook Form. */
   const { fields, append, remove } = useFieldArray({
     control,
     name: "beneficios",
   });
 
   useEffect(() => {
-    if (isOpen) {
-      reset(valoresIniciales);
+    if (isOpen && plan) {
+      reset({
+        nombre: plan.nombre ?? "",
+        descripcion: plan.descripcion ?? "",
+        // Convierte el precio a string para cargarlo en el formulario; Zod luego lo transforma a number.
+        precioMensual: String(plan.precioMensual ?? ""),
+        beneficios: plan.beneficios?.length ? plan.beneficios : [""],
+      });
     }
-  }, [isOpen, reset]);
+  }, [isOpen, plan, reset]);
 
   const mutation = useMutation({
-    mutationFn: (data) => planesService.crearPlan(data),
+    mutationFn: (data) => planesService.modificarPlan(plan.id, data),
 
-    onSuccess: (planCreado) => {
-      queryClient.invalidateQueries({
-        queryKey: ["planes"],
-      });
+    onSuccess: (planModificado) => {
+      queryClient.invalidateQueries({ queryKey: ["planes"] });
 
-      toast.success("Plan creado", {
-        description: `Se creó correctamente el plan "${planCreado.nombre}".`,
+      toast.success("Plan modificado", {
+        description: `Se actualizaron correctamente los datos del plan "${planModificado.nombre}".`,
       });
 
       reset(valoresIniciales);
@@ -96,9 +96,9 @@ export function CrearPlanModal({ isOpen, onOpenChange }) {
         }
       }
 
-      toast.error("No se pudo crear el plan", {
+      toast.error("No se pudo modificar el plan", {
         description:
-          respuesta?.mensaje ?? "Ocurrió un problema al registrar el plan.",
+          respuesta?.mensaje ?? "Ocurrió un problema al modificar el plan.",
       });
     },
   });
@@ -119,72 +119,92 @@ export function CrearPlanModal({ isOpen, onOpenChange }) {
       >
         <Modal.Container size="lg" placement="center" className="max-h-[90vh]">
           <Modal.Dialog
-            aria-labelledby="crear-plan-titulo"
-            aria-describedby="crear-plan-descripcion"
+            aria-labelledby="modificar-plan-titulo"
+            aria-describedby="modificar-plan-descripcion"
             className="border border-hierro-700 bg-hierro-900"
           >
             <form
               noValidate
               onSubmit={handleSubmit(onSubmit)}
+              // Permite que el formulario se reduzca para habilitar el scroll vertical del Modal.Body cuando el contenido supera el espacio disponible.
               className="flex min-h-0 flex-1 flex-col"
             >
               <Modal.Header className="border-b border-hierro-800">
                 <Modal.Icon className="text-azul-500">
-                  <IconPlus size={22} />
+                  <IconPencil size={22} />
                 </Modal.Icon>
 
                 <div>
                   <Modal.Heading
-                    id="crear-plan-titulo"
+                    id="modificar-plan-titulo"
                     className="font-titulos text-xl tracking-[0.08em] text-hueso uppercase"
                   >
-                    Crear nuevo plan
+                    Modificar plan
                   </Modal.Heading>
 
                   <p
-                    id="crear-plan-descripcion"
+                    id="modificar-plan-descripcion"
                     className="mt-1 text-sm text-hierro-400"
                   >
-                    Completá los datos para registrar un nuevo plan.
+                    Modificá los datos del plan seleccionado.
                   </p>
                 </div>
               </Modal.Header>
 
               <Modal.Body className="max-h-[60vh] overflow-y-auto py-6">
                 <div className="grid gap-5 sm:grid-cols-2">
-                  <CampoFormulario
-                    label="Nombre"
-                    placeholder="Nombre del plan"
-                    autoComplete="off"
-                    maxLength={50}
-                    registration={register("nombre")}
-                    error={errors.nombre?.message}
-                    isRequired
-                    isDisabled={mutation.isPending}
+                  <Controller
+                    name="nombre"
+                    control={control}
+                    render={({ field }) => (
+                      <CampoFormulario
+                        label="Nombre"
+                        placeholder="Nombre del plan"
+                        autoComplete="off"
+                        maxLength={50}
+                        registration={field}
+                        error={errors.nombre?.message}
+                        isRequired
+                        isDisabled={mutation.isPending}
+                      />
+                    )}
                   />
 
-                  <CampoFormulario
-                    label="Precio mensual"
-                    placeholder="Ej. 10000,00"
-                    inputMode="decimal"
-                    autoComplete="off"
-                    registration={register("precioMensual")}
-                    error={errors.precioMensual?.message}
-                    isRequired
-                    isDisabled={mutation.isPending}
+                  <Controller
+                    name="precioMensual"
+                    control={control}
+                    render={({ field }) => (
+                      <CampoFormulario
+                        label="Precio mensual"
+                        placeholder="Ej. 10000,00"
+                        inputMode="decimal"
+                        autoComplete="off"
+                        registration={field}
+                        error={errors.precioMensual?.message}
+                        isRequired
+                        isDisabled={mutation.isPending}
+                      />
+                    )}
                   />
 
-                  <CampoFormulario
-                    label="Descripción"
-                    placeholder="Descripción del plan"
-                    multiline
-                    rows={4}
-                    maxLength={200}
-                    registration={register("descripcion")}
-                    error={errors.descripcion?.message}
-                    isRequired
-                    isDisabled={mutation.isPending}
-                    className="sm:col-span-2"
+                  <Controller
+                    name="descripcion"
+                    control={control}
+                    render={({ field }) => (
+                      <CampoFormulario
+                        label="Descripción"
+                        placeholder="Descripción del plan"
+                        multiline
+                        autoComplete="off"
+                        rows={4}
+                        maxLength={200}
+                        registration={field}
+                        error={errors.descripcion?.message}
+                        isRequired
+                        isDisabled={mutation.isPending}
+                        className="sm:col-span-2"
+                      />
+                    )}
                   />
 
                   <div className="sm:col-span-2">
@@ -195,7 +215,7 @@ export function CrearPlanModal({ isOpen, onOpenChange }) {
                         </p>
 
                         <p className="mt-1 text-xs text-hierro-400">
-                          Agregá las características incluidas en el plan.
+                          Modificá las características incluidas en el plan.
                         </p>
                       </div>
 
@@ -215,14 +235,20 @@ export function CrearPlanModal({ isOpen, onOpenChange }) {
                       {fields.map((field, indice) => (
                         <div key={field.id} className="flex items-start gap-3">
                           <div className="min-w-0 flex-1">
-                            <CampoFormulario
-                              label={`Beneficio ${indice + 1}`}
-                              placeholder="Ej. Acceso a sala de musculación"
-                              autoComplete="off"
-                              registration={register(`beneficios.${indice}`)}
-                              error={errors.beneficios?.[indice]?.message}
-                              isRequired
-                              isDisabled={mutation.isPending}
+                            <Controller
+                              name={`beneficios.${indice}`}
+                              control={control}
+                              render={({ field }) => (
+                                <CampoFormulario
+                                  label={`Beneficio ${indice + 1}`}
+                                  placeholder="Ej. Acceso a sala de musculación"
+                                  autoComplete="off"
+                                  registration={field}
+                                  error={errors.beneficios?.[indice]?.message}
+                                  isRequired
+                                  isDisabled={mutation.isPending}
+                                />
+                              )}
                             />
                           </div>
 
@@ -230,7 +256,6 @@ export function CrearPlanModal({ isOpen, onOpenChange }) {
                             type="button"
                             variant="secondary"
                             size="sm"
-                            // Intencionalmente se deja el botón de eliminar deshabilitado cuando solamente queda un benificio porque el back no permite crear un plan sin beneficios.
                             isDisabled={
                               mutation.isPending || fields.length === 1
                             }
@@ -266,10 +291,10 @@ export function CrearPlanModal({ isOpen, onOpenChange }) {
                   {mutation.isPending ? (
                     <>
                       <Spinner size="sm" />
-                      Creando...
+                      Guardando...
                     </>
                   ) : (
-                    "Crear plan"
+                    "Guardar cambios"
                   )}
                 </Button>
               </Modal.Footer>
@@ -281,4 +306,4 @@ export function CrearPlanModal({ isOpen, onOpenChange }) {
   );
 }
 
-export default CrearPlanModal;
+export default ModificarPlanModal;

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { nombresDias } from "../utils/formatearDiaYHora";
+import { nombresDias } from "../../utils/formatearDiaYHora";
 
 const formatoHora = /^([01]\d|2[0-3]):[0-5]\d$/;
 

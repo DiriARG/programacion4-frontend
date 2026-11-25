@@ -15,9 +15,9 @@ import { CampoFormulario } from "../components/comunes/CampoFormulario";
 import { TablaFichasMedicas } from "../components/fichasMedicas/TablaFichasMedicas";
 import { useAutenticacion } from "../context/AutenticacionContext";
 import { fichasMedicasService } from "../services/fichasMedicasService";
-import { RegistrarFichaMedicaModal } from "../components/modales/RegistrarFichaMedicaModal";
-import { VerCertificadoModal } from "../components/modales/VerCertificadoModal";
-import { RenovarFichaMedicaModal } from "../components/modales/RenovarFichaMedicaModal";
+import { RegistrarFichaMedicaModal } from "../components/fichasMedicas/RegistrarFichaMedicaModal";
+import { VerCertificadoModal } from "../components/fichasMedicas/VerCertificadoModal";
+import { RenovarFichaMedicaModal } from "../components/fichasMedicas/RenovarFichaMedicaModal";
 
 const fichasMedicasPorPagina = 10;
 

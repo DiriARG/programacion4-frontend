@@ -3,7 +3,7 @@ import { Button, Form } from "@heroui/react";
 import { useForm } from "react-hook-form";
 
 import CampoFormulario from "../comunes/CampoFormulario";
-import { contactoSchema } from "../../schemas/contactoSchema";
+import { contactoSchema } from "../../schemas/contacto/contactoSchema";
 
 const valoresIniciales = {
   nombre: "",

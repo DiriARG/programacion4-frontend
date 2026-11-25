@@ -4,10 +4,10 @@ import { Button, Spinner } from "@heroui/react";
 import { IconArrowLeft, IconUserPlus } from "@tabler/icons-react";
 import { Link } from "react-router";
 
-import { TablaUsuarios } from "../components/comunes/TablaUsuarios";
-import { CrearUsuarioModal } from "../components/modales/CrearUsuarioModal";
-import { ModificarUsuarioModal } from "../components/modales/ModificarUsuarioModal";
-import { CambioEstadoUsuarioModal } from "../components/modales/CambioEstadoUsuarioModal";
+import { TablaUsuarios } from "../components/usuarios/TablaUsuarios";
+import { CrearUsuarioModal } from "../components/usuarios/CrearUsuarioModal";
+import { ModificarUsuarioModal } from "../components/usuarios/ModificarUsuarioModal";
+import { CambioEstadoUsuarioModal } from "../components/usuarios/CambioEstadoUsuarioModal";
 import { configuracionUsuarios } from "../utils/configuracionUsuarios";
 import { PaginaNoEncontrada } from "./NoEncontrado";
 

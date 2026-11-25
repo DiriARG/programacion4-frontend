@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 import { useAutenticacion } from "../../context/AutenticacionContext";
 import { menuPorRol } from "../../utils/menuPorRol";
 import { etiquetasRol } from "../../utils/etiquetasRol";
-import { PerfilModal } from "../modales/PerfilModal";
+import { PerfilModal } from "../usuarios/PerfilModal";
 
 export function MenuUsuario() {
   const [perfilModalAbierto, setPerfilModalAbierto] = useState(false);

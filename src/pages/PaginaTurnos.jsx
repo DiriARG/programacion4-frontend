@@ -5,11 +5,11 @@ import { IconArrowLeft, IconPlus } from "@tabler/icons-react";
 import { Link } from "react-router";
 
 import { TablaTurnos } from "../components/turnos/TablaTurnos";
-import { DetalleTurnoModal } from "../components/modales/DetalleTurnoModal";
-import { CrearTurnoModal } from "../components/modales/CrearTurnoModal";
-import { ModificarTurnoModal } from "../components/modales/ModificarTurnoModal";
-import { CambioEstadoTurnoModal } from "../components/modales/CambioEstadoTurnoModal";
-import { InscribirAlumnoModal } from "../components/modales/InscribirAlumnoModal";
+import { DetalleTurnoModal } from "../components/turnos/DetalleTurnoModal";
+import { CrearTurnoModal } from "../components/turnos/CrearTurnoModal";
+import { ModificarTurnoModal } from "../components/turnos/ModificarTurnoModal";
+import { CambioEstadoTurnoModal } from "../components/turnos/CambioEstadoTurnoModal";
+import { InscribirAlumnoModal } from "../components/turnos/InscribirAlumnoModal";
 import { turnosService } from "../services/turnosService";
 
 export function PaginaTurnos() {

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { esFechaCalendarioValida } from "../utils/validacionesFecha";
+import { esFechaCalendarioValida } from "../../utils/validacionesFecha";
 
 const formatoHora = /^([01]\d|2[0-3]):[0-5]\d$/;
 

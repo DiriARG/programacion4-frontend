@@ -9,7 +9,7 @@ import { CampoFormulario } from "../comunes/CampoFormulario";
 import { SelectorAlumnoRutina } from "./SelectorAlumnoRutina";
 import { SelectorEjercicioRutina } from "./SelectorEjercicioRutina";
 import { TarjetaEjercicioRutina } from "./TarjetaEjercicioRutina";
-import { crearRutinaSchema } from "../../schemas/crearRutinaSchema";
+import { crearRutinaSchema } from "../../schemas/rutinas/crearRutinaSchema";
 import { ejerciciosService } from "../../services/ejerciciosService";
 import { rutinasService } from "../../services/rutinasService";
 import { usuariosService } from "../../services/usuariosService";

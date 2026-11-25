@@ -11,11 +11,11 @@ import {
   Select,
   Spinner,
 } from "@heroui/react";
-import { IconPencil } from "@tabler/icons-react";
+import { IconCalendarPlus } from "@tabler/icons-react";
 import { toast } from "sonner";
 
 import { CampoFormulario } from "../comunes/CampoFormulario";
-import { modificarTurnoSchema } from "../../schemas/modificarTurnoSchema";
+import { crearTurnoSchema } from "../../schemas/turnos/crearTurnoSchema";
 import { turnosService } from "../../services/turnosService";
 import { usuariosService } from "../../services/usuariosService";
 import { nombresDias } from "../../utils/formatearDiaYHora";
@@ -28,10 +28,11 @@ const valoresIniciales = {
   horaFin: "",
 };
 
-export function ModificarTurnoModal({ isOpen, onOpenChange, turno }) {
+export function CrearTurnoModal({ isOpen, onOpenChange }) {
   const queryClient = useQueryClient();
 
   const {
+    register,
     handleSubmit,
     reset,
     clearErrors,
@@ -39,7 +40,7 @@ export function ModificarTurnoModal({ isOpen, onOpenChange, turno }) {
     control,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(modificarTurnoSchema),
+    resolver: zodResolver(crearTurnoSchema),
     defaultValues: valoresIniciales,
     mode: "onBlur",
   });
@@ -55,26 +56,21 @@ export function ModificarTurnoModal({ isOpen, onOpenChange, turno }) {
   });
 
   useEffect(() => {
-    if (isOpen && turno) {
-      reset({
-        profesorId: String(turno.profesorId ?? ""),
-        nombreClase: turno.nombreClase ?? "",
-        diaSemana: turno.diaSemana ?? "",
-        horaInicio: turno.horaInicio?.slice(0, 5) ?? "",
-        horaFin: turno.horaFin?.slice(0, 5) ?? "",
-      });
+    if (isOpen) {
+      reset(valoresIniciales);
     }
-  }, [isOpen, turno, reset]);
+  }, [isOpen, reset]);
 
   const mutation = useMutation({
-    mutationFn: (data) => turnosService.modificarTurno(turno.id, data),
+    mutationFn: (data) => turnosService.crearTurno(data),
 
-    onSuccess: (turnoModificado) => {
-      queryClient.invalidateQueries({ queryKey: ["turnos"] });
-      queryClient.invalidateQueries({ queryKey: ["turno", turno.id] });
+    onSuccess: (turnoCreado) => {
+      queryClient.invalidateQueries({
+        queryKey: ["turnos"],
+      });
 
-      toast.success("Turno modificado", {
-        description: `Se actualizaron correctamente los datos del turno "${turnoModificado.nombreClase}".`,
+      toast.success("Turno creado", {
+        description: `Se creó correctamente el turno "${turnoCreado.nombreClase}".`,
       });
 
       reset(valoresIniciales);
@@ -97,9 +93,9 @@ export function ModificarTurnoModal({ isOpen, onOpenChange, turno }) {
         return;
       }
 
-      toast.error("No se pudo modificar el turno", {
+      toast.error("No se pudo crear el turno", {
         description:
-          respuesta?.mensaje ?? "Ocurrió un problema al modificar el turno.",
+          respuesta?.mensaje ?? "Ocurrió un problema al crear el turno.",
       });
     },
   });
@@ -120,29 +116,29 @@ export function ModificarTurnoModal({ isOpen, onOpenChange, turno }) {
       >
         <Modal.Container size="lg" placement="center" className="max-h-[90vh]">
           <Modal.Dialog
-            aria-labelledby="modificar-turno-titulo"
-            aria-describedby="modificar-turno-descripcion"
+            aria-labelledby="crear-turno-titulo"
+            aria-describedby="crear-turno-descripcion"
             className="border border-hierro-700 bg-hierro-900"
           >
             <form noValidate onSubmit={handleSubmit(onSubmit)}>
               <Modal.Header className="border-b border-hierro-800">
                 <Modal.Icon className="text-azul-500">
-                  <IconPencil size={22} />
+                  <IconCalendarPlus size={22} />
                 </Modal.Icon>
 
                 <div>
                   <Modal.Heading
-                    id="modificar-turno-titulo"
+                    id="crear-turno-titulo"
                     className="font-titulos text-xl tracking-[0.08em] text-hueso uppercase"
                   >
-                    Modificar turno
+                    Crear turno
                   </Modal.Heading>
 
                   <p
-                    id="modificar-turno-descripcion"
+                    id="crear-turno-descripcion"
                     className="mt-1 text-sm text-hierro-400"
                   >
-                    Modificá los datos del turno seleccionado.
+                    Completá los datos para registrar un nuevo turno.
                   </p>
                 </div>
               </Modal.Header>
@@ -226,21 +222,15 @@ export function ModificarTurnoModal({ isOpen, onOpenChange, turno }) {
                     ) : null}
                   </div>
 
-                  <Controller
-                    name="nombreClase"
-                    control={control}
-                    render={({ field }) => (
-                      <CampoFormulario
-                        label="Nombre de la clase"
-                        placeholder="Ej.: Entrenamiento funcional"
-                        autoComplete="off"
-                        maxLength={100}
-                        registration={field}
-                        error={errors.nombreClase?.message}
-                        isRequired
-                        isDisabled={mutation.isPending}
-                      />
-                    )}
+                  <CampoFormulario
+                    label="Nombre de la clase"
+                    placeholder="Ej.: Entrenamiento funcional"
+                    autoComplete="off"
+                    maxLength={100}
+                    registration={register("nombreClase")}
+                    error={errors.nombreClase?.message}
+                    isRequired
+                    isDisabled={mutation.isPending}
                   />
 
                   <Controller
@@ -267,7 +257,6 @@ export function ModificarTurnoModal({ isOpen, onOpenChange, turno }) {
                           <Select.Value />
                           <Select.Indicator />
                         </Select.Trigger>
-
                         <Select.Popover>
                           <ListBox>
                             {Object.entries(nombresDias).map(
@@ -291,34 +280,22 @@ export function ModificarTurnoModal({ isOpen, onOpenChange, turno }) {
                     )}
                   />
 
-                  <Controller
-                    name="horaInicio"
-                    control={control}
-                    render={({ field }) => (
-                      <CampoFormulario
-                        label="Hora de inicio"
-                        type="time"
-                        registration={field}
-                        error={errors.horaInicio?.message}
-                        isRequired
-                        isDisabled={mutation.isPending}
-                      />
-                    )}
+                  <CampoFormulario
+                    label="Hora de inicio"
+                    type="time"
+                    registration={register("horaInicio")}
+                    error={errors.horaInicio?.message}
+                    isRequired
+                    isDisabled={mutation.isPending}
                   />
 
-                  <Controller
-                    name="horaFin"
-                    control={control}
-                    render={({ field }) => (
-                      <CampoFormulario
-                        label="Hora de fin"
-                        type="time"
-                        registration={field}
-                        error={errors.horaFin?.message}
-                        isRequired
-                        isDisabled={mutation.isPending}
-                      />
-                    )}
+                  <CampoFormulario
+                    label="Hora de fin"
+                    type="time"
+                    registration={register("horaFin")}
+                    error={errors.horaFin?.message}
+                    isRequired
+                    isDisabled={mutation.isPending}
                   />
                 </div>
               </Modal.Body>
@@ -340,7 +317,6 @@ export function ModificarTurnoModal({ isOpen, onOpenChange, turno }) {
                   size="md"
                   isDisabled={
                     mutation.isPending ||
-                    !turno ||
                     profesoresPendientes ||
                     profesoresError ||
                     profesores.length === 0
@@ -349,10 +325,10 @@ export function ModificarTurnoModal({ isOpen, onOpenChange, turno }) {
                   {mutation.isPending ? (
                     <>
                       <Spinner size="sm" />
-                      Guardando...
+                      Creando...
                     </>
                   ) : (
-                    "Guardar cambios"
+                    "Crear turno"
                   )}
                 </Button>
               </Modal.Footer>
@@ -364,4 +340,4 @@ export function ModificarTurnoModal({ isOpen, onOpenChange, turno }) {
   );
 }
 
-export default ModificarTurnoModal;
+export default CrearTurnoModal;

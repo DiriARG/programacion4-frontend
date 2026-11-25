@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 import CampoFormulario from "../comunes/CampoFormulario";
-import { loginSchema } from "../../schemas/autenticacionSchema";
+import { loginSchema } from "../../schemas/autenticacion/autenticacionSchema";
 import { useAutenticacion } from "../../context/AutenticacionContext";
 
 const valoresIniciales = {

@@ -7,7 +7,7 @@ import { IconDumbbell, IconX } from "@tabler/icons-react";
 import { toast } from "sonner";
 
 import { CampoFormulario } from "../comunes/CampoFormulario";
-import { crearEjercicioSchema } from "../../schemas/crearEjercicioSchema";
+import { crearEjercicioSchema } from "../../schemas/ejercicios/crearEjercicioSchema";
 import { ejerciciosService } from "../../services/ejerciciosService";
 
 const obtenerValoresIniciales = () => ({

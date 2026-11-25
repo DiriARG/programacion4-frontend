@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { CampoFormulario } from "../comunes/CampoFormulario";
 import { SelectorEjercicioRutina } from "./SelectorEjercicioRutina";
 import { TarjetaEjercicioRutina } from "./TarjetaEjercicioRutina";
-import { modificarRutinaSchema } from "../../schemas/modificarRutinaSchema";
+import { modificarRutinaSchema } from "../../schemas/rutinas/modificarRutinaSchema";
 import { rutinasService } from "../../services/rutinasService";
 import { ejerciciosService } from "../../services/ejerciciosService";
 

@@ -1,6 +1,6 @@
 // Archivo para usar las mismas validaciones en los schemas de registro y renovación del certificado médico.
 import { z } from "zod";
-import { esFechaCalendarioValida } from "../utils/validacionesFecha";
+import { esFechaCalendarioValida } from "../../utils/validacionesFecha";
 
 const TAMANIO_MAXIMO_ARCHIVO = 5 * 1024 * 1024;
 
