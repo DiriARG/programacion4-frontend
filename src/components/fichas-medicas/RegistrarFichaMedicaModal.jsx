@@ -15,7 +15,7 @@ import { IconFilePlus } from "@tabler/icons-react";
 import { toast } from "sonner";
 
 import { CampoFormulario } from "../comunes/CampoFormulario";
-import { registrarFichaMedicaSchema } from "../../schemas/fichasMedicas/registrarFichaMedicaSchema";
+import { registrarFichaMedicaSchema } from "../../schemas/fichas-medicas/registrarFichaMedicaSchema";
 import { fichasMedicasService } from "../../services/fichasMedicasService";
 
 const obtenerValoresIniciales = () => ({

@@ -12,12 +12,12 @@ import { Link } from "react-router";
 import { toast } from "sonner";
 
 import { CampoFormulario } from "../components/comunes/CampoFormulario";
-import { TablaFichasMedicas } from "../components/fichasMedicas/TablaFichasMedicas";
+import { TablaFichasMedicas } from "../components/fichas-medicas/TablaFichasMedicas";
 import { useAutenticacion } from "../context/AutenticacionContext";
 import { fichasMedicasService } from "../services/fichasMedicasService";
-import { RegistrarFichaMedicaModal } from "../components/fichasMedicas/RegistrarFichaMedicaModal";
-import { VerCertificadoModal } from "../components/fichasMedicas/VerCertificadoModal";
-import { RenovarFichaMedicaModal } from "../components/fichasMedicas/RenovarFichaMedicaModal";
+import { RegistrarFichaMedicaModal } from "../components/fichas-medicas/RegistrarFichaMedicaModal";
+import { VerCertificadoModal } from "../components/fichas-medicas/VerCertificadoModal";
+import { RenovarFichaMedicaModal } from "../components/fichas-medicas/RenovarFichaMedicaModal";
 
 const fichasMedicasPorPagina = 10;
 

@@ -7,7 +7,7 @@ import { IconRefresh } from "@tabler/icons-react";
 import { toast } from "sonner";
 
 import { CampoFormulario } from "../comunes/CampoFormulario";
-import { renovarFichaMedicaSchema } from "../../schemas/fichasMedicas/renovarFichaMedicaSchema";
+import { renovarFichaMedicaSchema } from "../../schemas/fichas-medicas/renovarFichaMedicaSchema";
 import { fichasMedicasService } from "../../services/fichasMedicasService";
 
 const valoresIniciales = {
